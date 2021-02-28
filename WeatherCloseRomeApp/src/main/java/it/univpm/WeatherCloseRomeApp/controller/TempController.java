@@ -20,10 +20,11 @@ public class TempController {
 		
 	}
 	
-	@GetMapping(value = "/save")
+	//WORK IN PROGRESS
+	/*@GetMapping(value = "/save")
 	public org.json.simple.JSONObject saving() {
 		
 		return tempservice.startsaving();
-	}
+	}*/
 	
 }

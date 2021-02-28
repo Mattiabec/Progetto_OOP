@@ -27,8 +27,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.stereotype.Service;
 
-import it.univpm.WeatherCloseRomeApp.model.City;
-import it.univpm.WeatherCloseRomeApp.model.SaveModel;
+import it.univpm.WeatherCloseRomeApp.models.City;
 
 @Service
 public class TempServiceImpl {
@@ -171,8 +170,8 @@ public class TempServiceImpl {
 	}
 	
 	
-	
-	public JSONObject startsaving() {
+	//WORK IN PROGRESS
+	/*public JSONObject startsaving() {
 		
 		String confirm = null;	
 		org.json.simple.JSONObject jobj= new JSONObject();
@@ -218,7 +217,7 @@ public class TempServiceImpl {
 			
 			return jobj;
 	}
-	
+	*/
 	
 
 

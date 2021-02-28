@@ -63,8 +63,4 @@ public class City implements Serializable {
 		this.tempMin = tempMin;
 	}
 	
-	
-	
-	
-	
 }
