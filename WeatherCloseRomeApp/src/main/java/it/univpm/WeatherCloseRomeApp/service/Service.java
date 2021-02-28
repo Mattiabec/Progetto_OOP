@@ -1,8 +1,9 @@
 package it.univpm.WeatherCloseRomeApp.service;
 
-public interface Service {
-	
-	public abstract JSONObject mainCall(int cnt);
-	public abstract JSONArray getList(int cnt);
+import java.util.Vector;
 
+import it.univpm.WeatherCloseRomeApp.model.City;
+
+public interface TempService {
+	Vector<City> getList(int cnt);
 }
