@@ -32,16 +32,13 @@ import it.univpm.WeatherCloseRomeApp.models.City;
 @Service
 public class TempServiceImpl {
 	
-	int cnt;
-	String urlstr;
-	List<City> cities;
-	String inline;
+	
 	String API_KEY = "008c7fc03fb19021c703f488733a8695";
 	
 
 	public JSONObject mainCall(int cnt) {
 		
-			
+			String urlstr;
 			urlstr = "https://api.openweathermap.org/data/2.5/find?lat=41.902782&lon=12.496365&cnt="+cnt+"&appid="+API_KEY;
 			JSONObject jobj = null;
 			
@@ -112,17 +109,7 @@ public class TempServiceImpl {
 		Vector <City> cities = new Vector <City>(); 
 		
 		
-		for (int i=0; i<weatherArray.size(); i++) {
-			support = (JSONObject) weatherArray.get(i);
-			name = (String) support.get("name");
-			id = (long) support.get("id");
-			JSONObject jsup = (JSONObject) support.get("main");
-			temp = (double) jsup.get("temp");
-			tempMin= (double) jsup.get("temp_min");
-			tempMax = (double) jsup.get("temp_max");
-			City tempCity= new City(id, name, temp, tempMax,tempMin);
-			cities.add(tempCity);
-		}
+		cities = temps.getVector(cnt);
 		
 		Iterator<City> iter = cities.iterator();
 		while(iter.hasNext()) {
