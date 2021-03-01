@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public class City implements Serializable {
 
-	private Long ID ;
+	private long ID ;
 	private String name;
 	private double temp;
 	private double tempMax;
@@ -14,7 +14,7 @@ public class City implements Serializable {
 	private Vector <Double> tempMaxForStats;
 	private Vector <Double> tempMinForStats;
 	
-	public City(Long iD, String name, double temp, double tempMax, double tempMin) {
+	public City(long iD, String name, double temp, double tempMax, double tempMin) {
 		super();
 		ID = iD;
 		this.name = name;
@@ -23,11 +23,11 @@ public class City implements Serializable {
 		this.tempMin = tempMin;
 	}
 
-	public Long getID() {
+	public long getID() {
 		return ID;
 	}
 
-	public void setID(Long iD) {
+	public void setID(long iD) {
 		ID = iD;
 	}
 

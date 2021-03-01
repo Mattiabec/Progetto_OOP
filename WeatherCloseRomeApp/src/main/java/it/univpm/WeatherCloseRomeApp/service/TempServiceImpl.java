@@ -36,12 +36,13 @@ public class TempServiceImpl {
 	String urlstr;
 	List<City> cities;
 	String inline;
+	String API_KEY = "008c7fc03fb19021c703f488733a8695";
 	
 
 	public JSONObject mainCall(int cnt) {
 		
 			
-			urlstr = "https://api.openweathermap.org/data/2.5/find?lat=41.902782&lon=12.496365&cnt="+cnt+"&appid=008c7fc03fb19021c703f488733a8695";
+			urlstr = "https://api.openweathermap.org/data/2.5/find?lat=41.902782&lon=12.496365&cnt="+cnt+"&appid="+API_KEY;
 			JSONObject jobj = null;
 			
 			
@@ -106,7 +107,7 @@ public class TempServiceImpl {
 		weatherArray = (org.json.simple.JSONArray) jobj.get("list");
 		org.json.simple.JSONObject support;
 		double temp, tempMin, tempMax;
-		Long id;
+		long id;
 		String name;
 		Vector <City> cities = new Vector <City>(); 
 		
@@ -114,7 +115,7 @@ public class TempServiceImpl {
 		for (int i=0; i<weatherArray.size(); i++) {
 			support = (JSONObject) weatherArray.get(i);
 			name = (String) support.get("name");
-			id = (Long) support.get("id");
+			id = (long) support.get("id");
 			JSONObject jsup = (JSONObject) support.get("main");
 			temp = (double) jsup.get("temp");
 			tempMin= (double) jsup.get("temp_min");
@@ -150,7 +151,7 @@ public class TempServiceImpl {
 		weatherArray = (org.json.simple.JSONArray) jobj.get("list");
 		org.json.simple.JSONObject support;
 		double temp, tempMin, tempMax;
-		Long id;
+		long id;
 		String name;
 		Vector <City> cities = new Vector <City>(); 
 		
@@ -158,7 +159,7 @@ public class TempServiceImpl {
 		for (int i=0; i<weatherArray.size(); i++) {
 			support = (JSONObject) weatherArray.get(i);
 			name = (String) support.get("name");
-			id = (Long) support.get("id");
+			id = (long) support.get("id");
 			JSONObject jsup = (JSONObject) support.get("main");
 			temp = (double) jsup.get("temp");
 			tempMin= (double) jsup.get("temp_min");
