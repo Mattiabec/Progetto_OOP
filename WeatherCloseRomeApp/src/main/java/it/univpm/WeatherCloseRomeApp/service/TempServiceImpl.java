@@ -36,7 +36,7 @@ public class TempServiceImpl {
 	String API_KEY = "008c7fc03fb19021c703f488733a8695";
 	
 
-	public JSONObject mainCall(int cnt) {
+	public JSONObject APICall(int cnt) {
 		
 			String urlstr;
 			urlstr = "https://api.openweathermap.org/data/2.5/find?lat=41.902782&lon=12.496365&cnt="+cnt+"&appid="+API_KEY;
@@ -97,7 +97,7 @@ public class TempServiceImpl {
 	public org.json.simple.JSONArray getJSONList(int cnt) {
 		
 		TempServiceImpl temps= new TempServiceImpl();
-		JSONObject jobj=temps.mainCall(cnt);
+		JSONObject jobj=temps.APICall(cnt);
 		org.json.simple.JSONArray ritorno= new org.json.simple.JSONArray();		
 		
 		org.json.simple.JSONArray weatherArray = new org.json.simple.JSONArray();
@@ -131,7 +131,7 @@ public class TempServiceImpl {
 	public Vector<City> getVector(int cnt){
 		
 		TempServiceImpl temps= new TempServiceImpl();
-		JSONObject jobj=temps.mainCall(cnt);
+		JSONObject jobj=temps.APICall(cnt);
 		org.json.simple.JSONArray ritorno= new org.json.simple.JSONArray();		
 		
 		org.json.simple.JSONArray weatherArray = new org.json.simple.JSONArray();
