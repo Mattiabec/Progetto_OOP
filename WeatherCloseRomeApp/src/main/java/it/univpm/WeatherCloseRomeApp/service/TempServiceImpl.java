@@ -29,7 +29,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.stereotype.Service;
 
-import it.univpm.WeatherCloseRomeApp.model.SaveModel;
+import it.univpm.WeatherCloseRomeApp.models.SaveModel;
 import it.univpm.WeatherCloseRomeApp.models.City;
 
 @Service
@@ -191,7 +191,7 @@ public class TempServiceImpl {
 		}
 	}
 	
-	public void saveEvery5Hours() {
+	public JSONObject saveEvery5Hours() {
 		ScheduledExecutorService schedule = Executors.newSingleThreadScheduledExecutor();
 		schedule.scheduleAtFixedRate(new Runnable() {public void run() {try {
 			save();
@@ -202,6 +202,7 @@ public class TempServiceImpl {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}}}, 0,5 ,TimeUnit.HOURS);
+		return null;
 	}
 	
 

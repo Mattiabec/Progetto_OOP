@@ -1,4 +1,4 @@
-package it.univpm.WeatherCloseRomeApp.model;
+package it.univpm.WeatherCloseRomeApp.models;
 
 
 import java.io.Serializable;
