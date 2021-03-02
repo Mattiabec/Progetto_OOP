@@ -15,7 +15,9 @@ import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -27,6 +29,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.stereotype.Service;
 
+import it.univpm.WeatherCloseRomeApp.model.SaveModel;
 import it.univpm.WeatherCloseRomeApp.models.City;
 
 @Service
@@ -158,54 +161,48 @@ public class TempServiceImpl {
 	}
 	
 	
-	//WORK IN PROGRESS
-	/*public JSONObject startsaving() {
-		
-		String confirm = null;	
-		org.json.simple.JSONObject jobj= new JSONObject();
-		TempServiceImpl ser = new TempServiceImpl();
-		
-			ScheduledExecutorService schedule = Executors.newSingleThreadScheduledExecutor();
-			schedule.scheduleAtFixedRate(
-					new Runnable() { 
-						public void run() {
-							
-							SaveModel tmp= new SaveModel();
-							tmp.setCities(ser.getVector(50));
-							LocalDate now = LocalDate.now();
-							tmp.setDataSave(now);
-							File f = new File("database.dat");
-							if (!f.exists()) {
-								try
-								{
-									ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
-									out.writeObject(tmp);
-									out.close();
-								}catch (IOException e) {
-									e.printStackTrace();
-								}
-							}
-							else {
-								boolean checkEOF=true;
-								Vector <SaveModel> savings;
-								while(checkEOF) {
-								try(ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)))){
-								SaveModel tmpmodel = (SaveModel) in.readObject();
-								savings.add(tmpmodel);
-								in.close();
-									} catch(FileNotFoundException e) {e.printStackTrace();}
-									  catch(IOException e) {e.printStackTrace();}
-								      catch(ClassNotFoundException e) {e.printStackTrace();}
-								}
-							}
-						}
-					}
-					
-					, 0, 5, TimeUnit.HOURS);
-			
-			return jobj;
+	public void save() throws IOException, ClassNotFoundException{
+		String path= "C:\\Users\\Aless\\Documents\\PROGETTI_pao\\database.dat";
+		File f = new File(path);
+		TempServiceImpl tempser = new TempServiceImpl();
+		Vector <City> cities = new Vector <City>();
+		cities = tempser.getVector(50);
+		Vector <SaveModel> savings = new Vector <SaveModel>();
+		SaveModel saveobj = new SaveModel();
+		saveobj.setCities(cities);
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+		String today = date.format(new Date());
+		saveobj.setDataSave(today);
+		if (!f.exists()) {
+			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
+			savings.add(saveobj);
+			out.writeObject(savings);
+			out.close();
+		}
+		else {
+			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
+			savings = (Vector <SaveModel>)in.readObject();
+			savings.add(saveobj);
+			in.close();
+			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
+			savings.add(saveobj);
+			out.writeObject(savings);
+			out.close();
+		}
 	}
-	*/
+	
+	public void saveEvery5Hours() {
+		ScheduledExecutorService schedule = Executors.newSingleThreadScheduledExecutor();
+		schedule.scheduleAtFixedRate(new Runnable() {public void run() {try {
+			save();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}}, 0,5 ,TimeUnit.HOURS);
+	}
 	
 
 
