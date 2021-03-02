@@ -162,8 +162,7 @@ public class TempServiceImpl {
 	
 	
 	public void save() throws IOException, ClassNotFoundException{
-		
-		String path=(System.getProperty("user.home")+"\\Documents\\DataDirectory\\database.dat");
+		String path= "C:\\Users\\Aless\\Documents\\PROGETTI_pao\\database.dat";
 		File f = new File(path);
 		TempServiceImpl tempser = new TempServiceImpl();
 		Vector <City> cities = new Vector <City>();
@@ -206,8 +205,6 @@ public class TempServiceImpl {
 		return null;
 	}
 	
-
-
 
 }
 
