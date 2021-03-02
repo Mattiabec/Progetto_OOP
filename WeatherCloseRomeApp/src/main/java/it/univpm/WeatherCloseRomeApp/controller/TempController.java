@@ -1,5 +1,7 @@
 package it.univpm.WeatherCloseRomeApp.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,9 +24,17 @@ public class TempController {
 	
 
 	@GetMapping(value = "/save")
-	public org.json.simple.JSONObject saving() {
+	public void saving() {
 		
-		return tempservice.saveEvery5Hours();
+		try {
+			tempservice.save();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

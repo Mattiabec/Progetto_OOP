@@ -140,7 +140,8 @@ public class TempServiceImpl {
 		org.json.simple.JSONArray weatherArray = new org.json.simple.JSONArray();
 		weatherArray = (org.json.simple.JSONArray) jobj.get("list");
 		org.json.simple.JSONObject support;
-		double temp, tempMin, tempMax;
+		double temp = 0;
+		double tempMin, tempMax;
 		long id;
 		String name;
 		Vector <City> cities = new Vector <City>(); 
@@ -151,7 +152,15 @@ public class TempServiceImpl {
 			name = (String) support.get("name");
 			id = (long) support.get("id");
 			JSONObject jsup = (JSONObject) support.get("main");
-			temp = (double) jsup.get("temp");
+			if ( jsup.get("temp") instanceof Long )
+            {
+              long convert = (long) jsup.get("temp");
+              temp = (double) convert;
+            }
+            else if ( jsup.get("temp") instanceof Double )
+            {
+                temp = (double) jsup.get("temp");
+            }
 			tempMin= (double) jsup.get("temp_min");
 			tempMax = (double) jsup.get("temp_max");
 			City tempCity= new City(id, name, temp, tempMax,tempMin);
@@ -162,7 +171,7 @@ public class TempServiceImpl {
 	
 	
 	public void save() throws IOException, ClassNotFoundException{
-		String path= "C:\\Users\\Aless\\Documents\\PROGETTI_pao\\database.dat";
+		String path= System.getProperty("user.dir")+"/database.dat";
 		File f = new File(path);
 		TempServiceImpl tempser = new TempServiceImpl();
 		Vector <City> cities = new Vector <City>();
@@ -191,7 +200,7 @@ public class TempServiceImpl {
 		}
 	}
 	
-	public JSONObject saveEvery5Hours() {
+	public void saveEvery5Hours() {
 		ScheduledExecutorService schedule = Executors.newSingleThreadScheduledExecutor();
 		schedule.scheduleAtFixedRate(new Runnable() {public void run() {try {
 			save();
@@ -202,7 +211,6 @@ public class TempServiceImpl {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}}}, 0,5 ,TimeUnit.HOURS);
-		return null;
 	}
 	
 
