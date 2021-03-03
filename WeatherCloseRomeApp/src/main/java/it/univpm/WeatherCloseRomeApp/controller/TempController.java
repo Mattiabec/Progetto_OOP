@@ -37,4 +37,11 @@ public class TempController {
 		}
 	}
 	
+	@GetMapping(value = "/stats")
+	public org.json.simple.JSONArray statistiche() throws ClassNotFoundException, IOException{
+		
+			return tempservice.stats();
+		
+	}
+	
 }

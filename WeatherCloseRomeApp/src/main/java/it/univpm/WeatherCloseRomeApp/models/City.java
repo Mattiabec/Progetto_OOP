@@ -11,8 +11,18 @@ public class City implements Serializable {
 	private double tempMax;
 	private double tempMin;
 	private Vector <Double> tempForstats;
-	private Vector <Double> tempMaxForStats;
-	private Vector <Double> tempMinForStats;
+	private double max,min,media,varianza;
+	
+	
+	public City() {
+		this.name=null;
+		this.ID=0L;
+		this.temp=0;
+		this.tempMax= 0;
+		this.tempMin=0;
+		this.tempForstats=new Vector <Double>();
+	}
+	
 	
 	public City(long iD, String name, double temp, double tempMax, double tempMin) {
 		super();
@@ -61,6 +71,28 @@ public class City implements Serializable {
 
 	public void setTempMin(double tempMin) {
 		this.tempMin = tempMin;
+	}
+	
+	public void setMax() {
+		for (Double d: tempForstats) {
+			if (d>max) {this.max =d;}
+		}
+	}
+	
+	public void setMin() {
+		this.min = 1000000000;
+		for (Double d: tempForstats) {
+			if (d<min) {this.min =d;}
+		}
+	}
+	
+	public void setMedia() {
+		int length = tempForstats.size();
+		double sum =0;
+		for (Double d: tempForstats) {
+			sum += d;
+		}
+		this.media= sum/length;
 	}
 
 	@Override

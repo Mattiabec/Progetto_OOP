@@ -213,6 +213,63 @@ public class TempServiceImpl {
 		}}}, 0,5 ,TimeUnit.HOURS);
 	}
 	
+	
+	public org.json.simple.JSONArray stats() throws IOException, ClassNotFoundException{
+		
+		String path ="C:\\Users\\Aless\\Documents\\PROGETTI_pao\\database.dat";
+		File f = new File(path);
+		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
+		Vector <SaveModel> fromFile = new Vector <SaveModel>();
+		Vector <City> forStats = new Vector <City>();
+		TempServiceImpl tempser = new TempServiceImpl();
+		forStats= tempser.getVector(50);
+		fromFile = (Vector <SaveModel>) in.readObject();
+		Iterator<SaveModel> iter = fromFile.iterator();
+		while (iter.hasNext()) {
+			SaveModel tmp = iter.next();
+			Vector <City> cities= tmp.getCities();
+			Iterator<City> iterCity = cities.iterator();
+			while(iterCity.hasNext()) {
+				City c = iterCity.next();
+				double temperatura = c.getTemp();
+				City c1 = findByID(c.getID(),forStats);
+				c1.getTempForstats().add(temperatura);
+			}
+		}
+		Iterator<City> iterForStats = forStats.iterator();
+		
+		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
+		while (iterForStats.hasNext()) {
+			City c = iterForStats.next();
+			c.setMax();
+			c.setMin();
+			c.setMedia();
+			//set varianza
+			org.json.simple.JSONObject jobj = new org.json.simple.JSONObject();
+			jobj.put("name", c.getName());
+			jobj.put("id", c.getID());
+			jobj.put("Massimo", c.getMax());
+			jobj.put("Minimo", c.getMin());
+			jobj.put("Media", c.getMedia());
+			//va aggiunta la varianza
+			jarr.add(jobj);
+		}
+		
+		return jarr;
+		
+	}
+	
+	
+	public static City findByID(long id, Vector <City> c) {
+		Iterator<City> citer = c.iterator();
+		City c1 = new City();
+		boolean found = false;
+		while(citer.hasNext()) {
+			c1 = citer.next();
+			if (c1.getID()==id) {found= true; return c1;}
+		}
+		return c1;
+	}
 
 }
 
