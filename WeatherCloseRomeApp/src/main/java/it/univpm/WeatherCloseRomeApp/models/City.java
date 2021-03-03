@@ -73,73 +73,84 @@ public class City implements Serializable {
 		this.tempMin = tempMin;
 	}
 	
+	public double getMax() {
+		return max;
+	}
+	
 	public void setMax() {
 		for (Double d: tempForstats) {
 			if (d>max) {this.max =d;}
 		}
 	}
 	
+	public double getMin() {
+		return min;
+	}
+
 	public void setMin() {
-		this.min = 1000000000;
+		this.min = 1000;
 		for (Double d: tempForstats) {
 			if (d<min) {this.min =d;}
 		}
 	}
 	
+	public double getMedia() {
+		return media;
+	}
+	
 	public void setMedia() {
 		int length = tempForstats.size();
-		double sum =0;
+		double sum = 0;
 		for (Double d: tempForstats) {
 			sum += d;
 		}
 		this.media= sum/length;
 	}
+	
+	/**
+	 * @return the varianza
+	 */
+	public double getVarianza() {
+		return varianza;
+	}
+
+
+	/**
+	 * @param varianza the varianza to set
+	 */
+	public void setVarianza() {
+		int length = tempForstats.size();
+		double sqm = 0;
+		if(this.media !=0) {
+			for(Double d : this.tempForstats) {
+				sqm += (d-media)*(d-media);
+			}
+		}
+		
+		this.varianza = sqm/length;
+	}
+
+	/**
+	 * @return the tempForstats
+	 */
+	public Vector<Double> getTempForstats() {
+		return tempForstats;
+	}
+
+
+	/**
+	 * @param tempForstats the tempForstats to set
+	 */
+	public void setTempForstats(Vector<Double> tempForstats) {
+		this.tempForstats = tempForstats;
+	}
+
 
 	@Override
 	public String toString() {
 		return "City [ID=" + ID + ", name=" + name + ", temp=" + temp + ", tempMax=" + tempMax + ", tempMin=" + tempMin
-				+ ", tempForstats=" + tempForstats + ", tempMaxForStats=" + tempMaxForStats + ", tempMinForStats="
-				+ tempMinForStats + "]";
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		City other = (City) obj;
-		if (ID != other.ID)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (Double.doubleToLongBits(temp) != Double.doubleToLongBits(other.temp))
-			return false;
-		if (tempForstats == null) {
-			if (other.tempForstats != null)
-				return false;
-		} else if (!tempForstats.equals(other.tempForstats))
-			return false;
-		if (Double.doubleToLongBits(tempMax) != Double.doubleToLongBits(other.tempMax))
-			return false;
-		if (tempMaxForStats == null) {
-			if (other.tempMaxForStats != null)
-				return false;
-		} else if (!tempMaxForStats.equals(other.tempMaxForStats))
-			return false;
-		if (Double.doubleToLongBits(tempMin) != Double.doubleToLongBits(other.tempMin))
-			return false;
-		if (tempMinForStats == null) {
-			if (other.tempMinForStats != null)
-				return false;
-		} else if (!tempMinForStats.equals(other.tempMinForStats))
-			return false;
-		return true;
+				+ ", tempForstats=" + tempForstats + ", max=" + max + ", min=" + min + ", media=" + media
+				+ ", varianza=" + varianza + "]";
 	}
 	
 	

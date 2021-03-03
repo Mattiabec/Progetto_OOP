@@ -16,7 +16,6 @@ public class SaveModel implements Serializable{
 	private static final long serialVersionUID = -2425071011667367166L;
 
 	private Vector <City> cities;
-	
 	String dataSave;
 	
 	public Vector<City> getCities() {

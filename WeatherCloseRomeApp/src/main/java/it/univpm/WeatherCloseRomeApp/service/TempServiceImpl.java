@@ -202,21 +202,26 @@ public class TempServiceImpl {
 	
 	public void saveEvery5Hours() {
 		ScheduledExecutorService schedule = Executors.newSingleThreadScheduledExecutor();
-		schedule.scheduleAtFixedRate(new Runnable() {public void run() {try {
-			save();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}}}, 0,5 ,TimeUnit.HOURS);
+		schedule.scheduleAtFixedRate(new Runnable() {
+			
+			public void run() {
+				try {
+					save();
+				} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+				} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+				}
+			}
+		}, 0,5 ,TimeUnit.HOURS);
 	}
 	
 	
 	public org.json.simple.JSONArray stats() throws IOException, ClassNotFoundException{
 		
-		String path ="C:\\Users\\Aless\\Documents\\PROGETTI_pao\\database.dat";
+		String path = System.getProperty("user.dir")+"/database.dat";
 		File f = new File(path);
 		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 		Vector <SaveModel> fromFile = new Vector <SaveModel>();
@@ -244,14 +249,14 @@ public class TempServiceImpl {
 			c.setMax();
 			c.setMin();
 			c.setMedia();
-			//set varianza
+			c.setVarianza();
 			org.json.simple.JSONObject jobj = new org.json.simple.JSONObject();
 			jobj.put("name", c.getName());
 			jobj.put("id", c.getID());
 			jobj.put("Massimo", c.getMax());
 			jobj.put("Minimo", c.getMin());
 			jobj.put("Media", c.getMedia());
-			//va aggiunta la varianza
+			jobj.put("Varianza", c.getVarianza());
 			jarr.add(jobj);
 		}
 		
