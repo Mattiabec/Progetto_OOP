@@ -33,7 +33,7 @@ import it.univpm.WeatherCloseRomeApp.models.SaveModel;
 import it.univpm.WeatherCloseRomeApp.models.City;
 
 @Service
-public class TempServiceImpl {
+public class TempServiceImpl implements TempService{
 	
 	
 	String API_KEY = "008c7fc03fb19021c703f488733a8695";
@@ -264,7 +264,6 @@ public class TempServiceImpl {
 		
 	}
 	
-	
 	public static City findByID(long id, Vector <City> c) {
 		Iterator<City> citer = c.iterator();
 		City c1 = new City();
@@ -275,6 +274,7 @@ public class TempServiceImpl {
 		}
 		return c1;
 	}
+	
 	
 	public org.json.simple.JSONArray orderStats(String s){
 		TempServiceImpl tempser = new TempServiceImpl();
@@ -299,10 +299,9 @@ public class TempServiceImpl {
 				}
 			}
 		}
-		
 		return jarr;
-		
-	}
+		}
+	
 	
 	public void scambia(int i1, int i2,org.json.simple.JSONArray jarr) {
 		org.json.simple.JSONObject j1 = (JSONObject) jarr.get(i1);
@@ -330,6 +329,6 @@ public class TempServiceImpl {
 		j1.put("Varianza", jsupp.get("Varianza"));
 		j1.put("id", j1.get("id"));
 	}
-
+	
 }
 
