@@ -293,7 +293,10 @@ public class TempServiceImpl {
 				org.json.simple.JSONObject jobjsucc = (JSONObject) jarr.get(i+1);
 				double paramsucc= (double) jobjsucc.get(s);
 				double param = (double) jobj.get(s);
-				if ( paramsucc> param) {scambia(i,i+1,jarr); scambio = true;}
+				if ( paramsucc> param) {
+					scambia(i,i+1,jarr);
+					scambio = true;
+				}
 			}
 		}
 		
@@ -305,17 +308,27 @@ public class TempServiceImpl {
 		org.json.simple.JSONObject j1 = (JSONObject) jarr.get(i1);
 		org.json.simple.JSONObject jsupp = new org.json.simple.JSONObject();
 		org.json.simple.JSONObject j2 = (JSONObject) jarr.get(i2);
-		jsupp = j2;
-		j2.put("name", j1.get("name"));
+		
+		jsupp.put("name", j2.get("name"));
+		jsupp.put("Massimo", j2.get("Massimo"));
+		jsupp.put("Minimo", j2.get("Minimo"));
+		jsupp.put("Media", j2.get("Media"));
+		jsupp.put("Varianza", j2.get("Varianza"));
+		jsupp.put("id", j2.get("id"));
+		
+		j2.put("name", j1.get("name"));					//mette i parametri di j1 su j2
 		j2.put("Massimo", j1.get("Massimo"));
 		j2.put("Minimo", j1.get("Minimo"));
 		j2.put("Media", j1.get("Media"));
 		j2.put("Varianza", j1.get("Varianza"));
+		j2.put("id", j2.get("id"));
+		
 		j1.put("name", jsupp.get("name"));
 		j1.put("Massimo", jsupp.get("Massimo"));
 		j1.put("Minimo", jsupp.get("Minimo"));
 		j1.put("Media", jsupp.get("Media"));
 		j1.put("Varianza", jsupp.get("Varianza"));
+		j1.put("id", j1.get("id"));
 	}
 
 }
