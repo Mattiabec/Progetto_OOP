@@ -38,10 +38,19 @@ public class TempController {
 	}
 	
 	@GetMapping(value = "/stats")
-	public org.json.simple.JSONArray statistiche() throws ClassNotFoundException, IOException{
+	public org.json.simple.JSONArray stats(@RequestParam(name="field",defaultValue = "") String s) {
 		
-			return tempservice.stats();
-		
+		org.json.simple.JSONArray jreturn= new org.json.simple.JSONArray();
+		if (s.equals("")) {
+			try {
+			jreturn= tempservice.stats();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+		else jreturn= tempservice.orderStats(s);
+		return jreturn;
 	}
 	
 }

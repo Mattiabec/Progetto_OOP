@@ -275,6 +275,48 @@ public class TempServiceImpl {
 		}
 		return c1;
 	}
+	
+	public org.json.simple.JSONArray orderStats(String s){
+		TempServiceImpl tempser = new TempServiceImpl();
+		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
+		try {
+			jarr = tempser.stats();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		boolean scambio = true;
+		while (scambio) {
+			scambio = false;
+			for (int i=0; i<jarr.size()-1; i++) {
+				org.json.simple.JSONObject jobj = (JSONObject) jarr.get(i);
+				org.json.simple.JSONObject jobjsucc = (JSONObject) jarr.get(i+1);
+				double paramsucc= (double) jobjsucc.get(s);
+				double param = (double) jobj.get(s);
+				if ( paramsucc> param) {scambia(i,i+1,jarr); scambio = true;}
+			}
+		}
+		
+		return jarr;
+		
+	}
+	
+	public void scambia(int i1, int i2,org.json.simple.JSONArray jarr) {
+		org.json.simple.JSONObject j1 = (JSONObject) jarr.get(i1);
+		org.json.simple.JSONObject jsupp = new org.json.simple.JSONObject();
+		org.json.simple.JSONObject j2 = (JSONObject) jarr.get(i2);
+		jsupp = j2;
+		j2.put("name", j1.get("name"));
+		j2.put("Massimo", j1.get("Massimo"));
+		j2.put("Minimo", j1.get("Minimo"));
+		j2.put("Media", j1.get("Media"));
+		j2.put("Varianza", j1.get("Varianza"));
+		j1.put("name", jsupp.get("name"));
+		j1.put("Massimo", jsupp.get("Massimo"));
+		j1.put("Minimo", jsupp.get("Minimo"));
+		j1.put("Media", jsupp.get("Media"));
+		j1.put("Varianza", jsupp.get("Varianza"));
+	}
 
 }
 
