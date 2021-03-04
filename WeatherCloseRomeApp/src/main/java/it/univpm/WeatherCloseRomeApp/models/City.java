@@ -5,12 +5,17 @@ import java.util.Vector;
 
 public class City implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6214288722856378619L;
+	
 	private long ID ;
 	private String name;
 	private double temp;
 	private double tempMax;
 	private double tempMin;
-	private Vector <Double> tempForstats;
+	private Vector <Double> tempForstats = new Vector <Double>();
 	private double max,min,media,varianza;
 	
 	
