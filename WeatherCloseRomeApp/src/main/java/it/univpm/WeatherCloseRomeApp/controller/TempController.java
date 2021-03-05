@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.univpm.WeatherCloseRomeApp.model.FilterBody;
+import it.univpm.WeatherCloseRomeApp.models.FilterBody;
 import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 import it.univpm.WeatherCloseRomeApp.utilities.Stats;
 
@@ -89,12 +89,16 @@ public class TempController {
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		int cnt = filtering.getCount();
 		String data = filtering.getData();
-		if (filtering.getPeriod().equals("")) {jreturn=tempservice.stats(cnt);}
+		if (filtering.getPeriod().equals("")) {
+			jreturn=stat.stats(cnt);
+		}
 		switch(filtering.getPeriod()) {
 		case "Daily":
 		case"DAILY":
 		case"daily":
-			if (cnt!=0) {jreturn = tempservice.filterPeriod(cnt,data,1);}
+			if (cnt!=0) {
+				jreturn = tempservice.filterPeriod(cnt,data,1);
+			}
 			
 		}
 		return jreturn;
