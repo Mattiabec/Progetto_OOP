@@ -221,9 +221,9 @@ public class TempServiceImpl implements TempService{
 	}
 	
 	public Vector<String> DateDisponibili() {
-		
 		Vector <String> dateAvailable = new Vector <String>();
-		File f = new File("C:\\Users\\Aless\\Documents\\PROGETTI_pao\\database.dat");
+		String path= System.getProperty("user.dir")+"/database.dat";
+		File f = new File(path);
 		try {
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 			Vector <SaveModel> savings = (Vector <SaveModel>) in.readObject();
@@ -340,6 +340,18 @@ public class TempServiceImpl implements TempService{
 		
 		return jarr;
 	}
+	
+	public City findByID(long id, Vector <City> c) {
+		Iterator<City> citer = c.iterator();
+		City c1 = new City();
+		boolean found = false;
+		while(citer.hasNext()) {
+			c1 = citer.next();
+			if (c1.getID()==id) {found= true; return c1;}
+		}
+		return c1;
+	}
+	
 
 }
 
