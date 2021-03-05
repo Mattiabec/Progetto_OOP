@@ -38,11 +38,19 @@ Ci restituisce le statistiche per ogni città: valore massimo e minimo di temper
 Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.
 
 # UML
+Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro programma.
+
 ## Use Case Diagram
+
 ## Class Diagram
+
 ## Sequence Diagram
 
 # Eccezioni
 
+# Test
+
+# Autori
+Il programma è stato sviluppato equamente da Mattia Beccerica, Alessandro Fermanelli e Giulio Gattari.
 
 
