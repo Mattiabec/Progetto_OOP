@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.univpm.WeatherCloseRomeApp.models.FilterBody;
 import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
+import it.univpm.WeatherCloseRomeApp.utilities.Filter;
 import it.univpm.WeatherCloseRomeApp.utilities.Stats;
 
 @RestController
@@ -21,6 +22,7 @@ public class TempController {
 	@Autowired
 	TempServiceImpl tempservice;
 	Stats stat = new Stats();
+	Filter filter = new Filter();
 	
 	@GetMapping(value = "/temp")
 	public org.json.simple.JSONArray temp(@RequestParam(name="number",defaultValue= "7") int count) {
@@ -70,7 +72,7 @@ public class TempController {
 	@GetMapping("/date")
 	public org.json.simple.JSONArray datedisponibili(){
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
-		Vector<String> datestr = tempservice.DateDisponibili();
+		Vector<String> datestr = filter.DateDisponibili();
 		Iterator<String> iterstr = datestr.iterator();
 		while(iterstr.hasNext()) {
 			org.json.simple.JSONObject jobj = new org.json.simple.JSONObject();
@@ -95,7 +97,7 @@ public class TempController {
 		case"DAILY":
 		case"daily":
 			if (cnt!=0) {
-				jreturn = tempservice.filterPeriod(cnt,data,1);
+				jreturn = filter.filterPeriod(cnt,data,1);
 			}
 			
 		}

@@ -17,17 +17,15 @@ import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 public class Stats {
 	
 	TempServiceImpl tempser = new TempServiceImpl();
+	String path = System.getProperty("user.dir")+"/database.dat";
 	
 	
 	
 	public org.json.simple.JSONArray stats(int cnt) throws IOException, ClassNotFoundException{
-		
-		String path = System.getProperty("user.dir")+"/database.dat";
 		File f = new File(path);
 		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 		Vector <SaveModel> fromFile = new Vector <SaveModel>();
 		Vector <City> forStats = new Vector <City>();
-		TempServiceImpl tempser = new TempServiceImpl();
 		forStats= tempser.getVector(cnt);
 		fromFile = (Vector <SaveModel>) in.readObject();
 		Iterator<SaveModel> iter = fromFile.iterator();
@@ -62,18 +60,6 @@ public class Stats {
 		}
 		
 		return jarr;
-	}
-	
-	
-	public City findByID(long id, Vector <City> c) {
-		Iterator<City> citer = c.iterator();
-		City c1 = new City();
-		boolean found = false;
-		while(citer.hasNext()) {
-			c1 = citer.next();
-			if (c1.getID()==id) {found= true; return c1;}
-		}
-		return c1;
 	}
 	
 	
@@ -164,6 +150,18 @@ public class Stats {
 		j1.put("Media", jsupp.get("Media"));
 		j1.put("Varianza", jsupp.get("Varianza"));
 		j1.put("id", j1.get("id"));
+	}
+	
+	//presente 2 volte
+	public City findByID(long id, Vector <City> c) {
+		Iterator<City> citer = c.iterator();
+		City c1 = new City();
+		boolean found = false;
+		while(citer.hasNext()) {
+			c1 = citer.next();
+			if (c1.getID()==id) {found= true; return c1;}
+		}
+		return c1;
 	}
 	
 	
