@@ -6,8 +6,9 @@ Abbiamo implentato un servizio meteo che ci permette di monitorare le temperatur
 Inoltre si possono ordinare le statistiche in base ai campi selezionati: valori minimi, massimi, media e varianza. Infine possiamo filtrare le statistiche in base al numero delle città, alla periodicità (giornaliera, settimanale, mensile o range personalizzabile) o in base ad una sottostringa contenuta nel nome della città (Citta che iniziano per A).
 
 # API e Rotte
+## API
 Per rispondere alle richieste degli utenti e avere un database abbiamo usato l'api: https://openweathermap.org/current#cycle.
-
+## Rotte
 Le rotte definite sono le seguenti:
 
 N° | Tipo | Rotta | Descrizione
@@ -18,4 +19,28 @@ N° | Tipo | Rotta | Descrizione
 [4](#4) | ` GET ` | `/data` | *restituisce le date nel file in una stringa*
 [5](#5) | ` POST ` | `/filtri` | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
 
-L'utente utilizzando la rotta `/temp` puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 5 a 50) 
+* GET\temp 
+L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 5 a 50).
+Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visualizzare, con: temp, tempMin, tempMax, id (della città), nome (della città).
+
+* GET\save
+Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.
+
+* GET\stats
+
+
+* GET\data
+
+
+* POST\filtri
+
+
+# UML
+## Use Case Diagram
+## Class Diagram
+## Sequence Diagram
+
+# Eccezioni
+
+
+
