@@ -40,9 +40,14 @@ Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o 
 # UML
 Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro programma.
 
-## Use Case Diagram
+## Use Case Diagram -provvisorio- 
+In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'attore *utente* che si interfaccia al programma e richiede i dati sulle temperature, in base al numero di citta, cosi ottendendo le statistiche che sono poi ordinate e filtrate. Mentre l'attore non umano, *OpenWeather*, gestisce il programma. Quindi trammite una chiamata all'API di OpenWeather soddisfa le richieste dell'utente e salva tutti i dati di tutte le citta ogni 5 ore.
 
-## Class Diagram
+![Diagramma dei casi d'uso](https://user-images.githubusercontent.com/44706799/110134781-0ecd4280-7dce-11eb-9751-5a847420270d.jpg)
+
+## Class Diagram -provvisorio-
+
+![Diagramma delle classi](https://user-images.githubusercontent.com/44706799/110134930-39b79680-7dce-11eb-9f12-2a846fee7d70.jpg)
 
 ## Sequence Diagram
 
