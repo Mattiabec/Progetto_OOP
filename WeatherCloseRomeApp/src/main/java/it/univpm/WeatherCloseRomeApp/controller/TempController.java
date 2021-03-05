@@ -44,12 +44,14 @@ public class TempController {
 		if (s.equals("")) {
 			try {
 			jreturn= tempservice.stats();
-		} catch (ClassNotFoundException | IOException e) {
+			}
+			catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			}
 		}
-		}
-		else jreturn= tempservice.orderStats(s);
+		else
+			jreturn= tempservice.orderStats(s);
 		return jreturn;
 	}
 	
