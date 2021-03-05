@@ -220,6 +220,8 @@ public class TempServiceImpl implements TempService{
 		}, 0,5 ,TimeUnit.HOURS);
 	}
 	
+	////////////////////////da mettere in una classe filter
+	
 	public Vector<String> DateDisponibili() {
 		Vector <String> dateAvailable = new Vector <String>();
 		String path= System.getProperty("user.dir")+"/database.dat";
@@ -292,7 +294,8 @@ public class TempServiceImpl implements TempService{
 		Vector <City> cities = tempser.getVector(cnt);
 		Vector<String> datedavalutare = dateForStats(data, numdays);
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
-		File f = new File("C:\\Users\\Aless\\Documents\\PROGETTI_pao\\database.dat");
+		String path= System.getProperty("user.dir")+"/database.dat";
+		File f = new File(path);
 		if (!date.contains(data)) {}//throw Exception;}
 		else {
 			if (databaseWidth(data, numdays, date)) {
@@ -341,6 +344,8 @@ public class TempServiceImpl implements TempService{
 		return jarr;
 	}
 	
+	
+	//presente 2 volte
 	public City findByID(long id, Vector <City> c) {
 		Iterator<City> citer = c.iterator();
 		City c1 = new City();

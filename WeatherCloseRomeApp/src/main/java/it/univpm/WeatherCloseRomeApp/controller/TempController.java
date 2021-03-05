@@ -57,32 +57,13 @@ public class TempController {
 		org.json.simple.JSONArray jreturn= new org.json.simple.JSONArray();
 		if (s.equals("")) {
 			try {
-			jreturn= stat.stats();
-			}
-			catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			}
-		}
-		else
-			jreturn= stat.orderStats(s);
-		return jreturn;
-	}
-	
-
-	@GetMapping(value = "/stats")//versione alessandro
-	public org.json.simple.JSONArray stats(@RequestParam(name="field",defaultValue = "") String s) {
-		
-		org.json.simple.JSONArray jreturn= new org.json.simple.JSONArray();
-		if (s.equals("")) {
-			try {
-			jreturn= tempservice.stats(50);
+			jreturn= stat.stats(50);
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		}
-		else jreturn= tempservice.orderStats(s,50);
+		else jreturn= stat.orderStats(s,50);
 		return jreturn;
 	}
 	
