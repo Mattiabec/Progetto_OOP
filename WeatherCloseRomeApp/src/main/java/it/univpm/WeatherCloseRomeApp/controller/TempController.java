@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
+import it.univpm.WeatherCloseRomeApp.utilities.Stats;
 
 @RestController
 public class TempController {
 
 	@Autowired
 	TempServiceImpl tempservice;
+	Stats stat = new Stats();
 	
 	@GetMapping(value = "/temp")
 	public org.json.simple.JSONArray temp(@RequestParam(name="number",defaultValue= "7") int count) {
@@ -37,13 +39,20 @@ public class TempController {
 		}
 	}
 	
+	@GetMapping(value = "/saveEvery5Hours")
+    public void save5Hours() {
+		
+		tempservice.saveEvery5Hours();
+		
+	}
+	
 	@GetMapping(value = "/stats")
 	public org.json.simple.JSONArray stats(@RequestParam(name="field",defaultValue = "") String s) {
 		
 		org.json.simple.JSONArray jreturn= new org.json.simple.JSONArray();
 		if (s.equals("")) {
 			try {
-			jreturn= tempservice.stats();
+			jreturn= stat.stats();
 			}
 			catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
@@ -51,7 +60,7 @@ public class TempController {
 			}
 		}
 		else
-			jreturn= tempservice.orderStats(s);
+			jreturn= stat.orderStats(s);
 		return jreturn;
 	}
 	

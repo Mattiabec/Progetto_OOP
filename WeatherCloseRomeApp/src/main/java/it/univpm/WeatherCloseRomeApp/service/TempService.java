@@ -13,8 +13,4 @@ public interface TempService {
 	public Vector<City> getVector(int cnt);
 	public void save() throws IOException, ClassNotFoundException;
 	public void saveEvery5Hours();
-	public org.json.simple.JSONArray stats() throws IOException, ClassNotFoundException;
-	//public static City findByID(long id, Vector <City> c);
-	public org.json.simple.JSONArray orderStats(String s);
-	public void scambia(int i1, int i2,org.json.simple.JSONArray jarr);
 }
