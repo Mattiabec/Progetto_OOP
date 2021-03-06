@@ -9,8 +9,12 @@ import it.univpm.WeatherCloseRomeApp.models.City;
 
 public interface TempService {
 	public org.json.simple.JSONObject APICall(int cnt);
+
 	public org.json.simple.JSONArray getJSONList(int cnt);
+
 	public Vector<City> getVector(int cnt);
+
 	public void save() throws IOException, ClassNotFoundException;
+
 	public void saveEvery5Hours();
 }

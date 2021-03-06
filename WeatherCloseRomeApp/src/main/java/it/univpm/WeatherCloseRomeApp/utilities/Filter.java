@@ -16,24 +16,24 @@ import it.univpm.WeatherCloseRomeApp.models.SaveModel;
 import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 
 public class Filter {
-	
+
 	TempServiceImpl tempser = new TempServiceImpl();
-	String path= System.getProperty("user.dir")+"/database.dat";
-	
-	
+	String path = System.getProperty("user.dir") + "/database.dat";
+
 	public Vector<String> DateDisponibili() {
-		Vector <String> dateAvailable = new Vector <String>();
+		Vector<String> dateAvailable = new Vector<String>();
 		File f = new File(path);
 		try {
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
-			Vector <SaveModel> savings = (Vector <SaveModel>) in.readObject();
-			Iterator <SaveModel> iter = savings.iterator();
+			Vector<SaveModel> savings = (Vector<SaveModel>) in.readObject();
+			Iterator<SaveModel> iter = savings.iterator();
 			while (iter.hasNext()) {
-				String tmp= iter.next().getDataSave();
+				String tmp = iter.next().getDataSave();
 				if (!(dateAvailable.contains(tmp))) {
-					
-					dateAvailable.add(tmp);}
+
+					dateAvailable.add(tmp);
 				}
+			}
 			in.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -42,11 +42,11 @@ public class Filter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+
 		return dateAvailable;
 	}
-	
-	public static boolean  databaseWidth(String s, int numdays, Vector<String> str) {
+
+	public static boolean databaseWidth(String s, int numdays, Vector<String> str) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		try {
@@ -57,57 +57,60 @@ public class Filter {
 		}
 		boolean ret = true;
 		int vvv = 0;
-		for (int i=0; i<numdays; i++) {
-			c.add(Calendar.DATE, vvv); 
+		for (int i = 0; i < numdays; i++) {
+			c.add(Calendar.DATE, vvv);
 			String v = sdf.format(c.getTime());
-			if (!str.contains(v)) ret = false;
-			vvv=1;
+			if (!str.contains(v))
+				ret = false;
+			vvv = 1;
 		}
 		return ret;
 	}
-	
-	public static Vector<String> dateForStats(String s, int numdays){
+
+	public static Vector<String> dateForStats(String s, int numdays) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
-		Vector <String> ret = new Vector <String>();
+		Vector<String> ret = new Vector<String>();
 		try {
 			c.setTime(sdf.parse(s));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		int incr=0;
-		for (int i=0; i<numdays; i++) {
-			c.add(Calendar.DATE, incr); 
+		int incr = 0;
+		for (int i = 0; i < numdays; i++) {
+			c.add(Calendar.DATE, incr);
 			String v = sdf.format(c.getTime());
 			ret.add(v);
-			incr=1;
+			incr = 1;
 		}
 		return ret;
 	}
-	
-	public org.json.simple.JSONArray filterPeriod(int cnt, String data,int numdays) throws IOException, ClassNotFoundException{
+
+	public org.json.simple.JSONArray filterPeriod(int cnt, String data, int numdays)
+			throws IOException, ClassNotFoundException {
 		Filter filter = new Filter();
-		Vector <String> date = filter.DateDisponibili();
-		Vector <City> cities = tempser.getVector(cnt);
+		Vector<String> date = filter.DateDisponibili();
+		Vector<City> cities = tempser.getVector(cnt);
 		Vector<String> datedavalutare = dateForStats(data, numdays);
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		File f = new File(path);
-		if (!date.contains(data)) {}//throw Exception;}
+		if (!date.contains(data)) {
+		} // throw Exception;}
 		else {
 			if (databaseWidth(data, numdays, date)) {
 				try {
 					ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
-					Vector <SaveModel> filedata = (Vector <SaveModel>) in.readObject();
+					Vector<SaveModel> filedata = (Vector<SaveModel>) in.readObject();
 					Iterator<SaveModel> iter = filedata.iterator();
-					while (iter.hasNext()){
-						SaveModel save= iter.next();
+					while (iter.hasNext()) {
+						SaveModel save = iter.next();
 						String str = save.getDataSave();
-						Vector <City> tmp = save.getCities();
+						Vector<City> tmp = save.getCities();
 						if (datedavalutare.contains(str)) {
-							
+
 //							Iterator<City> itercity = tmp.iterator();
-							for (int i=0; i<cnt; i++) {
+							for (int i = 0; i < cnt; i++) {
 								City tmpcity = tmp.get(i);
 								double temp = tmpcity.getTemp();
 								City c1 = findByID(tmpcity.getID(), cities);
@@ -115,12 +118,14 @@ public class Filter {
 							}
 						}
 					}
-				}catch (IOException | ClassNotFoundException e) {e.printStackTrace();}
-			} //else ecezione database non profondo
+				} catch (IOException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			} // else ecezione database non profondo
 		}
-		
+
 		Iterator<City> iterForStats = cities.iterator();
-		
+
 		while (iterForStats.hasNext()) {
 			City c = iterForStats.next();
 			c.setMax();
@@ -136,20 +141,21 @@ public class Filter {
 			jobj.put("Varianza", c.getVarianza());
 			jarr.add(jobj);
 		}
-		
-		
+
 		return jarr;
 	}
-	
-	
-	//presente 2 volte
-	public City findByID(long id, Vector <City> c) {
+
+	// presente 2 volte
+	public City findByID(long id, Vector<City> c) {
 		Iterator<City> citer = c.iterator();
 		City c1 = new City();
 		boolean found = false;
-		while(citer.hasNext()) {
+		while (citer.hasNext()) {
 			c1 = citer.next();
-			if (c1.getID()==id) {found= true; return c1;}
+			if (c1.getID() == id) {
+				found = true;
+				return c1;
+			}
 		}
 		return c1;
 	}

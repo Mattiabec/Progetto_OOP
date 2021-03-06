@@ -23,18 +23,17 @@ public class TempController {
 	TempServiceImpl tempservice;
 	Stats stat = new Stats();
 	Filter filter = new Filter();
-	
+
 	@GetMapping(value = "/temp")
-	public org.json.simple.JSONArray temp(@RequestParam(name="number",defaultValue= "7") int count) {
-		
+	public org.json.simple.JSONArray temp(@RequestParam(name = "number", defaultValue = "7") int count) {
+
 		return tempservice.getJSONList(count);
-		
+
 	}
-	
 
 	@GetMapping(value = "/save")
 	public void saving() {
-		
+
 		try {
 			tempservice.save();
 		} catch (ClassNotFoundException e) {
@@ -45,63 +44,62 @@ public class TempController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@GetMapping(value = "/saveEvery5Hours")
-    public void save5Hours() {
-		
+	public void save5Hours() {
+
 		tempservice.saveEvery5Hours();
-		
+
 	}
-	
+
 	@GetMapping(value = "/stats")
-	public org.json.simple.JSONArray stats(@RequestParam(name="field",defaultValue = "") String s) {
-		
-		org.json.simple.JSONArray jreturn= new org.json.simple.JSONArray();
+	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s) {
+
+		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		if (s.equals("")) {
 			try {
-			jreturn= stat.stats(50);
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		}
-		else jreturn= stat.orderStats(s,50);
+				jreturn = stat.stats(50);
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else
+			jreturn = stat.orderStats(s, 50);
 		return jreturn;
 	}
-	
+
 	@GetMapping("/date")
-	public org.json.simple.JSONArray datedisponibili(){
+	public org.json.simple.JSONArray datedisponibili() {
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		Vector<String> datestr = filter.DateDisponibili();
 		Iterator<String> iterstr = datestr.iterator();
-		while(iterstr.hasNext()) {
+		while (iterstr.hasNext()) {
 			org.json.simple.JSONObject jobj = new org.json.simple.JSONObject();
 			jobj.put("data", iterstr.next());
 			jreturn.add(jobj);
 		}
 		return jreturn;
 	}
-	
-	
-	
+
 	@PostMapping("/filters")
-	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering) throws ClassNotFoundException, IOException{
+	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering)
+			throws ClassNotFoundException, IOException {
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		int cnt = filtering.getCount();
 		String data = filtering.getData();
 		if (filtering.getPeriod().equals("")) {
-			jreturn=stat.stats(cnt);
+			jreturn = stat.stats(cnt);
 		}
-		switch(filtering.getPeriod()) {
+		switch (filtering.getPeriod()) {
 		case "Daily":
-		case"DAILY":
-		case"daily":
-			if (cnt!=0) {
-				jreturn = filter.filterPeriod(cnt,data,1);
+		case "DAILY":
+		case "daily":
+			if (cnt != 0) {
+				jreturn = filter.filterPeriod(cnt, data, 1);
 			}
-			
+
 		}
 		return jreturn;
 	}
-	
+
 }
