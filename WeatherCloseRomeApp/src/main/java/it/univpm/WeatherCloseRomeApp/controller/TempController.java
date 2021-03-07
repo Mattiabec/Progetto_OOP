@@ -32,7 +32,6 @@ public class TempController {
 	public org.json.simple.JSONArray temp(@RequestParam(name = "number", defaultValue = "7") int count) {
 
 		return tempservice.getJSONList(count);
-
 	}
 
 	@GetMapping(value = "/save")
@@ -53,7 +52,6 @@ public class TempController {
 	public void save5Hours() {
 
 		tempservice.saveEvery5Hours();
-
 	}
 
 	@GetMapping(value = "/stats")
@@ -74,6 +72,7 @@ public class TempController {
 
 	@GetMapping("/date")
 	public org.json.simple.JSONArray datedisponibili() {
+		
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		Vector<String> datestr = filter.DateDisponibili();
 		Iterator<String> iterstr = datestr.iterator();
@@ -88,6 +87,7 @@ public class TempController {
 	@PostMapping("/filters")
 	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering) throws ClassNotFoundException,
 			IOException, InvalidNumberException, InvalidDateException, WrongPeriodException, ShortDatabaseException {
+		
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		int cnt = filtering.getCount();
 		if (cnt == 0 || cnt > 50) {

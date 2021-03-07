@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import it.univpm.WeatherCloseRomeApp.models.City;
 
 public interface TempService {
+	
 	public org.json.simple.JSONObject APICall(int cnt);
 
 	public org.json.simple.JSONArray getJSONList(int cnt);

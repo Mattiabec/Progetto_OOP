@@ -27,9 +27,9 @@ public class City implements Serializable {
 		this.tempForstats = new Vector<Double>();
 	}
 
-	public City(long iD, String name, double temp, double tempMax, double tempMin) {
+	public City(long id, String name, double temp, double tempMax, double tempMin) {
 		super();
-		ID = iD;
+		ID = id;
 		this.name = name;
 		this.temp = temp;
 		this.tempMax = tempMax;
@@ -40,8 +40,8 @@ public class City implements Serializable {
 		return ID;
 	}
 
-	public void setID(long iD) {
-		ID = iD;
+	public void setID(long id) {
+		ID = id;
 	}
 
 	public String getName() {
@@ -132,7 +132,6 @@ public class City implements Serializable {
 				sqm += (d - media) * (d - media);
 			}
 		}
-
 		this.varianza = sqm / length;
 	}
 

@@ -47,7 +47,6 @@ public class TempServiceImpl implements TempService {
 		JSONObject jobj = null;
 
 		try {
-
 			URL url = new URL(urlstr);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
@@ -79,11 +78,9 @@ public class TempServiceImpl implements TempService {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-
 				} finally {
 					in.close();
 				}
-
 			}
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -93,7 +90,6 @@ public class TempServiceImpl implements TempService {
 			e.printStackTrace();
 		}
 		return jobj;
-
 	}
 
 	public org.json.simple.JSONArray getJSONList(int cnt) {
@@ -126,7 +122,6 @@ public class TempServiceImpl implements TempService {
 			ritorno.add(jnew);
 		}
 		return ritorno;
-
 	}
 
 	public Vector<City> getVector(int cnt) {
@@ -164,6 +159,7 @@ public class TempServiceImpl implements TempService {
 	}
 
 	public void save() throws IOException, ClassNotFoundException {
+		
 		String path = System.getProperty("user.dir") + "/database.dat";
 		File f = new File(path);
 		TempServiceImpl tempser = new TempServiceImpl();
@@ -193,6 +189,7 @@ public class TempServiceImpl implements TempService {
 	}
 
 	public void saveEvery5Hours() {
+		
 		ScheduledExecutorService schedule = Executors.newSingleThreadScheduledExecutor();
 		schedule.scheduleAtFixedRate(new Runnable() {
 

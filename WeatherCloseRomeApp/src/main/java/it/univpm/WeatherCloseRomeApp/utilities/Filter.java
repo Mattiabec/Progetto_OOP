@@ -22,7 +22,9 @@ public class Filter {
 	TempServiceImpl tempser = new TempServiceImpl();
 	String path = System.getProperty("user.dir") + "/database.dat";
 
+	
 	public Vector<String> DateDisponibili() {
+		
 		Vector<String> dateAvailable = new Vector<String>();
 		File f = new File(path);
 		try {
@@ -44,11 +46,12 @@ public class Filter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return dateAvailable;
 	}
 
+	
 	public static boolean databaseWidth(String s, int numdays, Vector<String> str) {
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		try {
@@ -69,7 +72,9 @@ public class Filter {
 		return ret;
 	}
 
+	
 	public static Vector<String> dateForStats(String s, int numdays) {
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		Vector<String> ret = new Vector<String>();
@@ -89,8 +94,10 @@ public class Filter {
 		return ret;
 	}
 
+	
 	public org.json.simple.JSONArray filterPeriod(int cnt, String data, int numdays, String name)
 			throws IOException, ClassNotFoundException, InvalidDateException, ShortDatabaseException {
+		
 		Filter filter = new Filter();
 		Vector<String> date = filter.DateDisponibili();
 		Vector<City> cities = tempser.getVector(cnt);
@@ -151,8 +158,9 @@ public class Filter {
 		return jarr;
 	}
 
-	// presente 2 volte
+	
 	public City findByID(long id, Vector<City> c) {
+		
 		Iterator<City> citer = c.iterator();
 		City c1 = new City();
 		boolean found = false;
@@ -166,7 +174,9 @@ public class Filter {
 		return c1;
 	}
 
+	
 	public static Vector<String> jumpingDate(String s, int numdays) {
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		Vector<String> ret = new Vector<String>(10);
@@ -190,6 +200,7 @@ public class Filter {
 
 	public org.json.simple.JSONArray jumpPeriod(int cnt, String data, int numdays, String name)
 			throws InvalidDateException, IOException, ClassNotFoundException {
+		
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		Vector<City> cities = tempser.getVector(cnt);
 		File f = new File(path);

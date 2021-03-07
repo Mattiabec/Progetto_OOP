@@ -19,6 +19,7 @@ public class Stats {
 	TempServiceImpl tempser = new TempServiceImpl();
 	String path = System.getProperty("user.dir") + "/database.dat";
 
+	
 	public org.json.simple.JSONArray stats(int cnt) throws IOException, ClassNotFoundException {
 		File f = new File(path);
 		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
@@ -60,7 +61,9 @@ public class Stats {
 		return jarr;
 	}
 
+	
 	public org.json.simple.JSONArray orderStats(String s, int cnt) {
+		
 		Stats stat = new Stats();
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		try {
@@ -130,7 +133,9 @@ public class Stats {
 		return jarr;
 	}
 
+	
 	public void scambia(int i1, int i2, org.json.simple.JSONArray jarr) {
+		
 		org.json.simple.JSONObject j1 = (JSONObject) jarr.get(i1);
 		org.json.simple.JSONObject jsupp = new org.json.simple.JSONObject();
 		org.json.simple.JSONObject j2 = (JSONObject) jarr.get(i2);
@@ -157,8 +162,9 @@ public class Stats {
 		j1.put("id", j1.get("id"));
 	}
 
-	// presente 2 volte
+	
 	public City findByID(long id, Vector<City> c) {
+		
 		Iterator<City> citer = c.iterator();
 		City c1 = new City();
 		boolean found = false;
