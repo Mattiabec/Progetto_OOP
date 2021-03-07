@@ -11,8 +11,8 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Vector;
 
-import it.univpm.WeatherCloseRomeApp.exception.InvalidDateException;
-import it.univpm.WeatherCloseRomeApp.exception.ShortDatabaseException;
+import it.univpm.WeatherCloseRomeApp.exceptions.InvalidDateException;
+import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
 import it.univpm.WeatherCloseRomeApp.models.City;
 import it.univpm.WeatherCloseRomeApp.models.SaveModel;
 import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
@@ -89,8 +89,8 @@ public class Filter {
 		return ret;
 	}
 
-	public org.json.simple.JSONArray filterPeriod(int cnt, String data, int numdays)
-			throws IOException, ClassNotFoundException {
+	public org.json.simple.JSONArray filterPeriod(int cnt, String data, int numdays, String name)
+			throws IOException, ClassNotFoundException, InvalidDateException, ShortDatabaseException {
 		Filter filter = new Filter();
 		Vector<String> date = filter.DateDisponibili();
 		Vector<City> cities = tempser.getVector(cnt);
@@ -98,8 +98,8 @@ public class Filter {
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		File f = new File(path);
 		if (!date.contains(data)) {
-		} // throw Exception;}
-		else {
+			throw new InvalidDateException();
+		} else {
 			if (databaseWidth(data, numdays, date)) {
 				try {
 					ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
@@ -111,39 +111,43 @@ public class Filter {
 						Vector<City> tmp = save.getCities();
 						if (datedavalutare.contains(str)) {
 
-//							Iterator<City> itercity = tmp.iterator();
 							for (int i = 0; i < cnt; i++) {
 								City tmpcity = tmp.get(i);
-								double temp = tmpcity.getTemp();
-								City c1 = findByID(tmpcity.getID(), cities);
-								c1.getTempForstats().add(temp);
+								if (tmpcity.getName().contains(name)) {
+									double temp = tmpcity.getTemp();
+									City c1 = findByID(tmpcity.getID(), cities);
+									c1.getTempForstats().add(temp);
+								}
 							}
 						}
 					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
-			} // else ecezione database non profondo
+			} else {
+				throw new ShortDatabaseException();
+			}
 		}
 
 		Iterator<City> iterForStats = cities.iterator();
 
 		while (iterForStats.hasNext()) {
 			City c = iterForStats.next();
-			c.setMax();
-			c.setMin();
-			c.setMedia();
-			c.setVarianza();
-			org.json.simple.JSONObject jobj = new org.json.simple.JSONObject();
-			jobj.put("name", c.getName());
-			jobj.put("id", c.getID());
-			jobj.put("Massimo", c.getMax());
-			jobj.put("Minimo", c.getMin());
-			jobj.put("Media", c.getMedia());
-			jobj.put("Varianza", c.getVarianza());
-			jarr.add(jobj);
+			if (c.getName().contains(name)) {
+				c.setMax();
+				c.setMin();
+				c.setMedia();
+				c.setVarianza();
+				org.json.simple.JSONObject jobj = new org.json.simple.JSONObject();
+				jobj.put("name", c.getName());
+				jobj.put("id", c.getID());
+				jobj.put("Massimo", c.getMax());
+				jobj.put("Minimo", c.getMin());
+				jobj.put("Media", c.getMedia());
+				jobj.put("Varianza", c.getVarianza());
+				jarr.add(jobj);
+			}
 		}
-
 		return jarr;
 	}
 
@@ -161,149 +165,91 @@ public class Filter {
 		}
 		return c1;
 	}
-	
-	//da qui in giù codice alessandro
-	
-	public static Vector<String> jumpingDate(String s,int numdays){
+
+	public static Vector<String> jumpingDate(String s, int numdays) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
-		Vector <String> ret = new Vector <String>(10);
+		Vector<String> ret = new Vector<String>(10);
 		try {
 			c.setTime(sdf.parse(s));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for (int i=0; i<ret.capacity(); i++) {
-			if (i==0) c.add(Calendar.DATE, 0); 
-			else c.add(Calendar.DATE, numdays);
+		for (int i = 0; i < ret.capacity(); i++) {
+			if (i == 0)
+				c.add(Calendar.DATE, 0);
+			else
+				c.add(Calendar.DATE, numdays);
 			String v = sdf.format(c.getTime());
 			ret.add(v);
 		}
 		return ret;
 	}
-	
-	public org.json.simple.JSONArray filterPeriod(int cnt, String data,int numdays,String name) throws IOException, ClassNotFoundException,InvalidDateException, ShortDatabaseException{
-		TempServiceImpl tempser = new TempServiceImpl();
-		Vector <String> date = tempser.DateDisponibili();
-		Vector <City> cities = tempser.getVector(cnt);
-		Vector<String> datedavalutare = dateForStats(data, numdays);
+
+
+	public org.json.simple.JSONArray jumpPeriod(int cnt, String data, int numdays, String name)
+			throws InvalidDateException, IOException, ClassNotFoundException {
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
-		File f = new File("C:\\Users\\Aless\\Documents\\PROGETTI_pao\\database.dat");
-		if (!date.contains(data)) {throw new InvalidDateException();}
-		else {
-			if (databaseWidth(data, numdays, date)) {
-				try {
-					ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
-					Vector <SaveModel> filedata = (Vector <SaveModel>) in.readObject();
-					Iterator<SaveModel> iter = filedata.iterator();
-					while (iter.hasNext()){
-						SaveModel save= iter.next();
-						String str = save.getDataSave();
-						Vector <City> tmp = save.getCities();
-						if (datedavalutare.contains(str)) {
-							
-//							Iterator<City> itercity = tmp.iterator();
-							for (int i=0; i<cnt; i++) {
-								City tmpcity = tmp.get(i);
-								if (tmpcity.getName().contains(name)) {
-								double temp = tmpcity.getTemp();
-								City c1 = findByID(tmpcity.getID(), cities);
-								c1.getTempForstats().add(temp);
-								}
-								
-							}
-						}
-					}
-				}catch (IOException | ClassNotFoundException e) {e.printStackTrace();}
-			} else {throw new ShortDatabaseException();}
-		}
-		
-		Iterator<City> iterForStats = cities.iterator();
-		
-		while (iterForStats.hasNext()) {
-			City c = iterForStats.next();
-			if (c.getName().contains(name)) {
-			c.setMax();
-			c.setMin();
-			c.setMedia();
-			c.setVarianza();
-			org.json.simple.JSONObject jobj = new org.json.simple.JSONObject();
-			jobj.put("name", c.getName());
-			jobj.put("id", c.getID());
-			jobj.put("Massimo", c.getMax());
-			jobj.put("Minimo", c.getMin());
-			jobj.put("Media", c.getMedia());
-			jobj.put("Varianza", c.getVarianza());
-			jarr.add(jobj);
-			}
-		}
-		
-		
-		return jarr;
-	}
-	
-	public org.json.simple.JSONArray jumpPeriod(int cnt,String data, int numdays, String name) throws InvalidDateException,IOException, ClassNotFoundException {
-		org.json.simple.JSONArray jarr= new org.json.simple.JSONArray();
-		TempServiceImpl tempser = new TempServiceImpl();
-		Vector <City> cities = tempser.getVector(cnt);
-		File f = new File("C:\\Users\\Aless\\Documents\\PROGETTI_pao\\database.dat");
+		Vector<City> cities = tempser.getVector(cnt);
+		File f = new File(path);
 		Vector<String> dateNecessarie = jumpingDate(data, numdays);
-		Iterator<String> iter1= dateNecessarie.iterator();
-		Vector<String> date = tempser.DateDisponibili();
-		if (!date.contains(data)) {throw new InvalidDateException();}
+		Iterator<String> iter1 = dateNecessarie.iterator();
+		Filter filter = new Filter();
+		Vector<String> date = filter.DateDisponibili();
+		if (!date.contains(data)) {
+			throw new InvalidDateException();
+		}
 		Vector<String> dateArrivabili = new Vector<String>();
-		for (String ss: dateNecessarie) {
-			if (date.contains(ss)) dateArrivabili.add(ss);
-			else break;
+		for (String ss : dateNecessarie) {
+			if (date.contains(ss))
+				dateArrivabili.add(ss);
+			else
+				break;
 		}
 		org.json.simple.JSONObject jj = new org.json.simple.JSONObject();
 		jj.put("date arrivabili", dateArrivabili);
 		jarr.add(jj);
-		
-			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
-			Vector <SaveModel> filedata = (Vector <SaveModel>) in.readObject();
-			in.close();
-			Iterator<SaveModel> iter = filedata.iterator();
-			while (iter.hasNext()){
-				SaveModel save= iter.next();
-				String str = save.getDataSave();
-				Vector <City> tmp = save.getCities();
-				if (dateArrivabili.contains(str)) {
-					
-//					Iterator<City> itercity = tmp.iterator();
-					for (int i=0; i<cnt; i++) {
-						City tmpcity = tmp.get(i);
-						double temp = tmpcity.getTemp();
-						City c1 = findByID(tmpcity.getID(), cities);
-						c1.getTempForstats().add(temp);
-					}
+
+		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
+		Vector<SaveModel> filedata = (Vector<SaveModel>) in.readObject();
+		in.close();
+		Iterator<SaveModel> iter = filedata.iterator();
+		while (iter.hasNext()) {
+			SaveModel save = iter.next();
+			String str = save.getDataSave();
+			Vector<City> tmp = save.getCities();
+			if (dateArrivabili.contains(str)) {
+
+				for (int i = 0; i < cnt; i++) {
+					City tmpcity = tmp.get(i);
+					double temp = tmpcity.getTemp();
+					City c1 = findByID(tmpcity.getID(), cities);
+					c1.getTempForstats().add(temp);
 				}
 			}
-	
+		}
 
 		Iterator<City> iterForStats = cities.iterator();
 
 		while (iterForStats.hasNext()) {
 			City c = iterForStats.next();
 			if (c.getName().contains(name)) {
-			c.setMax();
-			c.setMin();
-			c.setMedia();
-			c.setVarianza();
-			org.json.simple.JSONObject jobj = new org.json.simple.JSONObject();
-			jobj.put("name", c.getName());
-			jobj.put("id", c.getID());
-			jobj.put("Massimo", c.getMax());
-			jobj.put("Minimo", c.getMin());
-			jobj.put("Media", c.getMedia());
-			jobj.put("Varianza", c.getVarianza());
-			jarr.add(jobj);}
-			
-	}
-
-
-	return jarr;
+				c.setMax();
+				c.setMin();
+				c.setMedia();
+				c.setVarianza();
+				org.json.simple.JSONObject jobj = new org.json.simple.JSONObject();
+				jobj.put("name", c.getName());
+				jobj.put("id", c.getID());
+				jobj.put("Massimo", c.getMax());
+				jobj.put("Minimo", c.getMin());
+				jobj.put("Media", c.getMedia());
+				jobj.put("Varianza", c.getVarianza());
+				jarr.add(jobj);
+			}
+		}
+		return jarr;
 	}
 
 }

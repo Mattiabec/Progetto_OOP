@@ -1,4 +1,4 @@
-package it.univpm.WeatherCloseRomeApp.exception;
+package it.univpm.WeatherCloseRomeApp.exceptions;
 
 public class InvalidDateException extends Exception{
 
