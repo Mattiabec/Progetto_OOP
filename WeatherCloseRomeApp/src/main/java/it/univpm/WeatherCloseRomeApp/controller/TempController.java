@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.univpm.WeatherCloseRomeApp.exception.InvalidDateException;
+import it.univpm.WeatherCloseRomeApp.exception.InvalidNumberException;
+import it.univpm.WeatherCloseRomeApp.exception.ShortDatabaseException;
+import it.univpm.WeatherCloseRomeApp.exception.WrongPeriodException;
 import it.univpm.WeatherCloseRomeApp.models.FilterBody;
 import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 import it.univpm.WeatherCloseRomeApp.utilities.Filter;
@@ -101,5 +105,37 @@ public class TempController {
 		}
 		return jreturn;
 	}
-
+    //da qui in giù codice alessandro
+	@PostMapping("/filters")
+	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering) throws ClassNotFoundException, IOException, InvalidNumberException,
+	InvalidDateException, WrongPeriodException, ShortDatabaseException {
+		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
+		int cnt = filtering.getCount();
+		if (cnt==0 || cnt>50) {throw new InvalidNumberException();}
+		String data = filtering.getData();
+		switch(filtering.getPeriod()) {
+		case "Daily":
+		case"DAILY":
+		case"daily":
+			{jreturn = tempservice.filterPeriod(cnt,data,1,filtering.getName());break;}
+			
+		case "Weekly":
+		case "WEEKLY":
+		case "weekly":
+			{jreturn = tempservice.filterPeriod(cnt,data,7,filtering.getName());break;}
+			
+		case "Monthly":
+		case "MONTHLY":
+		case "monthly":
+			{jreturn = tempservice.filterPeriod(cnt,data,30,filtering.getName());break;}
+			
+		default:
+			if (filtering.getPeriod().equals("") && filtering.getCustomPeriod()!=0) {
+			jreturn = tempservice.jumpPeriod(cnt,data,filtering.getCustomPeriod(),filtering.getName());
+			break;}
+			else {throw new WrongPeriodException();}
+		}
+		return jreturn;
+	}
+	
 }

@@ -5,6 +5,7 @@ public class FilterBody {
 	private int count;
 	private String period;
 	private String data; // Formato data : yyyy-MM-dd
+	
 
 	public int getCount() {
 		return count;
