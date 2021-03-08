@@ -23,6 +23,7 @@ N° | Tipo | Rotta | Descrizione
 * GET\temp:
 L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 1 a 50),altrimenti verranno riportate 7 città.
 Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visualizzare, con: temp, tempMin, tempMax, id (della città), nome (della città).
+
 ESEMPIO 1 (\temp senza specificare il numero di città)
 
 ![Screenshot (82)](https://user-images.githubusercontent.com/44706799/110312160-06128180-8005-11eb-8591-42d49a66040a.png)
