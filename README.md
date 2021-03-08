@@ -21,8 +21,65 @@ N° | Tipo | Rotta | Descrizione
 [5](#5) | ` POST ` | `/filtri` | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
 
 * GET\temp:
-L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 5 a 50).
+L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 5 a 50),altrimenti verranno riportate 7 città.
 Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visualizzare, con: temp, tempMin, tempMax, id (della città), nome (della città).
+
+![Screenshot (82)](https://user-images.githubusercontent.com/44706799/110312160-06128180-8005-11eb-8591-42d49a66040a.png)
+
+```
+[
+    {
+        "tempMax": 284.82,
+        "temp": 284.08,
+        "name": "Trevi",
+        "id": 6545158,
+        "tempMin": 283.15
+    },
+    {
+        "tempMax": 284.82,
+        "temp": 284.08,
+        "name": "Pigna",
+        "id": 6545151,
+        "tempMin": 283.15
+    },
+    {
+        "tempMax": 284.82,
+        "temp": 284.08,
+        "name": "Rome",
+        "id": 3169070,
+        "tempMin": 283.15
+    },
+    {
+        "tempMax": 284.82,
+        "temp": 284.08,
+        "name": "Vatican City",
+        "id": 6691831,
+        "tempMin": 283.15
+    },
+    {
+        "tempMax": 284.82,
+        "temp": 284.18,
+        "name": "State of the Vatican City",
+        "id": 3164670,
+        "tempMin": 283.71
+    },
+    {
+        "tempMax": 284.82,
+        "temp": 283.92,
+        "name": "Via di Villa Chigi",
+        "id": 7670575,
+        "tempMin": 282.59
+    },
+    {
+        "tempMax": 284.82,
+        "temp": 284.08,
+        "name": "Ardeatino",
+        "id": 7521552,
+        "tempMin": 283.15
+    }
+]
+```
+
 
 * GET\save:
 Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.
@@ -31,11 +88,64 @@ Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, que
 Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza. Per il numero di città volute e ordinate secondo un parametro scelto.
 
 
+
+
 * GET\data:
 
 
 * POST\filtri:
 Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.
+
+```
+[
+    {
+        "date arrivabili": [
+            "2021-03-05",
+            "2021-03-07"
+        ]
+    },
+    {
+        "Massimo": 287.51,
+        "name": "Rome",
+        "Media": 284.995,
+        "Minimo": 282.48,
+        "Varianza": 6.325224999999931,
+        "id": 3169070
+    },
+    {
+        "Massimo": 287.51,
+        "name": "Pigna",
+        "Media": 284.995,
+        "Minimo": 282.48,
+        "Varianza": 6.325224999999931,
+        "id": 6545151
+    },
+    {
+        "Massimo": 287.52,
+        "name": "Trevi",
+        "Media": 285.0,
+        "Minimo": 282.48,
+        "Varianza": 6.350399999999908,
+        "id": 6545158
+    },
+    {
+        "Massimo": 287.45,
+        "name": "State of the Vatican City",
+        "Media": 284.945,
+        "Minimo": 282.44,
+        "Varianza": 6.275024999999977,
+        "id": 3164670
+    },
+    {
+        "Massimo": 287.52,
+        "name": "Vatican City",
+        "Media": 285.0,
+        "Minimo": 282.48,
+        "Varianza": 6.350399999999908,
+        "id": 6691831
+    }
+]
+```
 
 # UML
 Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro programma.
