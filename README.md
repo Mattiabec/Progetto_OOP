@@ -21,8 +21,9 @@ N° | Tipo | Rotta | Descrizione
 [5](#5) | ` POST ` | `/filtri` | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
 
 * GET\temp:
-L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 5 a 50),altrimenti verranno riportate 7 città.
+L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 1 a 50),altrimenti verranno riportate 7 città.
 Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visualizzare, con: temp, tempMin, tempMax, id (della città), nome (della città).
+ESEMPIO 1 (\temp senza specificare il numero di città)
 
 ![Screenshot (82)](https://user-images.githubusercontent.com/44706799/110312160-06128180-8005-11eb-8591-42d49a66040a.png)
 
@@ -79,7 +80,30 @@ Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visuali
     }
 ]
 ```
+ESEMPIO 2 (\temp con 2 città)
 
+![Screenshot (84)](https://user-images.githubusercontent.com/44706799/110312817-e16ad980-8005-11eb-8546-6cabdf50fef5.png)
+
+
+```
+[
+    {
+        "tempMax": 284.82,
+        "temp": 284.08,
+        "name": "Trevi",
+        "id": 6545158,
+        "tempMin": 283.15
+    },
+    {
+        "tempMax": 284.82,
+        "temp": 284.08,
+        "name": "Pigna",
+        "id": 6545151,
+        "tempMin": 283.15
+    }
+]
+
+```
 
 * GET\save:
 Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.
