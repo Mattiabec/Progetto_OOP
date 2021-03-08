@@ -43,13 +43,15 @@ Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro
 ## Use Case Diagram -provvisorio- 
 In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'attore *utente* che si interfaccia al programma e richiede i dati sulle temperature, in base al numero di citta, cosi ottendendo le statistiche che sono poi ordinate e filtrate. Mentre l'attore non umano, *OpenWeather*, gestisce il programma. Quindi trammite una chiamata all'API di OpenWeather soddisfa le richieste dell'utente e salva tutti i dati di tutte le citta ogni 5 ore.
 
-![Diagramma dei casi d'uso](https://user-images.githubusercontent.com/44706799/110134781-0ecd4280-7dce-11eb-9751-5a847420270d.jpg)
+![Diagramma dei casi d'uso (1)](https://user-images.githubusercontent.com/44706799/110305538-145c9f80-7ffd-11eb-8ff8-880c78e7caaa.jpg)
 
 ## Class Diagram -provvisorio-
 
-![Diagramma delle classi](https://user-images.githubusercontent.com/44706799/110134930-39b79680-7dce-11eb-9f12-2a846fee7d70.jpg)
+![Diagramma delle classi (1)](https://user-images.githubusercontent.com/44706799/110305557-19215380-7ffd-11eb-80cd-dcbd86479a32.jpg)
 
 ## Sequence Diagram
+
+![Diagramma delle sequenze](https://user-images.githubusercontent.com/44706799/110305616-2b9b8d00-7ffd-11eb-9335-2cd0d0d514b1.jpg)
 
 # Eccezioni
 
