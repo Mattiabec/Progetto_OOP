@@ -18,7 +18,7 @@ N° | Tipo | Rotta | Descrizione
 [2](#2) | ` GET ` | `/save` | *aggiorna il databese.*
 [3](#3) | ` GET ` | `/stats` | *restituisce le statistiche sulle temperature di ogni citta: valori minimi, massimi, media e varianza*
 [4](#4) | ` GET ` | `/data` | *restituisce le date nel file in una stringa*
-[5](#5) | ` POST ` | `/filtri` | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
+[5](#5) | ` POST ` | `/filters` | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
 
 * GET\temp:
 L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 1 a 50),altrimenti verranno riportate 7 città.
@@ -192,16 +192,18 @@ ESEMPIO 2 (\stats ordinati per il valore max) :
     }
 ]
 ```
-
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
 * GET\data:
 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-* POST\filtri:
+
+* POST\filtres:
 Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.
 
-ESEMPIO (\filters 1 città, periodo  giornaliero, data 8\3\21)
+ESEMPIO (\filters 1 città, periodo  giornaliero, data 8\3\21) :
 ![Screenshot (91)](https://user-images.githubusercontent.com/44706799/110316197-adde7e00-800a-11eb-9c76-e2052a547894.png)
 ```
 [
@@ -215,6 +217,29 @@ ESEMPIO (\filters 1 città, periodo  giornaliero, data 8\3\21)
     }
 ]
 ```
+ESEMPIO (\filters ricerca tra tutte le citta di nomi contenenti "castel", periodo  giornaliero, data 8\3\21) :
+![Screenshot (111)](https://user-images.githubusercontent.com/44706799/110329452-e4bd8f80-801c-11eb-960c-df80a7999411.png)
+```
+[
+    {
+        "Massimo": 284.19,
+        "name": "Castel Gandolfo",
+        "Media": 283.8066666666667,
+        "Minimo": 283.49,
+        "Varianza": 0.083888888888886,
+        "id": 3179680
+    },
+    {
+        "Massimo": 283.77,
+        "name": "Castelnuovo di Porto",
+        "Media": 283.46,
+        "Minimo": 282.97,
+        "Varianza": 0.12286666666665236,
+        "id": 3179521
+    }
+]
+```
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 # UML
 Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro programma.
