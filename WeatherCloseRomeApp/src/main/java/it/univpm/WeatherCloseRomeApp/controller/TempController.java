@@ -20,20 +20,38 @@ import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 import it.univpm.WeatherCloseRomeApp.utilities.Filter;
 import it.univpm.WeatherCloseRomeApp.utilities.Stats;
 
+/**
+ * Classe controller che gestisce tutte le rotte del programma
+ * 
+ * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
+ *
+ */
+
 @RestController
 public class TempController {
 
 	@Autowired
-	TempServiceImpl tempservice;
-	Stats stat = new Stats();
-	Filter filter = new Filter();
-
+	private TempServiceImpl tempservice;
+	private Stats stat = new Stats();
+	private Filter filter = new Filter();
+	
+	/**
+	 * Rotta di tipo GET che restituisce le informazioni relative alla temperatura attuali, nome città e id città
+	 * 
+	 * @param count rappresenta il numero di città di cui vogliamo conoscere le informazioni relative la temperatura
+	 * @return JSONArray contenente un JSONObject per ogni città con le temperature, nome e id
+	 */
 	@GetMapping(value = "/temp")
 	public org.json.simple.JSONArray temp(@RequestParam(name = "number", defaultValue = "7") int count) {
 
 		return tempservice.getJSONList(count);
 	}
 
+	/**
+	 * Rotta di tipo GET che salva in un file "database.dat" le informazioni relative alla temperatura attuali
+	 * 
+	 * @return
+	 */
 	@GetMapping(value = "/save")
 	public void saving() {
 
@@ -48,12 +66,20 @@ public class TempController {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	@GetMapping(value = "/saveEvery5Hours")
 	public void save5Hours() {
 
 		tempservice.saveEvery5Hours();
 	}
 
+	/**
+	 * 
+	 * @param s
+	 * @return
+	 */
 	@GetMapping(value = "/stats")
 	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s) {
 
@@ -70,6 +96,10 @@ public class TempController {
 		return jreturn;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	@GetMapping("/date")
 	public org.json.simple.JSONArray datedisponibili() {
 		
@@ -84,6 +114,17 @@ public class TempController {
 		return jreturn;
 	}
 
+	/**
+	 * 
+	 * @param filtering
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws InvalidNumberException
+	 * @throws InvalidDateException
+	 * @throws WrongPeriodException
+	 * @throws ShortDatabaseException
+	 */
 	@PostMapping("/filters")
 	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering) throws ClassNotFoundException,
 			IOException, InvalidNumberException, InvalidDateException, WrongPeriodException, ShortDatabaseException {

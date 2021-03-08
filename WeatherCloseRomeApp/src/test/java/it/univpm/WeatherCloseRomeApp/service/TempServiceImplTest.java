@@ -10,28 +10,32 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import it.univpm.WeatherCloseRomeApp.exception.InvalidNumberException;
-import it.univpm.WeatherCloseRomeApp.model.City;
+import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
+import it.univpm.WeatherCloseRomeApp.models.City;
+import it.univpm.WeatherCloseRomeApp.utilities.Stats;
 
-class ServiceImplTest {
+class TempServiceImplTest {
 
 	private TempServiceImpl service;
 	private Vector<City> cities;
-	
+	private Stats stat;
+
 	@BeforeEach
 	void setUp() throws Exception {
 		service = new TempServiceImpl();
 		cities = new Vector<City>();
+		stat = new Stats();
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-	
+
 	@Test
 	@DisplayName("Costruttore City.")
 	void test1() {
 		City c1 = new City(12345L, "Napoli", 300.0, 301.0, 299.0);
+
 		assertEquals(12345L, c1.getID());
 		assertEquals("Napoli", c1.getName());
 		assertEquals(300.0, c1.getTemp());
@@ -43,12 +47,15 @@ class ServiceImplTest {
 	@DisplayName("Corretta generazione dell'eccezione InvalidNumberException.")
 	void test2() {
 		int cnt = 51;
-		InvalidNumberException e = assertThrows(InvalidNumberException.class, () -> {service.mainCall(cnt);});
-		assertEquals("InvalidNumberException: Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi)", e.toString());
+		InvalidNumberException e = assertThrows(InvalidNumberException.class, () -> {
+			service.APICall(cnt);
+		});
+		assertEquals("InvalidNumberException: Numero di cittï¿½ sbagliato. Inserire un numero tra 1 e 50 (inclusi)",
+				e.toString());
 	}
-	
+
 	@Test
-	
+
 	void test3() {
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		org.json.simple.JSONObject jobj0 = new org.json.simple.JSONObject();
@@ -67,9 +74,9 @@ class ServiceImplTest {
 		jobj1.put("Varianza", 2);
 		jarr.add(jobj0);
 		jarr.add(jobj1);
-		service.scambia(0, 1, jarr);
-		org.json.simple.JSONObject jobjsupp0=(JSONObject) jarr.get(0);
-		org.json.simple.JSONObject jobjsupp1=(JSONObject) jarr.get(1);
+		stat.scambia(0, 1, jarr);
+		org.json.simple.JSONObject jobjsupp0 = (JSONObject) jarr.get(0);
+		org.json.simple.JSONObject jobjsupp1 = (JSONObject) jarr.get(1);
 		assertEquals(22, jobjsupp0.get("id"));
 		assertEquals(12, jobjsupp1.get("id"));
 	}
