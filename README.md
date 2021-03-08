@@ -24,10 +24,9 @@ N° | Tipo | Rotta | Descrizione
 L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 1 a 50),altrimenti verranno riportate 7 città.
 Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visualizzare, con: temp, tempMin, tempMax, id (della città), nome (della città).
 
-ESEMPIO 1 (\temp senza specificare il numero di città)
+ESEMPIO 1 (\temp senza specificare il numero di città) :
 
 ![Screenshot (82)](https://user-images.githubusercontent.com/44706799/110312160-06128180-8005-11eb-8591-42d49a66040a.png)
-
 ```
 [
     {
@@ -81,11 +80,10 @@ ESEMPIO 1 (\temp senza specificare il numero di città)
     }
 ]
 ```
-ESEMPIO 2 (\temp con 2 città)
+
+ESEMPIO 2 (\temp con 2 città) :
 
 ![Screenshot (84)](https://user-images.githubusercontent.com/44706799/110312817-e16ad980-8005-11eb-8546-6cabdf50fef5.png)
-
-
 ```
 [
     {
@@ -112,7 +110,50 @@ Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, que
 * GET\stats:
 Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza. Per il numero di città volute e ordinate secondo un parametro scelto.
 
+ESEMPIO :
 
+![Screenshot (89)](https://user-images.githubusercontent.com/44706799/110314929-cbaae380-8008-11eb-8aed-94978654326d.png)
+```
+[
+    {
+        "Massimo": 285.02,
+        "name": "Trevi",
+        "Media": 283.52799999999996,
+        "Minimo": 282.63,
+        "Varianza": 0.7784559999999934,
+        "id": 6545158
+    },
+    {
+        "Massimo": 285.02,
+        "name": "Pigna",
+        "Media": 283.534,
+        "Minimo": 282.64,
+        "Varianza": 0.7721439999999989,
+        "id": 6545151
+    },
+    
+    .
+    .
+    .
+    
+    {
+        "Massimo": 283.57,
+        "name": "Rocca Priora",
+        "Media": 282.686,
+        "Minimo": 281.83,
+        "Varianza": 0.32214400000000254,
+        "id": 3169149
+    },
+    {
+        "Massimo": 288.96,
+        "name": "Ariccia",
+        "Media": 285.4055454545449,
+        "Minimo": 279.71,
+        "Varianza": 6.722560763085377,
+        "id": 3182851
+    }
+]
+```
 
 
 * GET\data:
@@ -121,53 +162,17 @@ Ci restituisce le statistiche per ogni città: valore massimo e minimo di temper
 * POST\filtri:
 Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.
 
+ESEMPIO (\filters 1 città, periodo  giornaliero, data 8-3-21)
+![Screenshot (91)](https://user-images.githubusercontent.com/44706799/110316197-adde7e00-800a-11eb-9c76-e2052a547894.png)
 ```
 [
     {
-        "date arrivabili": [
-            "2021-03-05",
-            "2021-03-07"
-        ]
-    },
-    {
-        "Massimo": 287.51,
-        "name": "Rome",
-        "Media": 284.995,
-        "Minimo": 282.48,
-        "Varianza": 6.325224999999931,
-        "id": 3169070
-    },
-    {
-        "Massimo": 287.51,
-        "name": "Pigna",
-        "Media": 284.995,
-        "Minimo": 282.48,
-        "Varianza": 6.325224999999931,
-        "id": 6545151
-    },
-    {
-        "Massimo": 287.52,
+        "Massimo": 284.27,
         "name": "Trevi",
-        "Media": 285.0,
-        "Minimo": 282.48,
-        "Varianza": 6.350399999999908,
+        "Media": 284.005,
+        "Minimo": 283.74,
+        "Varianza": 0.07022499999999277,
         "id": 6545158
-    },
-    {
-        "Massimo": 287.45,
-        "name": "State of the Vatican City",
-        "Media": 284.945,
-        "Minimo": 282.44,
-        "Varianza": 6.275024999999977,
-        "id": 3164670
-    },
-    {
-        "Massimo": 287.52,
-        "name": "Vatican City",
-        "Media": 285.0,
-        "Minimo": 282.48,
-        "Varianza": 6.350399999999908,
-        "id": 6691831
     }
 ]
 ```
