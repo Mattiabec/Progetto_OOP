@@ -110,7 +110,7 @@ Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, que
 * GET\stats:
 Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza. Per il numero di città volute e ordinate secondo un parametro scelto.
 
-ESEMPIO :
+ESEMPIO 1 (ordinati per la vicinanza al centro di roma, default):
 
 ![Screenshot (89)](https://user-images.githubusercontent.com/44706799/110314929-cbaae380-8008-11eb-8aed-94978654326d.png)
 ```
@@ -155,6 +155,41 @@ ESEMPIO :
 ]
 ```
 
+ESEMPIO 2 (\stats ordinati per il valore max) :
+![Screenshot (109)](https://user-images.githubusercontent.com/44706799/110317394-63f69780-800c-11eb-8f93-cbcb9380461a.png)
+```
+[
+    {
+        "Massimo": 288.96,
+        "name": "Ariccia",
+        "Media": 285.39936555891177,
+        "Minimo": 279.71,
+        "Varianza": 6.714853978149156,
+        "id": 6545158
+    },
+    {
+        "Massimo": 285.84,
+        "name": "Guidonia",
+        "Media": 283.23500000000007,
+        "Minimo": 281.76,
+        "Varianza": 1.9915583333333409,
+        "id": 6545151
+    },
+    .
+    .
+    .
+    {
+        "Massimo": 283.57,
+        "name": "Rocca Priora",
+        "Media": 282.59499999999997,
+        "Minimo": 281.83,
+        "Varianza": 0.3098583333333377,
+        "id": 3182851
+    }
+]
+```
+
+
 
 * GET\data:
 
@@ -162,7 +197,7 @@ ESEMPIO :
 * POST\filtri:
 Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.
 
-ESEMPIO (\filters 1 città, periodo  giornaliero, data 8-3-21)
+ESEMPIO (\filters 1 città, periodo  giornaliero, data 8\3\21)
 ![Screenshot (91)](https://user-images.githubusercontent.com/44706799/110316197-adde7e00-800a-11eb-9c76-e2052a547894.png)
 ```
 [
