@@ -9,10 +9,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import it.univpm.WeatherCloseRomeApp.controller.TempController;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidDateException;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidFieldException;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
+import it.univpm.WeatherCloseRomeApp.exceptions.WrongPeriodException;
+import it.univpm.WeatherCloseRomeApp.models.FilterBody;
 import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 
 class StatsAndFiltersTest {
@@ -20,12 +23,14 @@ class StatsAndFiltersTest {
 	private TempServiceImpl service;
 	private Stats stat;
 	private Filter filter;
+	private TempController controller;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		service = new TempServiceImpl();
 		stat = new Stats();
 		filter = new Filter();
+		controller = new TempController();
 	}
 
 	@AfterEach
@@ -65,6 +70,19 @@ class StatsAndFiltersTest {
 			filter.filterPeriod(50, data0, numdays, "");
 		});
 		assertEquals("ShortDatabaseException: database insufficente.", e.toString());
+	}
+	
+	@Test
+	@DisplayName("Corretta esecuzione WrongPeriodException")
+	void test4() {
+		FilterBody filtering = new FilterBody();
+		filtering.setPeriod("mensile");
+		filtering.setCount(5);
+		filtering.setData("2021-03-05");
+		WrongPeriodException e = assertThrows(WrongPeriodException.class, () -> {
+			controller.filters(filtering);
+		});
+		assertEquals("WrongPeriodException: periodo inserito incorretto.", e.toString());
 	}
 
 }

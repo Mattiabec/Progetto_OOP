@@ -159,7 +159,7 @@ public class TempController {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		int cnt = filtering.getCount();
-		if (cnt == 0 || cnt > 50) {
+		if (cnt <= 0 || cnt > 50) {
 			throw new InvalidNumberException();
 		}
 		String data = filtering.getData();
@@ -186,9 +186,14 @@ public class TempController {
 		}
 
 		default:
-			if (filtering.getPeriod().equals("") && filtering.getCustomPeriod() != 0) {
-				jreturn = filter.jumpPeriod(cnt, data, filtering.getCustomPeriod(), filtering.getName());
-				break;
+			if (filtering.getPeriod().equals("")) {
+				if (filtering.getCustomPeriod() != 0) {
+					jreturn = filter.jumpPeriod(cnt, data, filtering.getCustomPeriod(), filtering.getName());
+					break;
+				} else {
+					throw new WrongPeriodException();
+				}
+
 			} else {
 				throw new WrongPeriodException();
 			}
