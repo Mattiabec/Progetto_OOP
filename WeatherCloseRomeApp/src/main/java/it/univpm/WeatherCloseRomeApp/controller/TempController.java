@@ -150,13 +150,11 @@ public class TempController {
 	 * città, uno specifico numero di città, scrivendo in input un JSONObject del
 	 * tipo:
 	 * 
-	 * { "count": 5, "period": "daily", "data": "2021-03-09", "customPeriod": "",
-	 * "name": "" }
+	 * { "count": 5, "period": "daily", "data": "2021-03-09", "customPeriod": "", "name": "" }
 	 *
 	 * Oppure:
 	 * 
-	 * { "count": 5, "period": "", "data": "2021-03-06", "customPeriod": 1, "name":
-	 * "" }
+	 * { "count": 5, "period": "", "data": "2021-03-06", "customPeriod": 1, "name": "" }
 	 * 
 	 * @param filtering rappresenta il JSONObject in input
 	 * @return JSONArray contenente un JSONObject per ogni città filtrata
