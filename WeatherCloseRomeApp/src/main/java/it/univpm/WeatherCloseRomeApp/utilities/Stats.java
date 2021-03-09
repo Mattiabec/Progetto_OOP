@@ -153,14 +153,14 @@ public class Stats {
 		j2.put("Minimo", j1.get("Minimo"));
 		j2.put("Media", j1.get("Media"));
 		j2.put("Varianza", j1.get("Varianza"));
-		j2.put("id", j2.get("id"));
+		j2.put("id", j1.get("id"));
 
 		j1.put("name", jsupp.get("name"));
 		j1.put("Massimo", jsupp.get("Massimo"));
 		j1.put("Minimo", jsupp.get("Minimo"));
 		j1.put("Media", jsupp.get("Media"));
 		j1.put("Varianza", jsupp.get("Varianza"));
-		j1.put("id", j1.get("id"));
+		j1.put("id", jsupp.get("id"));
 	}
 
 	
