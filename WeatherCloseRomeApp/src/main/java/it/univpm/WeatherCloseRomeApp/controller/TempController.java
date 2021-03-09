@@ -72,11 +72,16 @@ public class TempController {
 	 * Rotta di tipo GET che salva ogni 5 ore in un file "database.dat" le informazioni relative alla temperatura attuali
 	 * 
 	 * @return
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
 	@GetMapping(value = "/saveEvery5Hours")
-	public void save5Hours() {
+	public org.json.simple.JSONObject save5Hours() throws ClassNotFoundException, IOException {
 
+		org.json.simple.JSONObject jret;
+		jret = tempservice.save();
 		tempservice.saveEvery5Hours();
+		return jret;
 	}
 
 	/**

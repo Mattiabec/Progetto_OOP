@@ -212,7 +212,7 @@ public class TempServiceImpl implements TempService {
 					e.printStackTrace();
 				}
 			}
-		}, 0, 5, TimeUnit.HOURS);
+		}, 5, 5, TimeUnit.HOURS);
 		jret.put("STATUS", message);
 		return jret;
 	}
