@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidDateException;
+import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
 import it.univpm.WeatherCloseRomeApp.models.City;
 import it.univpm.WeatherCloseRomeApp.models.SaveModel;
@@ -96,7 +97,7 @@ public class Filter {
 
 	
 	public org.json.simple.JSONArray filterPeriod(int cnt, String data, int numdays, String name)
-			throws IOException, ClassNotFoundException, InvalidDateException, ShortDatabaseException {
+			throws IOException, ClassNotFoundException, InvalidDateException, ShortDatabaseException, InvalidNumberException {
 		
 		Filter filter = new Filter();
 		Vector<String> date = filter.DateDisponibili();
@@ -199,7 +200,7 @@ public class Filter {
 
 
 	public org.json.simple.JSONArray jumpPeriod(int cnt, String data, int numdays, String name)
-			throws InvalidDateException, IOException, ClassNotFoundException {
+			throws InvalidDateException, IOException, ClassNotFoundException, InvalidNumberException {
 		
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		Vector<City> cities = tempser.getVector(cnt);

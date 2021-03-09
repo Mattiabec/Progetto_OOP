@@ -33,6 +33,7 @@ import org.json.simple.JSONValue;
 import org.springframework.stereotype.Service;
 
 import it.univpm.WeatherCloseRomeApp.models.SaveModel;
+import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.models.City;
 
 @Service
@@ -41,60 +42,65 @@ public class TempServiceImpl implements TempService {
 	String API_KEY = "008c7fc03fb19021c703f488733a8695";
 	String message;
 
-	public JSONObject APICall(int cnt) {
+	public JSONObject APICall(int cnt) throws InvalidNumberException {
 
-		String urlstr;
-		urlstr = "https://api.openweathermap.org/data/2.5/find?lat=41.902782&lon=12.496365&cnt=" + cnt + "&appid="
-				+ API_KEY;
 		JSONObject jobj = null;
+		if (cnt <= 0 || cnt > 50) {
+			throw new InvalidNumberException();
+		} else {
+			String urlstr;
+			urlstr = "https://api.openweathermap.org/data/2.5/find?lat=41.902782&lon=12.496365&cnt=" + cnt + "&appid="
+					+ API_KEY;
+			
 
-		try {
-			URL url = new URL(urlstr);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Content-Type", "application/json; utf-8");
-			conn.setRequestProperty("Accept", "application/json");
-			conn.connect();
-			int responsecode = conn.getResponseCode();
+			try {
+				URL url = new URL(urlstr);
+				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				conn.setRequestMethod("GET");
+				conn.setRequestProperty("Content-Type", "application/json; utf-8");
+				conn.setRequestProperty("Accept", "application/json");
+				conn.connect();
+				int responsecode = conn.getResponseCode();
 
-			if (responsecode != 200)
-				throw new RuntimeException("HttpResponseCode: " + responsecode);
-			else {
-				InputStream in = conn.getInputStream();
+				if (responsecode != 200)
+					throw new RuntimeException("HttpResponseCode: " + responsecode);
+				else {
+					InputStream in = conn.getInputStream();
 
-				String data = "";
-				String line = "";
-				try {
-					InputStreamReader inR = new InputStreamReader(in);
-					BufferedReader buf = new BufferedReader(inR);
-
-					while ((line = buf.readLine()) != null) {
-						data += line;
-
-					}
-
+					String data = "";
+					String line = "";
 					try {
-						jobj = (JSONObject) JSONValue.parseWithException(data);
+						InputStreamReader inR = new InputStreamReader(in);
+						BufferedReader buf = new BufferedReader(inR);
 
-					} catch (org.json.simple.parser.ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						while ((line = buf.readLine()) != null) {
+							data += line;
+
+						}
+
+						try {
+							jobj = (JSONObject) JSONValue.parseWithException(data);
+
+						} catch (org.json.simple.parser.ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} finally {
+						in.close();
 					}
-				} finally {
-					in.close();
 				}
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return jobj;
 	}
 
-	public org.json.simple.JSONArray getJSONList(int cnt) {
+	public org.json.simple.JSONArray getJSONList(int cnt) throws InvalidNumberException {
 
 		TempServiceImpl temps = new TempServiceImpl();
 		JSONObject jobj = temps.APICall(cnt);
@@ -126,7 +132,7 @@ public class TempServiceImpl implements TempService {
 		return ritorno;
 	}
 
-	public Vector<City> getVector(int cnt) {
+	public Vector<City> getVector(int cnt) throws InvalidNumberException {
 
 		TempServiceImpl temps = new TempServiceImpl();
 		JSONObject jobj = temps.APICall(cnt);
@@ -160,7 +166,7 @@ public class TempServiceImpl implements TempService {
 		return cities;
 	}
 
-	public JSONObject save() throws IOException, ClassNotFoundException {
+	public JSONObject save() throws IOException, ClassNotFoundException, InvalidNumberException {
 		
 		org.json.simple.JSONObject jret = new org.json.simple.JSONObject();
 		String path = System.getProperty("user.dir") + "/database.dat";
@@ -208,6 +214,9 @@ public class TempServiceImpl implements TempService {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvalidNumberException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

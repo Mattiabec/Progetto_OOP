@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import org.json.simple.JSONObject;
 
+import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.models.City;
 import it.univpm.WeatherCloseRomeApp.models.SaveModel;
 import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
@@ -20,7 +21,7 @@ public class Stats {
 	String path = System.getProperty("user.dir") + "/database.dat";
 
 	
-	public org.json.simple.JSONArray stats(int cnt) throws IOException, ClassNotFoundException {
+	public org.json.simple.JSONArray stats(int cnt) throws IOException, ClassNotFoundException, InvalidNumberException {
 		File f = new File(path);
 		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 		Vector<SaveModel> fromFile = new Vector<SaveModel>();
@@ -62,7 +63,7 @@ public class Stats {
 	}
 
 	
-	public org.json.simple.JSONArray orderStats(String s, int cnt) {
+	public org.json.simple.JSONArray orderStats(String s, int cnt) throws InvalidNumberException {
 		
 		Stats stat = new Stats();
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();

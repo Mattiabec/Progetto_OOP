@@ -50,7 +50,7 @@ class TempServiceImplTest {
 		InvalidNumberException e = assertThrows(InvalidNumberException.class, () -> {
 			service.APICall(cnt);
 		});
-		assertEquals("InvalidNumberException: Numero di citt� sbagliato. Inserire un numero tra 1 e 50 (inclusi)",
+		assertEquals("InvalidNumberException: Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi)",
 				e.toString());
 	}
 

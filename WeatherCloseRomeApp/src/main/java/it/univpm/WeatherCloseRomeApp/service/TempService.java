@@ -5,17 +5,18 @@ import java.util.Vector;
 
 import org.json.simple.JSONObject;
 
+import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.models.City;
 
 public interface TempService {
 	
-	public org.json.simple.JSONObject APICall(int cnt);
+	public org.json.simple.JSONObject APICall(int cnt) throws InvalidNumberException;
 
-	public org.json.simple.JSONArray getJSONList(int cnt);
+	public org.json.simple.JSONArray getJSONList(int cnt) throws InvalidNumberException ;
 
-	public Vector<City> getVector(int cnt);
+	public Vector<City> getVector(int cnt) throws InvalidNumberException ;
 
-	public org.json.simple.JSONObject save() throws IOException, ClassNotFoundException;
+	public org.json.simple.JSONObject save() throws IOException, ClassNotFoundException, InvalidNumberException;
 
 	public org.json.simple.JSONObject saveEvery5Hours();
 }

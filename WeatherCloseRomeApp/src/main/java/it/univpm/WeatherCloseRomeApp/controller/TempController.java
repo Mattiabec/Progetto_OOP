@@ -39,9 +39,10 @@ public class TempController {
 	 * 
 	 * @param count rappresenta il numero di città di cui vogliamo conoscere le informazioni relative la temperatura
 	 * @return JSONArray contenente un JSONObject per ogni città con le temperature, nome e id
+	 * @throws InvalidNumberException 
 	 */
 	@GetMapping(value = "/temp")
-	public org.json.simple.JSONArray temp(@RequestParam(name = "number", defaultValue = "7") int count) {
+	public org.json.simple.JSONArray temp(@RequestParam(name = "number", defaultValue = "7") int count) throws InvalidNumberException {
 
 		return tempservice.getJSONList(count);
 	}
@@ -50,20 +51,14 @@ public class TempController {
 	 * Rotta di tipo GET che salva in un file "database.dat" le informazioni relative alla temperatura attuali
 	 * 
 	 * @return
+	 * @throws InvalidNumberException 
 	 */
 	@GetMapping(value = "/save")
-	public org.json.simple.JSONObject saving() {
+	public org.json.simple.JSONObject saving() throws InvalidNumberException, ClassNotFoundException, IOException {
 
 		org.json.simple.JSONObject jret = new org.json.simple.JSONObject();
-		try {
-			jret= tempservice.save();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		jret= tempservice.save();
+		
 		return jret;
 		
 	}
@@ -74,9 +69,10 @@ public class TempController {
 	 * @return
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
+	 * @throws InvalidNumberException 
 	 */
 	@GetMapping(value = "/saveEvery5Hours")
-	public org.json.simple.JSONObject save5Hours() throws ClassNotFoundException, IOException {
+	public org.json.simple.JSONObject save5Hours() throws ClassNotFoundException, IOException, InvalidNumberException {
 
 		org.json.simple.JSONObject jret;
 		jret = tempservice.save();
@@ -90,9 +86,10 @@ public class TempController {
 	 * 
 	 * @param s rappresenta il parametro di interesse da ordinare
 	 * @return JSONArray contenente un JSONObject per ogni città con le proprie statistiche
+	 * @throws InvalidNumberException 
 	 */
 	@GetMapping(value = "/stats")
-	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s) {
+	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s) throws InvalidNumberException {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		if (s.equals("")) {
