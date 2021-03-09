@@ -289,7 +289,7 @@ ESEMPIO (`Data inserita incorretta. Controllare la rotta \"/date\" per le date d
     "timestamp": "2021-03-09T11:43:37.275+00:00",
     "status": 500,
     "error": "Internal Server Error",
-    "trace": "InvalidDateException: Data inserita incorretta.\r\n\tat it.univpm.WeatherCloseRomeApp.utilities.Filter.filterPeriod(Filter.java:108)\r\n\tat 
+    "trace": "InvalidDateException: Data inserita incorretta.\r\n\tat it.univpm.WeatherCloseRomeApp.utilities.Filter.filterPeriod(Filter.java:108)\r\n\tat... 
     .
     .
     .
@@ -304,11 +304,39 @@ Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta
 
 ## - InvalidNumberException.java :
 Controlla se il numero di città richieste è un numero tra 1 e 50, nel caso non sia così il programma ci restituirà un messaggio di errore con il numerodi città accettabile.
-(`Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi).`)
+ESEMPIO (`Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi).`) :
+![Screenshot (123)](https://user-images.githubusercontent.com/44706799/110493253-e2c60000-80f2-11eb-9991-7f7f221c4581.png)
+```
+{
+    "timestamp": "2021-03-09T15:15:48.494+00:00",
+    "status": 500,
+    "error": "Internal Server Error",
+    "trace": "InvalidNumberException: Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi)\r\n\tat...
+    .
+    .
+    .
+    "message": "Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi)",
+    "path": "/temp"
+}
+```
 
 ## - ShortDatabaseException.java :
 Controlla se nel database contiene le informazioni sufficenti per creare statistiche del periodo scelto. In caso negato avremmo un messaggio di errore con la richiesta di scelgiere un periodo piu breve.
-(`Database non contiene abbastanza informazioni. Scegliere un periodo più breve.`)
+ESEMPIO (`Database non contiene abbastanza informazioni. Scegliere un periodo più breve.`) :
+![Screenshot (121)](https://user-images.githubusercontent.com/44706799/110491675-cbd2de00-80f1-11eb-9158-62d66970d352.png)
+```
+{
+    "timestamp": "2021-03-09T15:06:05.284+00:00",
+    "status": 500,
+    "error": "Internal Server Error",
+    "trace": "ShortDatabaseException: database insufficente.\r\n\tat it.univpm.WeatherCloseRomeApp.utilities.Filter.filterPeriod(Filter.java:135)\r\n\tat...
+    .
+    .
+    .
+    "message": "Database non contiene abbastanza informazioni. Scegliere un periodo più breve.",
+    "path": "/filters"
+}
+```
 
 ## - WrongPeriodException.java   :
 Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso contrario avremmo un messaggio di errore con riportati i periodi selezionabili.
