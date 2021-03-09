@@ -37,13 +37,13 @@ public class TempController {
 
 	/**
 	 * Rotta di tipo GET che restituisce le informazioni relative alla temperatura
-	 * attuali, nome città e id città
+	 * attuale, nome città e id città
 	 * 
 	 * @param count rappresenta il numero di città di cui vogliamo conoscere le
-	 *              informazioni relative la temperatura
+	 *              informazioni relative la temperatura (default=7)
 	 * @return JSONArray contenente un JSONObject per ogni città con le temperature,
 	 *         nome e id
-	 * @throws InvalidNumberException
+	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
 	 */
 	@GetMapping(value = "/temp")
 	public org.json.simple.JSONArray temp(@RequestParam(name = "number", defaultValue = "7") int count)
@@ -53,11 +53,15 @@ public class TempController {
 	}
 
 	/**
+	 *
 	 * Rotta di tipo GET che salva in un file "database.dat" le informazioni
-	 * relative alla temperatura attuali
+	 * relative alla temperatura attuale di tutte e 50 le città
 	 * 
-	 * @return
-	 * @throws InvalidNumberException
+	 * @return JSONObject con all'interno una stringa che dice se l'operazione è
+	 *         andata a buon fine
+	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
+	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal metodo
+	 * @throws IOException se si sono verificati errori durante la lettura/scrittura del file
 	 */
 	@GetMapping(value = "/save")
 	public org.json.simple.JSONObject saving() throws InvalidNumberException, ClassNotFoundException, IOException {
@@ -71,15 +75,16 @@ public class TempController {
 
 	/**
 	 * Rotta di tipo GET che salva ogni 5 ore in un file "database.dat" le
-	 * informazioni relative alla temperatura attuali
+	 * informazioni relative alla temperatura attuale di tutte e 50 le città
 	 * 
-	 * @return
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 * @throws InvalidNumberException
+	 * @return JSONObject con all'interno una stringa che dice se l'operazione è
+	 *         andata a buon fine
+	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
+	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal metodo
+	 * @throws IOException se si sono verificati errori durante la lettura/scrittura del file
 	 */
 	@GetMapping(value = "/saveEvery5Hours")
-	public org.json.simple.JSONObject save5Hours() throws ClassNotFoundException, IOException, InvalidNumberException {
+	public org.json.simple.JSONObject save5Hours() throws InvalidNumberException, ClassNotFoundException, IOException {
 
 		org.json.simple.JSONObject jret;
 		jret = tempservice.save();
@@ -95,8 +100,10 @@ public class TempController {
 	 * @param s rappresenta il parametro di interesse da ordinare
 	 * @return JSONArray contenente un JSONObject per ogni città con le proprie
 	 *         statistiche
-	 * @throws InvalidNumberException
-	 * @throws InvalidFieldException 
+	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
+	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal metodo
+	 * @throws IOException se si sono verificati errori durante la lettura/scrittura del file
+	 * @throws InvalidFieldException se il parametro s inserito non esiste
 	 */
 	@GetMapping(value = "/stats")
 	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s)
@@ -112,7 +119,7 @@ public class TempController {
 	}
 
 	/**
-	 * Rotta di tipo GET che restituisce le date in cui sono presenti dati nel file
+	 * Rotta di tipo GET che restituisce le date in cui sono stati salvati dati nel file
 	 * "database.dat"
 	 * 
 	 * @return JSONArray contente un JSONObject per ogni data
@@ -133,25 +140,23 @@ public class TempController {
 
 	/**
 	 * Rotta di tipo POST che restituisce le statistiche relative uno specifico
-	 * periodo (daily, weekly, monthly), una specifica città, uno specifico numero
-	 * di città, scrivendo in input un JSONObject del tipo:
+	 * periodo (daily, weekly, monthly) o ogni determinato giorno, una specifica città, uno specifico
+	 * numero di città, scrivendo in input un JSONObject del tipo:
 	 * 
-	 * { "count": 5, "period": "daily", "data": "2021-03-06", "customPeriod":,
-	 * "name": "" }
+	 * { "count": 5, "period": "daily", "data": "2021-03-09", "customPeriod": "", "name": "" }
 	 *
 	 * Oppure:
 	 * 
-	 * { "count": 5, "period": "", "data": "2021-03-06", "customPeriod":1, "name":""
-	 * }
+	 * { "count": 5, "period": "", "data": "2021-03-06", "customPeriod": 1, "name": "" }
 	 * 
 	 * @param filtering rappresenta il JSONObject in input
-	 * @return JSONArray contenente un JSONObject per ogni città
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 * @throws InvalidNumberException
-	 * @throws InvalidDateException
-	 * @throws WrongPeriodException
-	 * @throws ShortDatabaseException
+	 * @return JSONArray contenente un JSONObject per ogni città filtrata
+	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal metodo
+	 * @throws IOException se si sono verificati errori durante la lettura/scrittura del file
+	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
+	 * @throws InvalidDateException se non si hanno dati nel database della data inserita
+	 * @throws WrongPeriodException se il "period" inserito è sbagliato
+	 * @throws ShortDatabaseException se nel "period" scelto non si hanno dati sufficienti
 	 */
 	@PostMapping("/filters")
 	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering) throws ClassNotFoundException,
