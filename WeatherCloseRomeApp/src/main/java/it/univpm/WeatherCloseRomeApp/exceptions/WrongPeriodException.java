@@ -6,6 +6,6 @@ public class WrongPeriodException extends Exception{
 		super("Periodo inserito incorretto. Scegliere tra: daily,weekly,monthly, oppure null se si vuole customperiod.");
 	}
 	public String toString() {
-		return "InvalidDateException: Data inserita incorretta.";
+		return "WrongPeriodException: periodo inserito incorretto.";
 	} 
 }

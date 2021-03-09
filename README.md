@@ -18,6 +18,16 @@ In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'att
 
 ![Diagramma delle classi (1)](https://user-images.githubusercontent.com/44706799/110305557-19215380-7ffd-11eb-80cd-dcbd86479a32.jpg)
 
+Come possiamo vedere abbiamo diversi package:
+
+- Package controller : contiene le classi TempController
+- Package service    : contiene le classi TempService e TempServiceImpl
+- Package models     : contiene le classi City, FilterBody e SaveModel
+- Package utilities  : contiene le classi Stats e Filters
+- Package exceptions : contiene tutte le eccezioni
+
+
+
 ## Sequence Diagram
 
 ![Diagramma delle sequenze](https://user-images.githubusercontent.com/44706799/110305616-2b9b8d00-7ffd-11eb-9335-2cd0d0d514b1.jpg)
@@ -27,7 +37,7 @@ In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'att
 Sono fondamentali per il funzionamento del programma e per la raccolta dati. Con il programma *Postman* possiamo usare le rotte, sotto elencate, per far funzionare il nostro servizio.
 ## API
 Per rispondere alle richieste degli utenti e avere un database abbiamo usato l'api: https://openweathermap.org/current#cycle.
-## Rotte
+## 🚩 Rotte
 Le rotte definite sono le seguenti:
 
 N° | Tipo | Rotta | Descrizione
@@ -38,14 +48,14 @@ N° | Tipo | Rotta | Descrizione
 [4](#4) | ` GET ` | `/date` | *restituisce le date nel file in una stringa*
 [5](#5) | ` POST ` | `/filters` | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
 
-* GET\temp:
+### :round_pushpin: GET\temp:
 L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 1 a 50),altrimenti verranno riportate 7 città.
 Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visualizzare, con: temp, tempMin, tempMax, id (della città), nome (della città).
 
-ESEMPIO 1 (\temp senza specificare il numero di città) :
+:mag: ESEMPIO 1 (\temp senza specificare il numero di città) :
 
 ![Screenshot (82)](https://user-images.githubusercontent.com/44706799/110312160-06128180-8005-11eb-8591-42d49a66040a.png)
-```
+```ruby
 [
     {
         "tempMax": 284.82,
@@ -99,10 +109,10 @@ ESEMPIO 1 (\temp senza specificare il numero di città) :
 ]
 ```
 
-ESEMPIO 2 (\temp con 2 città) :
+:mag: ESEMPIO 2 (\temp con 2 città) :
 
 ![Screenshot (84)](https://user-images.githubusercontent.com/44706799/110312817-e16ad980-8005-11eb-8546-6cabdf50fef5.png)
-```
+```ruby
 [
     {
         "tempMax": 284.82,
@@ -123,19 +133,20 @@ ESEMPIO 2 (\temp con 2 città) :
 ```
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-* GET\save:
-Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.
-
+### :round_pushpin: GET\save:
+Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.  
+:mag: ESEMPIO :
+![Screenshot (129)](https://user-images.githubusercontent.com/44706799/110497692-fc694680-80f6-11eb-966e-9a6047b1fe75.png)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-* GET\stats:
+### :round_pushpin: GET\stats:
 Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza. Per il numero di città volute e ordinate secondo un parametro scelto.
 
-ESEMPIO 1 (ordinati per la vicinanza al centro di roma, default):
+:mag: ESEMPIO 1 (\stats ordinati per la vicinanza al centro di roma, default):
 
 ![Screenshot (89)](https://user-images.githubusercontent.com/44706799/110314929-cbaae380-8008-11eb-8aed-94978654326d.png)
-```
+```ruby
 [
     {
         "Massimo": 285.02,
@@ -177,9 +188,9 @@ ESEMPIO 1 (ordinati per la vicinanza al centro di roma, default):
 ]
 ```
 
-ESEMPIO 2 (\stats ordinati per il valore max) :
+:mag: ESEMPIO 2 (\stats ordinati per il valore max) :
 ![Screenshot (109)](https://user-images.githubusercontent.com/44706799/110317394-63f69780-800c-11eb-8f93-cbcb9380461a.png)
-```
+```ruby
 [
     {
         "Massimo": 288.96,
@@ -213,12 +224,12 @@ ESEMPIO 2 (\stats ordinati per il valore max) :
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-* GET\data:
+### :round_pushpin: GET\data:
 Ci  mostra le date disponibili nel database in cui sono state salvate le temperature (il server non ha tutte le date perche è attivato da noi, solo in alcuni momenti) 
 
-ESEMPIO :
+:mag: ESEMPIO :
 ![Screenshot (113)](https://user-images.githubusercontent.com/44706799/110461223-7685d500-80cf-11eb-981d-adb150a9b5ee.png)
-```
+```ruby
 [
     {
         "data": "2021-03-02"
@@ -237,12 +248,12 @@ ESEMPIO :
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-* POST\filtres:
+### :round_pushpin: POST\filtres:
 Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.
 
-ESEMPIO (\filters 1 città, periodo  giornaliero, data 8\3\21) :
+:mag: ESEMPIO 1 (\filters 1 città, periodo  giornaliero, data 8\3\21) :
 ![Screenshot (91)](https://user-images.githubusercontent.com/44706799/110316197-adde7e00-800a-11eb-9c76-e2052a547894.png)
-```
+```ruby
 [
     {
         "Massimo": 284.27,
@@ -254,9 +265,9 @@ ESEMPIO (\filters 1 città, periodo  giornaliero, data 8\3\21) :
     }
 ]
 ```
-ESEMPIO (\filters ricerca tra tutte le citta di nomi contenenti "castel", periodo  giornaliero, data 8\3\21) :
+:mag: ESEMPIO 2 (\filters ricerca tra tutte le citta di nomi contenenti "castel", periodo  giornaliero, data 8\3\21) :
 ![Screenshot (111)](https://user-images.githubusercontent.com/44706799/110329452-e4bd8f80-801c-11eb-960c-df80a7999411.png)
-```
+```ruby
 [
     {
         "Massimo": 284.19,
@@ -279,12 +290,12 @@ ESEMPIO (\filters ricerca tra tutte le citta di nomi contenenti "castel", period
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-# Eccezioni
+# :no_entry: Eccezioni
 ## - InvalidDateException.java   : 
 Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia incorretta, si chiede di controllare la rotta `/date` per le date disponibili.
-ESEMPIO (`Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.`) :
+:mag: ESEMPIO (`Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.`) :
 ![Screenshot (117)](https://user-images.githubusercontent.com/44706799/110466383-062e8200-80d6-11eb-8943-0562da92b201.png)
-```
+```ruby
 {
     "timestamp": "2021-03-09T11:43:37.275+00:00",
     "status": 500,
@@ -300,13 +311,27 @@ ESEMPIO (`Data inserita incorretta. Controllare la rotta \"/date\" per le date d
 
 ## - InvalidFieldException.java  :
 Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta ci ridà un messaggio di errore con i campi disponibili nel filtraggio.
-(`Campo errato. I campi disponibili sono massimo,minimo,media,varianza.`)
+:mag: ESEMPIO (`Campo errato. I campi disponibili sono massimo,minimo,media,varianza.`) :
+![Screenshot (125)](https://user-images.githubusercontent.com/44706799/110495944-4c470e00-80f5-11eb-82a6-d0a05d15ed1f.png)
+```ruby
+{
+    "timestamp": "2021-03-09T15:33:18.067+00:00",
+    "status": 500,
+    "error": "Internal Server Error",
+    "trace": "InvalidFieldException: campo errato.\r\n\tat it.univpm.WeatherCloseRomeApp.utilities.Stats.orderStats(Stats.java:134)\r\n\tat...
+    .
+    .
+    .
+    "message": "Campo errato. I campi disponibili sono massimo,minimo,media,varianza.",
+    "path": "/stats"
+}
+```
 
 ## - InvalidNumberException.java :
 Controlla se il numero di città richieste è un numero tra 1 e 50, nel caso non sia così il programma ci restituirà un messaggio di errore con il numerodi città accettabile.
-ESEMPIO (`Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi).`) :
+:mag: ESEMPIO (`Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi).`) :
 ![Screenshot (123)](https://user-images.githubusercontent.com/44706799/110493253-e2c60000-80f2-11eb-9991-7f7f221c4581.png)
-```
+```ruby
 {
     "timestamp": "2021-03-09T15:15:48.494+00:00",
     "status": 500,
@@ -322,9 +347,9 @@ ESEMPIO (`Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi).`)
 
 ## - ShortDatabaseException.java :
 Controlla se nel database contiene le informazioni sufficenti per creare statistiche del periodo scelto. In caso negato avremmo un messaggio di errore con la richiesta di scelgiere un periodo piu breve.
-ESEMPIO (`Database non contiene abbastanza informazioni. Scegliere un periodo più breve.`) :
+:mag: ESEMPIO (`Database non contiene abbastanza informazioni. Scegliere un periodo più breve.`) :
 ![Screenshot (121)](https://user-images.githubusercontent.com/44706799/110491675-cbd2de00-80f1-11eb-9158-62d66970d352.png)
-```
+```ruby
 {
     "timestamp": "2021-03-09T15:06:05.284+00:00",
     "status": 500,
@@ -338,10 +363,23 @@ ESEMPIO (`Database non contiene abbastanza informazioni. Scegliere un periodo pi
 }
 ```
 
-## - WrongPeriodException.java   :
+ ## - WrongPeriodException.java   :
 Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso contrario avremmo un messaggio di errore con riportati i periodi selezionabili.
-(`Periodo inserito incorretto. Scegliere tra: daily, weekly, monthly, oppure null se si vuole customperiod.`)
-
+:mag: ESEMPIO (`Periodo inserito incorretto. Scegliere tra: daily, weekly, monthly, oppure null se si vuole customperiod.`) :
+![Screenshot (127)](https://user-images.githubusercontent.com/44706799/110496477-cb3c4680-80f5-11eb-9bd1-e26409856d6d.png)
+```ruby
+{
+    "timestamp": "2021-03-09T15:35:35.955+00:00",
+    "status": 500,
+    "error": "Internal Server Error",
+    "trace": "InvalidDateException: Data inserita incorretta.\r\n\tat it.univpm.WeatherCloseRomeApp.controller.TempController.filters(TempController.java:193)\r\n\tat...
+    .
+    .
+    .
+    "message": "Periodo inserito incorretto. Scegliere tra: daily,weekly,monthly, oppure null se si vuole customperiod.",
+    "path": "/filters"
+}
+```
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # Test
 

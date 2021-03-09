@@ -11,7 +11,11 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidDateException;
+import it.univpm.WeatherCloseRomeApp.exceptions.InvalidFieldException;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
 import it.univpm.WeatherCloseRomeApp.models.City;
@@ -264,4 +268,67 @@ public class Filter {
 		return jarr;
 	}
 
+	public JSONArray orderFilterPeriod(String s, org.json.simple.JSONArray jarr) throws InvalidFieldException {
+		Stats stat = new Stats();
+		boolean scambio = true;
+		if (s.equals("Massimo") || s.equals("MASSIMO") || s.equals("massimo")) {
+			while (scambio) {
+				scambio = false;
+				for (int i = 1; i < jarr.size() - 1; i++) {
+					org.json.simple.JSONObject jobj = (JSONObject) jarr.get(i);
+					org.json.simple.JSONObject jobjsucc = (JSONObject) jarr.get(i + 1);
+					double paramsucc = (double) jobjsucc.get("Massimo");
+					double param = (double) jobj.get("Massimo");
+					if (paramsucc > param) {
+						stat.scambia(i, i + 1, jarr);
+						scambio = true;
+					}
+				}
+			}
+		} else if (s.equals("Minimo") || s.equals("MINIMO") || s.equals("minimo")) {
+			while (scambio) {
+				scambio = false;
+				for (int i = 0; i < jarr.size() - 1; i++) {
+					org.json.simple.JSONObject jobj = (JSONObject) jarr.get(i);
+					org.json.simple.JSONObject jobjsucc = (JSONObject) jarr.get(i + 1);
+					double paramsucc = (double) jobjsucc.get("Minimo");
+					double param = (double) jobj.get("Minimo");
+					if (paramsucc > param) {
+						stat.scambia(i, i + 1, jarr);
+						scambio = true;
+					}
+				}
+			}
+		} else if (s.equals("Media") || s.equals("MEDIA") || s.equals("media")) {
+			while (scambio) {
+				scambio = false;
+				for (int i = 0; i < jarr.size() - 1; i++) {
+					org.json.simple.JSONObject jobj = (JSONObject) jarr.get(i);
+					org.json.simple.JSONObject jobjsucc = (JSONObject) jarr.get(i + 1);
+					double paramsucc = (double) jobjsucc.get("Media");
+					double param = (double) jobj.get("Media");
+					if (paramsucc > param) {
+						stat.scambia(i, i + 1, jarr);
+						scambio = true;
+					}
+				}
+			}
+		} else if (s.equals("Varianza") || s.equals("VARIANZA") || s.equals("varianza")) {
+			while (scambio) {
+				scambio = false;
+				for (int i = 0; i < jarr.size() - 1; i++) {
+					org.json.simple.JSONObject jobj = (JSONObject) jarr.get(i);
+					org.json.simple.JSONObject jobjsucc = (JSONObject) jarr.get(i + 1);
+					double paramsucc = (double) jobjsucc.get("Varianza");
+					double param = (double) jobj.get("Varianza");
+					if (paramsucc > param) {
+						stat.scambia(i, i + 1, jarr);
+						scambio = true;
+					}
+				}
+			}
+		} else throw new InvalidFieldException();
+		return jarr;
+	}
+	
 }

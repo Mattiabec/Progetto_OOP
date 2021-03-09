@@ -60,8 +60,10 @@ public class TempController {
 	 * @return JSONObject con all'interno una stringa che dice se l'operazione è
 	 *         andata a buon fine
 	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
-	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal metodo
-	 * @throws IOException se si sono verificati errori durante la lettura/scrittura del file
+	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
+	 *                                metodo
+	 * @throws IOException            se si sono verificati errori durante la
+	 *                                lettura/scrittura del file
 	 */
 	@GetMapping(value = "/save")
 	public org.json.simple.JSONObject saving() throws InvalidNumberException, ClassNotFoundException, IOException {
@@ -80,8 +82,10 @@ public class TempController {
 	 * @return JSONObject con all'interno una stringa che dice se l'operazione è
 	 *         andata a buon fine
 	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
-	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal metodo
-	 * @throws IOException se si sono verificati errori durante la lettura/scrittura del file
+	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
+	 *                                metodo
+	 * @throws IOException            se si sono verificati errori durante la
+	 *                                lettura/scrittura del file
 	 */
 	@GetMapping(value = "/saveEvery5Hours")
 	public org.json.simple.JSONObject save5Hours() throws InvalidNumberException, ClassNotFoundException, IOException {
@@ -101,9 +105,11 @@ public class TempController {
 	 * @return JSONArray contenente un JSONObject per ogni città con le proprie
 	 *         statistiche
 	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
-	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal metodo
-	 * @throws IOException se si sono verificati errori durante la lettura/scrittura del file
-	 * @throws InvalidFieldException se il parametro s inserito non esiste
+	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
+	 *                                metodo
+	 * @throws IOException            se si sono verificati errori durante la
+	 *                                lettura/scrittura del file
+	 * @throws InvalidFieldException  se il parametro s inserito non esiste
 	 */
 	@GetMapping(value = "/stats")
 	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s)
@@ -119,8 +125,8 @@ public class TempController {
 	}
 
 	/**
-	 * Rotta di tipo GET che restituisce le date in cui sono stati salvati dati nel file
-	 * "database.dat"
+	 * Rotta di tipo GET che restituisce le date in cui sono stati salvati dati nel
+	 * file "database.dat"
 	 * 
 	 * @return JSONArray contente un JSONObject per ogni data
 	 */
@@ -140,31 +146,41 @@ public class TempController {
 
 	/**
 	 * Rotta di tipo POST che restituisce le statistiche relative uno specifico
-	 * periodo (daily, weekly, monthly) o ogni determinato giorno, una specifica città, uno specifico
-	 * numero di città, scrivendo in input un JSONObject del tipo:
+	 * periodo (daily, weekly, monthly) o ogni determinato giorno, una specifica
+	 * città, uno specifico numero di città, scrivendo in input un JSONObject del
+	 * tipo:
 	 * 
-	 * { "count": 5, "period": "daily", "data": "2021-03-09", "customPeriod": "", "name": "" }
+	 * { "count": 5, "period": "daily", "data": "2021-03-09", "customPeriod": "",
+	 * "name": "" }
 	 *
 	 * Oppure:
 	 * 
-	 * { "count": 5, "period": "", "data": "2021-03-06", "customPeriod": 1, "name": "" }
+	 * { "count": 5, "period": "", "data": "2021-03-06", "customPeriod": 1, "name":
+	 * "" }
 	 * 
 	 * @param filtering rappresenta il JSONObject in input
 	 * @return JSONArray contenente un JSONObject per ogni città filtrata
-	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal metodo
-	 * @throws IOException se si sono verificati errori durante la lettura/scrittura del file
+	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
+	 *                                metodo
+	 * @throws IOException            se si sono verificati errori durante la
+	 *                                lettura/scrittura del file
 	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
-	 * @throws InvalidDateException se non si hanno dati nel database della data inserita
-	 * @throws WrongPeriodException se il "period" inserito è sbagliato
-	 * @throws ShortDatabaseException se nel "period" scelto non si hanno dati sufficienti
+	 * @throws InvalidDateException   se non si hanno dati nel database della data
+	 *                                inserita
+	 * @throws WrongPeriodException   se il "period" inserito è sbagliato
+	 * @throws ShortDatabaseException se nel "period" scelto non si hanno dati
+	 *                                sufficienti
+	 * @throws InvalidFieldException  se il parametro s inserito non esiste
 	 */
 	@PostMapping("/filters")
-	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering) throws ClassNotFoundException,
-			IOException, InvalidNumberException, InvalidDateException, WrongPeriodException, ShortDatabaseException {
+	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering,
+			@RequestParam(name = "field", defaultValue = "") String s)
+			throws ClassNotFoundException, IOException, InvalidNumberException, InvalidDateException,
+			WrongPeriodException, ShortDatabaseException, InvalidFieldException {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		int cnt = filtering.getCount();
-		if (cnt == 0 || cnt > 50) {
+		if (cnt <= 0 || cnt > 50) {
 			throw new InvalidNumberException();
 		}
 		String data = filtering.getData();
@@ -173,6 +189,8 @@ public class TempController {
 		case "DAILY":
 		case "daily": {
 			jreturn = filter.filterPeriod(cnt, data, 1, filtering.getName());
+			if (!s.equals(""))
+				jreturn = filter.orderFilterPeriod(s, jreturn);
 			break;
 		}
 
@@ -180,6 +198,8 @@ public class TempController {
 		case "WEEKLY":
 		case "weekly": {
 			jreturn = filter.filterPeriod(cnt, data, 7, filtering.getName());
+			if (!s.equals(""))
+				jreturn = filter.orderFilterPeriod(s, jreturn);
 			break;
 		}
 
@@ -187,13 +207,22 @@ public class TempController {
 		case "MONTHLY":
 		case "monthly": {
 			jreturn = filter.filterPeriod(cnt, data, 30, filtering.getName());
+			if (!s.equals(""))
+				jreturn = filter.orderFilterPeriod(s, jreturn);
 			break;
 		}
 
 		default:
-			if (filtering.getPeriod().equals("") && filtering.getCustomPeriod() != 0) {
-				jreturn = filter.jumpPeriod(cnt, data, filtering.getCustomPeriod(), filtering.getName());
-				break;
+			if (filtering.getPeriod().equals("")) {
+				if (filtering.getCustomPeriod() != 0) {
+					jreturn = filter.jumpPeriod(cnt, data, filtering.getCustomPeriod(), filtering.getName());
+					if (!s.equals(""))
+						jreturn = filter.orderFilterPeriod(s, jreturn);
+					break;
+				} else {
+					throw new WrongPeriodException();
+				}
+
 			} else {
 				throw new WrongPeriodException();
 			}
