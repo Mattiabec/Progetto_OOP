@@ -18,6 +18,16 @@ In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'att
 
 ![Diagramma delle classi (1)](https://user-images.githubusercontent.com/44706799/110305557-19215380-7ffd-11eb-80cd-dcbd86479a32.jpg)
 
+Come possiamo vedere abbiamo diversi package:
+
+- Package controller : contiene le classi TempController
+- Package service    : contiene le classi TempService e TempServiceImpl
+- Package models     : contiene le classi City, FilterBody e SaveModel
+- Package utilities  : contiene le classi Stats e Filters
+- Package exceptions : contiene tutte le eccezioni
+
+
+
 ## Sequence Diagram
 
 ![Diagramma delle sequenze](https://user-images.githubusercontent.com/44706799/110305616-2b9b8d00-7ffd-11eb-9335-2cd0d0d514b1.jpg)
@@ -27,7 +37,7 @@ In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'att
 Sono fondamentali per il funzionamento del programma e per la raccolta dati. Con il programma *Postman* possiamo usare le rotte, sotto elencate, per far funzionare il nostro servizio.
 ## API
 Per rispondere alle richieste degli utenti e avere un database abbiamo usato l'api: https://openweathermap.org/current#cycle.
-## Rotte
+## 🚩 Rotte
 Le rotte definite sono le seguenti:
 
 N° | Tipo | Rotta | Descrizione
@@ -38,7 +48,7 @@ N° | Tipo | Rotta | Descrizione
 [4](#4) | ` GET ` | `/date` | *restituisce le date nel file in una stringa*
 [5](#5) | ` POST ` | `/filters` | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
 
-#### GET\temp:
+### :round_pushpin: GET\temp:
 L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 1 a 50),altrimenti verranno riportate 7 città.
 Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visualizzare, con: temp, tempMin, tempMax, id (della città), nome (della città).
 
@@ -123,17 +133,17 @@ Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visuali
 ```
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-#### GET\save:
+### :round_pushpin: GET\save:
 Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.  
 :mag: ESEMPIO :
 ![Screenshot (129)](https://user-images.githubusercontent.com/44706799/110497692-fc694680-80f6-11eb-966e-9a6047b1fe75.png)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-#### GET\stats:
+### :round_pushpin: GET\stats:
 Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza. Per il numero di città volute e ordinate secondo un parametro scelto.
 
-:mag: ESEMPIO 1 (ordinati per la vicinanza al centro di roma, default):
+:mag: ESEMPIO 1 (\stats ordinati per la vicinanza al centro di roma, default):
 
 ![Screenshot (89)](https://user-images.githubusercontent.com/44706799/110314929-cbaae380-8008-11eb-8aed-94978654326d.png)
 ```ruby
@@ -214,7 +224,7 @@ Ci restituisce le statistiche per ogni città: valore massimo e minimo di temper
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-#### GET\data:
+### :round_pushpin: GET\data:
 Ci  mostra le date disponibili nel database in cui sono state salvate le temperature (il server non ha tutte le date perche è attivato da noi, solo in alcuni momenti) 
 
 :mag: ESEMPIO :
@@ -238,7 +248,7 @@ Ci  mostra le date disponibili nel database in cui sono state salvate le tempera
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-#### POST\filtres:
+### :round_pushpin: POST\filtres:
 Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.
 
 :mag: ESEMPIO 1 (\filters 1 città, periodo  giornaliero, data 8\3\21) :
@@ -280,7 +290,7 @@ Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-# Eccezioni
+# :no_entry: Eccezioni
 ## - InvalidDateException.java   : 
 Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia incorretta, si chiede di controllare la rotta `/date` per le date disponibili.
 :mag: ESEMPIO (`Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.`) :
@@ -353,7 +363,7 @@ Controlla se nel database contiene le informazioni sufficenti per creare statist
 }
 ```
 
-## - WrongPeriodException.java   :
+ ## - WrongPeriodException.java   :
 Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso contrario avremmo un messaggio di errore con riportati i periodi selezionabili.
 :mag: ESEMPIO (`Periodo inserito incorretto. Scegliere tra: daily, weekly, monthly, oppure null se si vuole customperiod.`) :
 ![Screenshot (127)](https://user-images.githubusercontent.com/44706799/110496477-cb3c4680-80f5-11eb-9bd1-e26409856d6d.png)
