@@ -300,7 +300,21 @@ ESEMPIO (`Data inserita incorretta. Controllare la rotta \"/date\" per le date d
 
 ## - InvalidFieldException.java  :
 Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta ci ridà un messaggio di errore con i campi disponibili nel filtraggio.
-(`Campo errato. I campi disponibili sono massimo,minimo,media,varianza.`)
+ESEMPIO (`Campo errato. I campi disponibili sono massimo,minimo,media,varianza.`) :
+![Screenshot (125)](https://user-images.githubusercontent.com/44706799/110495944-4c470e00-80f5-11eb-82a6-d0a05d15ed1f.png)
+```
+{
+    "timestamp": "2021-03-09T15:33:18.067+00:00",
+    "status": 500,
+    "error": "Internal Server Error",
+    "trace": "InvalidFieldException: campo errato.\r\n\tat it.univpm.WeatherCloseRomeApp.utilities.Stats.orderStats(Stats.java:134)\r\n\tat...
+    .
+    .
+    .
+    "message": "Campo errato. I campi disponibili sono massimo,minimo,media,varianza.",
+    "path": "/stats"
+}
+```
 
 ## - InvalidNumberException.java :
 Controlla se il numero di città richieste è un numero tra 1 e 50, nel caso non sia così il programma ci restituirà un messaggio di errore con il numerodi città accettabile.
@@ -340,8 +354,21 @@ ESEMPIO (`Database non contiene abbastanza informazioni. Scegliere un periodo pi
 
 ## - WrongPeriodException.java   :
 Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso contrario avremmo un messaggio di errore con riportati i periodi selezionabili.
-(`Periodo inserito incorretto. Scegliere tra: daily, weekly, monthly, oppure null se si vuole customperiod.`)
-
+ESEMPIO (`Periodo inserito incorretto. Scegliere tra: daily, weekly, monthly, oppure null se si vuole customperiod.`) :
+![Screenshot (127)](https://user-images.githubusercontent.com/44706799/110496477-cb3c4680-80f5-11eb-9bd1-e26409856d6d.png)
+```
+{
+    "timestamp": "2021-03-09T15:35:35.955+00:00",
+    "status": 500,
+    "error": "Internal Server Error",
+    "trace": "InvalidDateException: Data inserita incorretta.\r\n\tat it.univpm.WeatherCloseRomeApp.controller.TempController.filters(TempController.java:193)\r\n\tat...
+    .
+    .
+    .
+    "message": "Periodo inserito incorretto. Scegliere tra: daily,weekly,monthly, oppure null se si vuole customperiod.",
+    "path": "/filters"
+}
+```
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # Test
 
