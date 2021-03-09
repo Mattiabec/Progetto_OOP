@@ -20,14 +20,12 @@ import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 
 class StatsAndFiltersTest {
 
-	private TempServiceImpl service;
 	private Stats stat;
 	private Filter filter;
 	private TempController controller;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		service = new TempServiceImpl();
 		stat = new Stats();
 		filter = new Filter();
 		controller = new TempController();
@@ -39,7 +37,7 @@ class StatsAndFiltersTest {
 
 	@Test
 	@DisplayName("Corretta esecuzione di InvalidFieldException")
-	void test1() {
+	void IFEtest() {
 		InvalidFieldException e = assertThrows(InvalidFieldException.class, () -> {
 			stat.orderStats("max", 3);
 		});
@@ -49,7 +47,7 @@ class StatsAndFiltersTest {
 
 	@Test
 	@DisplayName("Corretta esecuzione di InvalidDateException")
-	void test2() {
+	void IDETest() {
 		String data = "12-12-1999";
 		Vector<String> datedisponibili = filter.DateDisponibili();
 		if (!datedisponibili.contains(data)) {
@@ -62,7 +60,7 @@ class StatsAndFiltersTest {
 
 	@Test
 	@DisplayName("Corretta esecuzione ShortDatabaseException")
-	void test3() {
+	void SDETest() {
 		int numdays = 30;
 		Vector<String> datedisponibili = filter.DateDisponibili();
 		String data0 = datedisponibili.get(0);
@@ -74,7 +72,7 @@ class StatsAndFiltersTest {
 	
 	@Test
 	@DisplayName("Corretta esecuzione WrongPeriodException")
-	void test4() {
+	void WPETest() {
 		FilterBody filtering = new FilterBody();
 		filtering.setPeriod("mensile");
 		filtering.setCount(5);
