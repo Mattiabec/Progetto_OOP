@@ -124,8 +124,9 @@ ESEMPIO 2 (\temp con 2 città) :
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 * GET\save:
-Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.
-
+Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.  
+ESEMPIO :
+![Screenshot (129)](https://user-images.githubusercontent.com/44706799/110497692-fc694680-80f6-11eb-966e-9a6047b1fe75.png)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
@@ -240,7 +241,7 @@ ESEMPIO :
 * POST\filtres:
 Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.
 
-ESEMPIO (\filters 1 città, periodo  giornaliero, data 8\3\21) :
+ESEMPIO 1 (\filters 1 città, periodo  giornaliero, data 8\3\21) :
 ![Screenshot (91)](https://user-images.githubusercontent.com/44706799/110316197-adde7e00-800a-11eb-9c76-e2052a547894.png)
 ```ruby
 [
@@ -254,7 +255,7 @@ ESEMPIO (\filters 1 città, periodo  giornaliero, data 8\3\21) :
     }
 ]
 ```
-ESEMPIO (\filters ricerca tra tutte le citta di nomi contenenti "castel", periodo  giornaliero, data 8\3\21) :
+ESEMPIO 2 (\filters ricerca tra tutte le citta di nomi contenenti "castel", periodo  giornaliero, data 8\3\21) :
 ![Screenshot (111)](https://user-images.githubusercontent.com/44706799/110329452-e4bd8f80-801c-11eb-960c-df80a7999411.png)
 ```ruby
 [
