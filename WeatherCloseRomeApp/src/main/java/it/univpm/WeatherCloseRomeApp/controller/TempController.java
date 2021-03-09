@@ -53,10 +53,11 @@ public class TempController {
 	 * @return
 	 */
 	@GetMapping(value = "/save")
-	public void saving() {
+	public org.json.simple.JSONObject saving() {
 
+		org.json.simple.JSONObject jret = new org.json.simple.JSONObject();
 		try {
-			tempservice.save();
+			jret= tempservice.save();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -64,6 +65,8 @@ public class TempController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return jret;
+		
 	}
 
 	/**

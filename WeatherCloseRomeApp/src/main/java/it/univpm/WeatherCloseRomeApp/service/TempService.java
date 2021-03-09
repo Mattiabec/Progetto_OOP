@@ -15,7 +15,7 @@ public interface TempService {
 
 	public Vector<City> getVector(int cnt);
 
-	public void save() throws IOException, ClassNotFoundException;
+	public org.json.simple.JSONObject save() throws IOException, ClassNotFoundException;
 
-	public void saveEvery5Hours();
+	public org.json.simple.JSONObject saveEvery5Hours();
 }

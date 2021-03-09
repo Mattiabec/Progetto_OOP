@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -38,6 +39,7 @@ import it.univpm.WeatherCloseRomeApp.models.City;
 public class TempServiceImpl implements TempService {
 
 	String API_KEY = "008c7fc03fb19021c703f488733a8695";
+	String message;
 
 	public JSONObject APICall(int cnt) {
 
@@ -158,8 +160,9 @@ public class TempServiceImpl implements TempService {
 		return cities;
 	}
 
-	public void save() throws IOException, ClassNotFoundException {
+	public JSONObject save() throws IOException, ClassNotFoundException {
 		
+		org.json.simple.JSONObject jret = new org.json.simple.JSONObject();
 		String path = System.getProperty("user.dir") + "/database.dat";
 		File f = new File(path);
 		TempServiceImpl tempser = new TempServiceImpl();
@@ -175,6 +178,7 @@ public class TempServiceImpl implements TempService {
 			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
 			savings.add(saveobj);
 			out.writeObject(savings);
+			message= "OK";
 			out.close();
 		} else {
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
@@ -184,12 +188,16 @@ public class TempServiceImpl implements TempService {
 			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
 			savings.add(saveobj);
 			out.writeObject(savings);
+			message = "OK";
 			out.close();
 		}
+		jret.put("STATUS", message);
+		return jret;
 	}
 
-	public void saveEvery5Hours() {
+	public org.json.simple.JSONObject saveEvery5Hours() {
 		
+		org.json.simple.JSONObject jret= new org.json.simple.JSONObject();
 		ScheduledExecutorService schedule = Executors.newSingleThreadScheduledExecutor();
 		schedule.scheduleAtFixedRate(new Runnable() {
 
@@ -205,6 +213,8 @@ public class TempServiceImpl implements TempService {
 				}
 			}
 		}, 0, 5, TimeUnit.HOURS);
+		jret.put("STATUS", message);
+		return jret;
 	}
 
 }
