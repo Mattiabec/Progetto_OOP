@@ -152,10 +152,11 @@ public class TempController {
 	 * @throws InvalidDateException
 	 * @throws WrongPeriodException
 	 * @throws ShortDatabaseException
+	 * @throws InvalidFieldException 
 	 */
 	@PostMapping("/filters")
-	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering) throws ClassNotFoundException,
-			IOException, InvalidNumberException, InvalidDateException, WrongPeriodException, ShortDatabaseException {
+	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering, @RequestParam(name="field", defaultValue="") String s) throws ClassNotFoundException,
+			IOException, InvalidNumberException, InvalidDateException, WrongPeriodException, ShortDatabaseException, InvalidFieldException {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		int cnt = filtering.getCount();
@@ -168,6 +169,7 @@ public class TempController {
 		case "DAILY":
 		case "daily": {
 			jreturn = filter.filterPeriod(cnt, data, 1, filtering.getName());
+			if (!s.equals("")) jreturn = filter.orderFilterPeriod(s, jreturn);
 			break;
 		}
 
@@ -175,6 +177,7 @@ public class TempController {
 		case "WEEKLY":
 		case "weekly": {
 			jreturn = filter.filterPeriod(cnt, data, 7, filtering.getName());
+			if (!s.equals("")) jreturn = filter.orderFilterPeriod(s, jreturn);
 			break;
 		}
 
@@ -182,6 +185,7 @@ public class TempController {
 		case "MONTHLY":
 		case "monthly": {
 			jreturn = filter.filterPeriod(cnt, data, 30, filtering.getName());
+			if (!s.equals("")) jreturn = filter.orderFilterPeriod(s, jreturn);
 			break;
 		}
 
@@ -189,6 +193,7 @@ public class TempController {
 			if (filtering.getPeriod().equals("")) {
 				if (filtering.getCustomPeriod() != 0) {
 					jreturn = filter.jumpPeriod(cnt, data, filtering.getCustomPeriod(), filtering.getName());
+					if (!s.equals("")) jreturn = filter.orderFilterPeriod(s, jreturn);
 					break;
 				} else {
 					throw new WrongPeriodException();

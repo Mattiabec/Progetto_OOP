@@ -80,7 +80,7 @@ class StatsAndFiltersTest {
 		filtering.setCount(5);
 		filtering.setData("2021-03-05");
 		WrongPeriodException e = assertThrows(WrongPeriodException.class, () -> {
-			controller.filters(filtering);
+			controller.filters(filtering, "");
 		});
 		assertEquals("WrongPeriodException: periodo inserito incorretto.", e.toString());
 	}
