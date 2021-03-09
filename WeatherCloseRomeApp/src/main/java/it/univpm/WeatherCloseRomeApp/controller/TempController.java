@@ -33,43 +33,49 @@ public class TempController {
 	private TempServiceImpl tempservice;
 	private Stats stat = new Stats();
 	private Filter filter = new Filter();
-	
+
 	/**
-	 * Rotta di tipo GET che restituisce le informazioni relative alla temperatura attuali, nome città e id città
+	 * Rotta di tipo GET che restituisce le informazioni relative alla temperatura
+	 * attuali, nome città e id città
 	 * 
-	 * @param count rappresenta il numero di città di cui vogliamo conoscere le informazioni relative la temperatura
-	 * @return JSONArray contenente un JSONObject per ogni città con le temperature, nome e id
-	 * @throws InvalidNumberException 
+	 * @param count rappresenta il numero di città di cui vogliamo conoscere le
+	 *              informazioni relative la temperatura
+	 * @return JSONArray contenente un JSONObject per ogni città con le temperature,
+	 *         nome e id
+	 * @throws InvalidNumberException
 	 */
 	@GetMapping(value = "/temp")
-	public org.json.simple.JSONArray temp(@RequestParam(name = "number", defaultValue = "7") int count) throws InvalidNumberException {
+	public org.json.simple.JSONArray temp(@RequestParam(name = "number", defaultValue = "7") int count)
+			throws InvalidNumberException {
 
 		return tempservice.getJSONList(count);
 	}
 
 	/**
-	 * Rotta di tipo GET che salva in un file "database.dat" le informazioni relative alla temperatura attuali
+	 * Rotta di tipo GET che salva in un file "database.dat" le informazioni
+	 * relative alla temperatura attuali
 	 * 
 	 * @return
-	 * @throws InvalidNumberException 
+	 * @throws InvalidNumberException
 	 */
 	@GetMapping(value = "/save")
 	public org.json.simple.JSONObject saving() throws InvalidNumberException, ClassNotFoundException, IOException {
 
 		org.json.simple.JSONObject jret = new org.json.simple.JSONObject();
-		jret= tempservice.save();
-		
+		jret = tempservice.save();
+
 		return jret;
-		
+
 	}
 
 	/**
-	 * Rotta di tipo GET che salva ogni 5 ore in un file "database.dat" le informazioni relative alla temperatura attuali
+	 * Rotta di tipo GET che salva ogni 5 ore in un file "database.dat" le
+	 * informazioni relative alla temperatura attuali
 	 * 
 	 * @return
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
-	 * @throws InvalidNumberException 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws InvalidNumberException
 	 */
 	@GetMapping(value = "/saveEvery5Hours")
 	public org.json.simple.JSONObject save5Hours() throws ClassNotFoundException, IOException, InvalidNumberException {
@@ -81,37 +87,37 @@ public class TempController {
 	}
 
 	/**
-	 * Rotta di tipo GET che restituisce le statistiche senza filtri, dei dati salvati nel file "database.dat" e permette
-	 * il loro ordinamento decrescente in base al paramentro scelto (Massimo, Minimo, Media, Varianza)
+	 * Rotta di tipo GET che restituisce le statistiche senza filtri, dei dati
+	 * salvati nel file "database.dat" e permette il loro ordinamento decrescente in
+	 * base al paramentro scelto (Massimo, Minimo, Media, Varianza)
 	 * 
 	 * @param s rappresenta il parametro di interesse da ordinare
-	 * @return JSONArray contenente un JSONObject per ogni città con le proprie statistiche
-	 * @throws InvalidNumberException 
+	 * @return JSONArray contenente un JSONObject per ogni città con le proprie
+	 *         statistiche
+	 * @throws InvalidNumberException
 	 */
 	@GetMapping(value = "/stats")
-	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s) throws InvalidNumberException {
+	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s)
+			throws InvalidNumberException, ClassNotFoundException, IOException {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		if (s.equals("")) {
-			try {
-				jreturn = stat.stats(50);
-			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
+			jreturn = stat.stats(50);
 		} else
 			jreturn = stat.orderStats(s, 50);
 		return jreturn;
 	}
 
 	/**
-	 * Rotta di tipo GET che restituisce le date in cui sono presenti dati nel file "database.dat"
+	 * Rotta di tipo GET che restituisce le date in cui sono presenti dati nel file
+	 * "database.dat"
 	 * 
 	 * @return JSONArray contente un JSONObject per ogni data
 	 */
 	@GetMapping("/date")
 	public org.json.simple.JSONArray datedisponibili() {
-		
+
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		Vector<String> datestr = filter.DateDisponibili();
 		Iterator<String> iterstr = datestr.iterator();
@@ -124,26 +130,17 @@ public class TempController {
 	}
 
 	/**
-	 * Rotta di tipo POST che restituisce le statistiche relative uno specifico periodo (daily, weekly, monthly), una
-	 * specifica città, uno specifico numero di città, scrivendo in input un JSONObject del tipo:
+	 * Rotta di tipo POST che restituisce le statistiche relative uno specifico
+	 * periodo (daily, weekly, monthly), una specifica città, uno specifico numero
+	 * di città, scrivendo in input un JSONObject del tipo:
 	 * 
-	 *	{
-     *		"count": 5,
-     *		"period": "daily",
-     *		"data": "2021-03-06",
-     *		"customPeriod":,
-     *		"name": ""
-	 *	}
+	 * { "count": 5, "period": "daily", "data": "2021-03-06", "customPeriod":,
+	 * "name": "" }
 	 *
 	 * Oppure:
 	 * 
-	 *	{
-     *		"count": 5,
-     *		"period": "",
-     *		"data": "2021-03-06",
-     *		"customPeriod":1,
-     *		"name":""
-	 *	}
+	 * { "count": 5, "period": "", "data": "2021-03-06", "customPeriod":1, "name":""
+	 * }
 	 * 
 	 * @param filtering rappresenta il JSONObject in input
 	 * @return JSONArray contenente un JSONObject per ogni città
@@ -157,7 +154,7 @@ public class TempController {
 	@PostMapping("/filters")
 	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering) throws ClassNotFoundException,
 			IOException, InvalidNumberException, InvalidDateException, WrongPeriodException, ShortDatabaseException {
-		
+
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		int cnt = filtering.getCount();
 		if (cnt == 0 || cnt > 50) {
