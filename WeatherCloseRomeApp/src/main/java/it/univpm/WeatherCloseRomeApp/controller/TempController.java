@@ -24,7 +24,6 @@ import it.univpm.WeatherCloseRomeApp.utilities.Stats;
  * Classe controller che gestisce tutte le rotte del programma
  * 
  * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
- *
  */
 
 @RestController
@@ -67,7 +66,9 @@ public class TempController {
 	}
 
 	/**
+	 * Rotta di tipo GET che salva ogni 5 ore in un file "database.dat" le informazioni relative alla temperatura attuali
 	 * 
+	 * @return
 	 */
 	@GetMapping(value = "/saveEvery5Hours")
 	public void save5Hours() {
@@ -76,9 +77,11 @@ public class TempController {
 	}
 
 	/**
+	 * Rotta di tipo GET che restituisce le statistiche senza filtri, dei dati salvati nel file "database.dat" e permette
+	 * il loro ordinamento decrescente in base al paramentro scelto (Massimo, Minimo, Media, Varianza)
 	 * 
-	 * @param s
-	 * @return
+	 * @param s rappresenta il parametro di interesse da ordinare
+	 * @return JSONArray contenente un JSONObject per ogni città con le proprie statistiche
 	 */
 	@GetMapping(value = "/stats")
 	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s) {
@@ -97,8 +100,9 @@ public class TempController {
 	}
 
 	/**
+	 * Rotta di tipo GET che restituisce le date in cui sono presenti dati nel file "database.dat"
 	 * 
-	 * @return
+	 * @return JSONArray contente un JSONObject per ogni data
 	 */
 	@GetMapping("/date")
 	public org.json.simple.JSONArray datedisponibili() {
@@ -115,9 +119,29 @@ public class TempController {
 	}
 
 	/**
+	 * Rotta di tipo POST che restituisce le statistiche relative uno specifico periodo (daily, weekly, monthly), una
+	 * specifica città, uno specifico numero di città, scrivendo in input un JSONObject del tipo:
 	 * 
-	 * @param filtering
-	 * @return
+	 *	{
+     *		"count": 5,
+     *		"period": "daily",
+     *		"data": "2021-03-06",
+     *		"customPeriod":,
+     *		"name": ""
+	 *	}
+	 *
+	 * Oppure:
+	 * 
+	 *	{
+     *		"count": 5,
+     *		"period": "",
+     *		"data": "2021-03-06",
+     *		"customPeriod":1,
+     *		"name":""
+	 *	}
+	 * 
+	 * @param filtering rappresenta il JSONObject in input
+	 * @return JSONArray contenente un JSONObject per ogni città
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 * @throws InvalidNumberException
