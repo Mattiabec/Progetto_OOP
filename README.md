@@ -282,23 +282,37 @@ ESEMPIO (\filters ricerca tra tutte le citta di nomi contenenti "castel", period
 # Eccezioni
 ## - InvalidDateException.java   : 
 Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia incorretta, si chiede di controllare la rotta `/date` per le date disponibili.
-(`Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.`)
+ESEMPIO (`Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.`) :
+![Screenshot (117)](https://user-images.githubusercontent.com/44706799/110466383-062e8200-80d6-11eb-8943-0562da92b201.png)
+```
+{
+    "timestamp": "2021-03-09T11:43:37.275+00:00",
+    "status": 500,
+    "error": "Internal Server Error",
+    "trace": "InvalidDateException: Data inserita incorretta.\r\n\tat it.univpm.WeatherCloseRomeApp.utilities.Filter.filterPeriod(Filter.java:108)\r\n\tat 
+    .
+    .
+    .
+    "message": "Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.",
+    "path": "/filters"
+}
+```
 
 ## - InvalidFieldException.java  :
 Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta ci ridà un messaggio di errore con i campi disponibili nel filtraggio.
 (`Campo errato. I campi disponibili sono massimo,minimo,media,varianza.`)
 
 ## - InvalidNumberException.java :
-
+Controlla se il numero di città richieste è un numero tra 1 e 50, nel caso non sia così il programma ci restituirà un messaggio di errore con il numerodi città accettabile.
 (`Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi).`)
 
 ## - ShortDatabaseException.java :
-
+Controlla se nel database contiene le informazioni sufficenti per creare statistiche del periodo scelto. In caso negato avremmo un messaggio di errore con la richiesta di scelgiere un periodo piu breve.
 (`Database non contiene abbastanza informazioni. Scegliere un periodo più breve.`)
 
 ## - WrongPeriodException.java   :
-
-(`Periodo inserito incorretto. Scegliere tra: daily,weekly,monthly, oppure null se si vuole customperiod.`)
+Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso contrario avremmo un messaggio di errore con riportati i periodi selezionabili.
+(`Periodo inserito incorretto. Scegliere tra: daily, weekly, monthly, oppure null se si vuole customperiod.`)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # Test
