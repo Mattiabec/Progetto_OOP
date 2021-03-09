@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import org.json.simple.JSONObject;
 
+import it.univpm.WeatherCloseRomeApp.exceptions.InvalidFieldException;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.models.City;
 import it.univpm.WeatherCloseRomeApp.models.SaveModel;
@@ -63,7 +64,7 @@ public class Stats {
 	}
 
 	
-	public org.json.simple.JSONArray orderStats(String s, int cnt) throws InvalidNumberException {
+	public org.json.simple.JSONArray orderStats(String s, int cnt) throws InvalidNumberException, InvalidFieldException {
 		
 		Stats stat = new Stats();
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
@@ -130,7 +131,7 @@ public class Stats {
 					}
 				}
 			}
-		}
+		} else throw new InvalidFieldException();
 		return jarr;
 	}
 

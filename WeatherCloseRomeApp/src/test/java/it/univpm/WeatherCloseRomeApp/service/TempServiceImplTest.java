@@ -55,7 +55,7 @@ class TempServiceImplTest {
 	}
 
 	@Test
-
+	@DisplayName("Verifica funzionalità metodo scambia().")
 	void test3() {
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		org.json.simple.JSONObject jobj0 = new org.json.simple.JSONObject();

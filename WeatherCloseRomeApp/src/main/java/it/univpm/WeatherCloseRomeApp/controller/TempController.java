@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidDateException;
+import it.univpm.WeatherCloseRomeApp.exceptions.InvalidFieldException;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
 import it.univpm.WeatherCloseRomeApp.exceptions.WrongPeriodException;
@@ -95,10 +96,11 @@ public class TempController {
 	 * @return JSONArray contenente un JSONObject per ogni città con le proprie
 	 *         statistiche
 	 * @throws InvalidNumberException
+	 * @throws InvalidFieldException 
 	 */
 	@GetMapping(value = "/stats")
 	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s)
-			throws InvalidNumberException, ClassNotFoundException, IOException {
+			throws InvalidNumberException, ClassNotFoundException, IOException, InvalidFieldException {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		if (s.equals("")) {

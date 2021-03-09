@@ -15,7 +15,7 @@ import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
 import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 
-class StatsAndFiltersTEST {
+class StatsAndFiltersTest {
 
 	private TempServiceImpl service;
 	private Stats stat;
