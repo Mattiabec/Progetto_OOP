@@ -357,7 +357,7 @@ Abbiamo scritto 5 eccezioni: [InvalidDate](#id), [InvalidField](#if), [InvalidNu
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="id"></a>
-## - InvalidDateException.java   :
+### :x: InvalidDateException.java   :
 Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia incorretta, si chiede di controllare la rotta `/date` per le date disponibili.
 
 :mag: ESEMPIO (`Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.`) :
@@ -379,7 +379,7 @@ Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia 
 
 <a name="if"></a>
 
-## - InvalidFieldException.java   :
+### :x: InvalidFieldException.java   :
 Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta ci ridà un messaggio di errore con i campi disponibili nel filtraggio.
 
 :mag: ESEMPIO (`Campo errato. I campi disponibili sono massimo,minimo,media,varianza.`) :
@@ -401,7 +401,7 @@ Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta
 
 <a name="in"></a>
 
-## - InvalidNumberException.java   :
+### :x: InvalidNumberException.java   :
 Controlla se il numero di città richieste è un numero tra 1 e 50, nel caso non sia così il programma ci restituirà un messaggio di errore con il numerodi città accettabile.
 
 :mag: ESEMPIO (`Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi).`) :
@@ -422,7 +422,7 @@ Controlla se il numero di città richieste è un numero tra 1 e 50, nel caso non
 ```
 
 <a name="sd"></a>
-## - ShortDatabaseException.java   :
+### :x: ShortDatabaseException.java   :
 Controlla se nel database contiene le informazioni sufficenti per creare statistiche del periodo scelto. In caso negato avremmo un messaggio di errore con la richiesta di scelgiere un periodo piu breve.
 
 :mag: ESEMPIO (`Database non contiene abbastanza informazioni. Scegliere un periodo più breve.`) :
@@ -443,7 +443,7 @@ Controlla se nel database contiene le informazioni sufficenti per creare statist
 ```
 
 <a name="wp"></a>
-## - WrongPeriodException.java   :
+### :x: WrongPeriodException.java   :
 Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso contrario avremmo un messaggio di errore con riportati i periodi selezionabili.
 
 :mag: ESEMPIO (`Periodo inserito incorretto. Scegliere tra: daily, weekly, monthly, oppure null se si vuole customperiod.`) :
