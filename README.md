@@ -489,11 +489,48 @@ Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso c
 
 <a name="test"></a>
 # :ok: Test
-Abbiamo fatto dei test come possiamo vedere nel Diagramma delle classi ....
+Abbiamo fatto diversi test per verificare il giusto e corretto funzionamento del programma.
+Test effettuati:
+* Test City
+* Scambia Test
+* 
+*
+
 ![ClassDiagram TestClass](https://user-images.githubusercontent.com/44706799/110626151-ab159180-81a0-11eb-9145-d4e5aa42ee82.jpg)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna ai Test](#test) [:ok:](#test)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# Strumenti utilizzati
+Software utilizzati:
+* Eclipse - IDE che abbiamo usato per scrivere il programma
+* SpringBoot - ????
+* PostMan - Programma per testare il funzionamento del programma e l'iterazione con l'API
+* UMLGenerator - programma usato per creare i diagrami UML ???
+* JUnit per i test ???
+* Github - lo abbiamo usato come repository del programma ???
+
+Librerie usate in Eclipse
+* Spring Inizializr
+* Spring Tool 4
+* Maven Integration for Eclipse (m4e)
+* JSON simple ????
+* ???
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+[indice](#indice) [:house:](#indice) ------- [ritorna ai Software e Librerie](#soft) [xxxxxxx](#soft)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# Come far funzionare il programma
+* avviare Eclipse
+* Importare il progetto facendo il cloning usando l'url di questa pagina
+* Lanciare l'applicazione `WeatherCloseRomeAppApplication.java` con *Spring Boot App* (in *run as*)
+* Avviare Postman e seguire gli esempi in [Rotte](#rotte) .
+* Interrogare le API usate dal nostro programma usando le [Rotte](#rotte) come negli esempi precedenti.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+[indice](#indice) [:house:](#indice) ------- [ritorna ai Software e Librerie](#soft) [xxxxxxx](#soft)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="autori"></a>
