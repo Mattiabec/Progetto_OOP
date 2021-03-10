@@ -33,7 +33,7 @@ class TempServiceImplTest {
 
 	@Test
 	@DisplayName("Costruttore City.")
-	void test1() {
+	void testCity() {
 		City c1 = new City(12345L, "Napoli", 300.0, 301.0, 299.0);
 
 		assertEquals(12345L, c1.getID());
@@ -45,7 +45,7 @@ class TempServiceImplTest {
 
 	@Test
 	@DisplayName("Corretta generazione dell'eccezione InvalidNumberException.")
-	void test2() {
+	void INETest() {
 		int cnt = 51;
 		InvalidNumberException e = assertThrows(InvalidNumberException.class, () -> {
 			service.APICall(cnt);
@@ -56,7 +56,7 @@ class TempServiceImplTest {
 
 	@Test
 	@DisplayName("Verifica funzionalità metodo scambia().")
-	void test3() {
+	void scambiaTest() {
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		org.json.simple.JSONObject jobj0 = new org.json.simple.JSONObject();
 		org.json.simple.JSONObject jobj1 = new org.json.simple.JSONObject();
