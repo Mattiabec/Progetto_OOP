@@ -28,13 +28,14 @@ Data la città di Roma, abbiamo scritto questo programma in modo di visualizzare
 
 <a name="introduzione"></a>
 # Introduzione
-Abbiamo implentato un servizio meteo che ci permette di monitorare le temperature nelle citta circostanti a Roma. La ricerca avviene inserendo il numero di citta che si vogliono visualizzare, per un minimo di 5 ad un massimo di 50. Salveremo le informazioni delle 50 città ogni 5 ore, in un database, cosi da avere tutti i dati pronti per il calcolo di statistiche. L'utente puo consultare diverse statistiche come i valori periodici riguardanti valori minimi, massimi, media e varianza delle temperature per ogni città.
+Abbiamo implentato un servizio meteo che ci permette di monitorare le temperature nelle citta circostanti a Roma. La ricerca avviene inserendo il numero di citta che si vogliono visualizzare, per un minimo di 1 ad un massimo di 50. Salveremo le informazioni delle 50 città ogni 5 ore, in un database, cosi da avere tutti i dati pronti per il calcolo di statistiche. L'utente puo consultare diverse statistiche come i valori periodici riguardanti valori minimi, massimi, media e varianza delle temperature per ogni città.
 Inoltre si possono ordinare le statistiche in base ai campi selezionati: valori minimi, massimi, media e varianza. Infine possiamo filtrare le statistiche in base al numero delle città, alla periodicità (giornaliera, settimanale, mensile o range personalizzabile) o in base ad una sottostringa contenuta nel nome della città (Citta che iniziano per A).
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="uml"></a>
 # Diagrammi UML
-Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro programma. Abbiamo creato 3 diagrammi: [Casi d'uso](#ucs), [Classi](#ucd), [Sequenze](#ucs).
+Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro programma.  
+Abbiamo creato 3 diagrammi: [Casi d'uso](#ucs), [Classi](#ucd), [Sequenze](#ucs).
 
 <a name="ucs"></a>
 ## Use Case Diagram -provvisorio- 
@@ -83,8 +84,9 @@ N° | Tipo | Rotta | Descrizione
 
 <a name="temp"></a>
 ### :round_pushpin: GET/temp:
-L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 1 a 50),altrimenti verranno riportate 7 città.
+L'utente puo specificare quante citta vuole monitorare tramite il paramentro `number` (da 1 a 50),altrimenti verranno riportate 7 città.
 Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visualizzare, con: temp, tempMin, tempMax, id (della città), nome (della città).
+(`number` è l'equivalente di cnt nel programma)
 
 :mag: ESEMPIO 1 (/temp - senza specificare il numero di città) :
 
