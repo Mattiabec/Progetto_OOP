@@ -127,7 +127,7 @@ public class Filter {
 								City tmpcity = tmp.get(i);
 								if (tmpcity.getName().contains(name)) {
 									double temp = tmpcity.getTemp();
-									City c1 = findByID(tmpcity.getID(), cities);
+									City c1 = Stats.findByID(tmpcity.getID(), cities);
 									c1.getTempForstats().add(temp);
 								}
 							}
@@ -164,20 +164,20 @@ public class Filter {
 	}
 
 	
-	public City findByID(long id, Vector<City> c) {
-		
-		Iterator<City> citer = c.iterator();
-		City c1 = new City();
-		boolean found = false;
-		while (citer.hasNext()) {
-			c1 = citer.next();
-			if (c1.getID() == id) {
-				found = true;
-				return c1;
-			}
-		}
-		return c1;
-	}
+//	public static City findByID(long id, Vector<City> c) {
+//		
+//		Iterator<City> citer = c.iterator();
+//		City c1 = new City();
+//		boolean found = false;
+//		while (citer.hasNext()) {
+//			c1 = citer.next();
+//			if (c1.getID() == id) {
+//				found = true;
+//				return c1;
+//			}
+//		}
+//		return c1;
+//	}
 
 	
 	public static Vector<String> jumpingDate(String s, int numdays) {
@@ -240,7 +240,7 @@ public class Filter {
 				for (int i = 0; i < cnt; i++) {
 					City tmpcity = tmp.get(i);
 					double temp = tmpcity.getTemp();
-					City c1 = findByID(tmpcity.getID(), cities);
+					City c1 = Stats.findByID(tmpcity.getID(), cities);
 					c1.getTempForstats().add(temp);
 				}
 			}

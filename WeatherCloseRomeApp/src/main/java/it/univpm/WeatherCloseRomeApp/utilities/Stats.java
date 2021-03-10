@@ -165,7 +165,7 @@ public class Stats {
 	}
 
 	
-	public City findByID(long id, Vector<City> c) {
+	public static City findByID(long id, Vector<City> c) {
 		
 		Iterator<City> citer = c.iterator();
 		City c1 = new City();
