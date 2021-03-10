@@ -3,8 +3,6 @@ package it.univpm.WeatherCloseRomeApp.service;
 import java.io.IOException;
 import java.util.Vector;
 
-import org.json.simple.JSONObject;
-
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.models.City;
 
