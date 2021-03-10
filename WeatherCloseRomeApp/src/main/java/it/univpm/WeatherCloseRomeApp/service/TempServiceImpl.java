@@ -51,7 +51,6 @@ public class TempServiceImpl implements TempService {
 			String urlstr;
 			urlstr = "https://api.openweathermap.org/data/2.5/find?lat=41.902782&lon=12.496365&cnt=" + cnt + "&appid="
 					+ API_KEY;
-			
 
 			try {
 				URL url = new URL(urlstr);
@@ -102,12 +101,12 @@ public class TempServiceImpl implements TempService {
 
 	public org.json.simple.JSONArray getJSONList(int cnt) throws InvalidNumberException {
 
-		TempServiceImpl temps = new TempServiceImpl();
+		TempServiceImpl tempServiceImpl = new TempServiceImpl();
 		org.json.simple.JSONArray ritorno = new org.json.simple.JSONArray();
 
 		Vector<City> cities = new Vector<City>();
 
-		cities = temps.getVector(cnt);
+		cities = tempServiceImpl.getVector(cnt);
 
 		Iterator<City> iter = cities.iterator();
 		while (iter.hasNext()) {
@@ -127,14 +126,14 @@ public class TempServiceImpl implements TempService {
 
 	public Vector<City> getVector(int cnt) throws InvalidNumberException {
 
-		TempServiceImpl temps = new TempServiceImpl();
-		JSONObject jobj = temps.APICall(cnt);
+		TempServiceImpl tempServiceImpl = new TempServiceImpl();
+		JSONObject jobj = tempServiceImpl.APICall(cnt);
 		org.json.simple.JSONArray ritorno = new org.json.simple.JSONArray();
 
 		org.json.simple.JSONArray weatherArray = new org.json.simple.JSONArray();
 		weatherArray = (org.json.simple.JSONArray) jobj.get("list");
 		org.json.simple.JSONObject support;
-		double temp=0;
+		double temp = 0;
 		double tempMin, tempMax;
 		long id;
 		String name;
@@ -160,13 +159,13 @@ public class TempServiceImpl implements TempService {
 	}
 
 	public JSONObject save() throws IOException, ClassNotFoundException, InvalidNumberException {
-		
+
 		org.json.simple.JSONObject jret = new org.json.simple.JSONObject();
 		String path = System.getProperty("user.dir") + "/database.dat";
 		File f = new File(path);
-		TempServiceImpl tempser = new TempServiceImpl();
+		TempServiceImpl tempServiceImpl = new TempServiceImpl();
 		Vector<City> cities = new Vector<City>();
-		cities = tempser.getVector(50);
+		cities = tempServiceImpl.getVector(50);
 		Vector<SaveModel> savings = new Vector<SaveModel>();
 		SaveModel saveobj = new SaveModel();
 		saveobj.setCities(cities);
@@ -177,7 +176,7 @@ public class TempServiceImpl implements TempService {
 			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
 			savings.add(saveobj);
 			out.writeObject(savings);
-			message= "OK";
+			message = "OK";
 			out.close();
 		} else {
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
@@ -194,7 +193,7 @@ public class TempServiceImpl implements TempService {
 	}
 
 	public void saveEvery5Hours() {
-		
+
 		ScheduledExecutorService schedule = Executors.newSingleThreadScheduledExecutor();
 		schedule.scheduleAtFixedRate(new Runnable() {
 

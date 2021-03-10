@@ -19,7 +19,6 @@ import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
 import it.univpm.WeatherCloseRomeApp.exceptions.WrongPeriodException;
 import it.univpm.WeatherCloseRomeApp.models.FilterBody;
 import it.univpm.WeatherCloseRomeApp.service.TempService;
-import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 import it.univpm.WeatherCloseRomeApp.utilities.Filter;
 import it.univpm.WeatherCloseRomeApp.utilities.Stats;
 
@@ -33,7 +32,7 @@ import it.univpm.WeatherCloseRomeApp.utilities.Stats;
 public class TempController {
 
 	@Autowired
-	private TempService tempservice;
+	private TempService tempService;
 	private Stats stat = new Stats();
 	private Filter filter = new Filter();
 
@@ -51,7 +50,7 @@ public class TempController {
 	public org.json.simple.JSONArray temp(@RequestParam(name = "number", defaultValue = "7") int cnt)
 			throws InvalidNumberException {
 
-		return tempservice.getJSONList(cnt);
+		return tempService.getJSONList(cnt);
 	}
 
 	/**
@@ -71,7 +70,7 @@ public class TempController {
 	public org.json.simple.JSONObject saving() throws InvalidNumberException, ClassNotFoundException, IOException {
 
 		org.json.simple.JSONObject jret = new org.json.simple.JSONObject();
-		jret = tempservice.save();
+		jret = tempService.save();
 
 		return jret;
 
@@ -93,8 +92,8 @@ public class TempController {
 	public org.json.simple.JSONObject save5Hours() throws InvalidNumberException, ClassNotFoundException, IOException {
 
 		org.json.simple.JSONObject jret;
-		jret = tempservice.save();
-		tempservice.saveEvery5Hours();
+		jret = tempService.save();
+		tempService.saveEvery5Hours();
 		return jret;
 	}
 
@@ -233,10 +232,8 @@ public class TempController {
 					throw new WrongPeriodException();
 				}
 			}
-
 		}
 		return jreturn;
 	}
 
 }
-
