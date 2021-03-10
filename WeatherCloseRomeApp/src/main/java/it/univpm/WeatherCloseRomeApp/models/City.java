@@ -1,6 +1,5 @@
 package it.univpm.WeatherCloseRomeApp.models;
 
-import java.io.Serializable;
 import java.util.Vector;
 
 /**
@@ -9,10 +8,6 @@ import java.util.Vector;
  * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
  */
 public class City {
-
-	/**
-	 * 
-	 */
 
 	private long ID;
 	private String name;
@@ -23,7 +18,7 @@ public class City {
 	private double max, min, media, varianza;
 
 	/**
-	 * 
+	 * Costruttore classe City
 	 */
 	public City() {
 		this.name = null;
@@ -35,6 +30,7 @@ public class City {
 	}
 
 	/**
+	 * Costruttore classe City
 	 * 
 	 * @param id
 	 * @param name
@@ -52,8 +48,7 @@ public class City {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return ID della classe City
 	 */
 	public long getID() {
 		return ID;
@@ -69,7 +64,7 @@ public class City {
 
 	/**
 	 * 
-	 * @return
+	 * @return name
 	 */
 	public String getName() {
 		return name;
@@ -85,7 +80,7 @@ public class City {
 
 	/**
 	 * 
-	 * @return
+	 * @return temp
 	 */
 	public double getTemp() {
 		return temp;
@@ -101,7 +96,7 @@ public class City {
 
 	/**
 	 * 
-	 * @return
+	 * @return tempMax
 	 */
 	public double getTempMax() {
 		return tempMax;
@@ -117,7 +112,7 @@ public class City {
 
 	/**
 	 * 
-	 * @return
+	 * @return tempMin
 	 */
 	public double getTempMin() {
 		return tempMin;
@@ -133,7 +128,7 @@ public class City {
 
 	/**
 	 * 
-	 * @return
+	 * @return max
 	 */
 	public double getMax() {
 		return max;
@@ -152,7 +147,7 @@ public class City {
 
 	/**
 	 * 
-	 * @return
+	 * @return min
 	 */
 	public double getMin() {
 		return min;
@@ -172,7 +167,7 @@ public class City {
 
 	/**
 	 * 
-	 * @return
+	 * @return media
 	 */
 	public double getMedia() {
 		return media;
