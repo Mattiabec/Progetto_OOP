@@ -1,12 +1,23 @@
 # WeatherCloseRomeApp
 Data la città di Roma, abbiamo scritto questo programma in modo di visualizzare tutte le informazioni attuali relative alla temperatura delle città circostanti Roma.
 
+## **Indice cntenuti**
+
+* [Introduzione](#introduzione)
+* [Diagrammi UML](#uml)
+* [Rotte](#rotte)
+* [Test](#test)
+* [Autori](#autori)
+
+
+<a name="introduzione"></a>
 # Introduzione
 Abbiamo implentato un servizio meteo che ci permette di monitorare le temperature nelle citta circostanti a Roma. La ricerca avviene inserendo il numero di citta che si vogliono visualizzare, per un minimo di 5 ad un massimo di 50. Salveremo le informazioni delle 50 città ogni 5 ore, in un database, cosi da avere tutti i dati pronti per il calcolo di statistiche. L'utente puo consultare diverse statistiche come i valori periodici riguardanti valori minimi, massimi, media e varianza delle temperature per ogni città.
 Inoltre si possono ordinare le statistiche in base ai campi selezionati: valori minimi, massimi, media e varianza. Infine possiamo filtrare le statistiche in base al numero delle città, alla periodicità (giornaliera, settimanale, mensile o range personalizzabile) o in base ad una sottostringa contenuta nel nome della città (Citta che iniziano per A).
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-# UML
+<a name="uml"></a>
+# Diagrammi UML
 Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro programma.
 
 ## Use Case Diagram -provvisorio- 
@@ -33,11 +44,13 @@ Come possiamo vedere abbiamo diversi package:
 ![Diagramma delle sequenze](https://user-images.githubusercontent.com/44706799/110305616-2b9b8d00-7ffd-11eb-9335-2cd0d0d514b1.jpg)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+<a name="api"></a>
 # API
 Sono fondamentali per il funzionamento del programma e per la raccolta dati. Con il programma *Postman* possiamo usare le rotte, sotto elencate, per far funzionare il nostro servizio.
 Per rispondere alle richieste degli utenti e avere un database abbiamo usato l'api: https://openweathermap.org/current#cycle.
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+<a name="rotte"></a>
 # 🚩 Rotte
 Le rotte definite sono le seguenti:
 
@@ -45,9 +58,10 @@ N° | Tipo | Rotta | Descrizione
 ----- | ------------ | -------------------- | ----------------------
 [1](#1) | ` GET ` | `/temp` | *restituisce un JSONArray che contiene: temperatura,  temp. max e min, pressione e umidità.*
 [2](#2) | ` GET ` | `/save` | *aggiorna il databese.*
-[3](#3) | ` GET ` | `/stats` | *restituisce le statistiche sulle temperature di ogni citta: valori minimi, massimi, media e varianza*
-[4](#4) | ` GET ` | `/date` | *restituisce le date nel file in una stringa*
-[5](#5) | ` POST ` | `/filters` | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
+[3](#3) | ` GET ` | `/saveEvery5Hours` | *aggiorna il databese ogni 5 ore.*
+[4](#4) | ` GET ` | `/stats` | *restituisce le statistiche sulle temperature di ogni citta: valori minimi, massimi, media e varianza*
+[5](#5) | ` GET ` | `/date` | *restituisce le date nel file in una stringa*
+[6](#6) | ` POST ` | `/filters` | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
 
 ### :round_pushpin: GET\temp:
 L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 1 a 50),altrimenti verranno riportate 7 città.
@@ -138,6 +152,12 @@ Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visuali
 Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.  
 :mag: ESEMPIO :
 ![Screenshot (129)](https://user-images.githubusercontent.com/44706799/110497692-fc694680-80f6-11eb-966e-9a6047b1fe75.png)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+### :round_pushpin: GET\saveEvery5Hours:
+Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.  
+:mag: ESEMPIO :
+![Screenshot (131)](https://user-images.githubusercontent.com/44706799/110611395-7816d200-818f-11eb-84dd-41c4e209530a.png)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
@@ -382,10 +402,12 @@ Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso c
 }
 ```
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+<a name="test"></a>
 # Test
 
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+<a name="autori"></a>
 # Autori
 Il programma è stato sviluppato equamente da Mattia Beccerica, Alessandro Fermanelli e Giulio Gattari.
 
