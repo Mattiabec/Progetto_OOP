@@ -56,18 +56,19 @@ Le rotte definite sono le seguenti:
 
 N° | Tipo | Rotta | Descrizione
 ----- | ------------ | -------------------- | ----------------------
-[1](#1) | ` GET ` | `/temp` | *restituisce un JSONArray che contiene: temperatura,  temp. max e min, pressione e umidità.*
+[1](#1) | ` GET ` | * [`/temp`](#temp) | *restituisce un JSONArray che contiene: temperatura,  temp. max e min, pressione e umidità.*
 [2](#2) | ` GET ` | `/save` | *aggiorna il databese.*
 [3](#3) | ` GET ` | `/saveEvery5Hours` | *aggiorna il databese ogni 5 ore.*
 [4](#4) | ` GET ` | `/stats` | *restituisce le statistiche sulle temperature di ogni citta: valori minimi, massimi, media e varianza*
 [5](#5) | ` GET ` | `/date` | *restituisce le date nel file in una stringa*
 [6](#6) | ` POST ` | `/filters` | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
 
-### :round_pushpin: GET\temp:
+<a name="temp"></a>
+### :round_pushpin: GET/temp:
 L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 1 a 50),altrimenti verranno riportate 7 città.
 Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visualizzare, con: temp, tempMin, tempMax, id (della città), nome (della città).
 
-:mag: ESEMPIO 1 (\temp senza specificare il numero di città) :
+:mag: ESEMPIO 1 (/temp - senza specificare il numero di città) :
 
 ![Screenshot (82)](https://user-images.githubusercontent.com/44706799/110312160-06128180-8005-11eb-8591-42d49a66040a.png)
 ```ruby
@@ -124,7 +125,7 @@ Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visuali
 ]
 ```
 
-:mag: ESEMPIO 2 (\temp con 2 città) :
+:mag: ESEMPIO 2 (/temp - con 2 città) :
 
 ![Screenshot (84)](https://user-images.githubusercontent.com/44706799/110312817-e16ad980-8005-11eb-8546-6cabdf50fef5.png)
 ```ruby
@@ -148,23 +149,23 @@ Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visuali
 ```
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-### :round_pushpin: GET\save:
+### :round_pushpin: GET/save:
 Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.  
 :mag: ESEMPIO :
 ![Screenshot (129)](https://user-images.githubusercontent.com/44706799/110497692-fc694680-80f6-11eb-966e-9a6047b1fe75.png)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-### :round_pushpin: GET\saveEvery5Hours:
+### :round_pushpin: GET/saveEvery5Hours:
 Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.  
 :mag: ESEMPIO :
 ![Screenshot (131)](https://user-images.githubusercontent.com/44706799/110611395-7816d200-818f-11eb-84dd-41c4e209530a.png)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-### :round_pushpin: GET\stats:
+### :round_pushpin: GET/stats:
 Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza. Per il numero di città volute e ordinate secondo un parametro scelto.
 
-:mag: ESEMPIO 1 (\stats ordinati per la vicinanza al centro di roma, default):
+:mag: ESEMPIO 1 (/stats - ordinati per la vicinanza al centro di roma, default):
 
 ![Screenshot (89)](https://user-images.githubusercontent.com/44706799/110314929-cbaae380-8008-11eb-8aed-94978654326d.png)
 ```ruby
@@ -209,7 +210,7 @@ Ci restituisce le statistiche per ogni città: valore massimo e minimo di temper
 ]
 ```
 
-:mag: ESEMPIO 2 (\stats ordinati per il valore max) :
+:mag: ESEMPIO 2 (/stats - ordinati per il valore max) :
 ![Screenshot (109)](https://user-images.githubusercontent.com/44706799/110317394-63f69780-800c-11eb-8f93-cbcb9380461a.png)
 ```ruby
 [
@@ -245,7 +246,7 @@ Ci restituisce le statistiche per ogni città: valore massimo e minimo di temper
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-### :round_pushpin: GET\data:
+### :round_pushpin: GET/data:
 Ci  mostra le date disponibili nel database in cui sono state salvate le temperature (il server non ha tutte le date perche è attivato da noi, solo in alcuni momenti) 
 
 :mag: ESEMPIO :
@@ -269,10 +270,10 @@ Ci  mostra le date disponibili nel database in cui sono state salvate le tempera
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-### :round_pushpin: POST\filtres:
+### :round_pushpin: POST/filtres:
 Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.
 
-:mag: ESEMPIO 1 (\filters 1 città, periodo  giornaliero, data 8\3\21) :
+:mag: ESEMPIO 1 (/filters - 1 città, periodo  giornaliero, data 8\3\21) :
 ![Screenshot (91)](https://user-images.githubusercontent.com/44706799/110316197-adde7e00-800a-11eb-9c76-e2052a547894.png)
 ```ruby
 [
@@ -286,7 +287,7 @@ Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o 
     }
 ]
 ```
-:mag: ESEMPIO 2 (\filters ricerca tra tutte le citta di nomi contenenti "castel", periodo  giornaliero, data 8\3\21) :
+:mag: ESEMPIO 2 (/filters - ricerca tra tutte le citta di nomi contenenti "castel", periodo  giornaliero, data 8\3\21) :
 ![Screenshot (111)](https://user-images.githubusercontent.com/44706799/110329452-e4bd8f80-801c-11eb-960c-df80a7999411.png)
 ```ruby
 [
