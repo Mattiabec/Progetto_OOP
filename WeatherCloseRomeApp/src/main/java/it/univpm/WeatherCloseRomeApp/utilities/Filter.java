@@ -55,7 +55,7 @@ public class Filter {
 	}
 
 	
-	public static boolean databaseWidth(String s, int numdays, Vector<String> str) {
+	public boolean databaseWidth(String s, int numdays, Vector<String> str) {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
@@ -78,7 +78,7 @@ public class Filter {
 	}
 
 	
-	public static Vector<String> dateForStats(String s, int numdays) {
+	public Vector<String> dateForStats(String s, int numdays) {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
@@ -106,13 +106,13 @@ public class Filter {
 		Filter filter = new Filter();
 		Vector<String> date = filter.DateDisponibili();
 		Vector<City> cities = tempser.getVector(cnt);
-		Vector<String> datedavalutare = dateForStats(data, numdays);
+		Vector<String> datedavalutare = filter.dateForStats(data, numdays);
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		File f = new File(path);
 		if (!date.contains(data)) {
 			throw new InvalidDateException();
 		} else {
-			if (databaseWidth(data, numdays, date)) {
+			if (filter.databaseWidth(data, numdays, date)) {
 				try {
 					ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 					Vector<SaveModel> filedata = (Vector<SaveModel>) in.readObject();
@@ -167,7 +167,7 @@ public class Filter {
 	
 
 	
-	public static Vector<String> jumpingDate(String s, int numdays) {
+	public Vector<String> jumpingDate(String s, int numdays) {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
@@ -193,12 +193,11 @@ public class Filter {
 	public org.json.simple.JSONArray jumpPeriod(int cnt, String data, int numdays, String name)
 			throws InvalidDateException, IOException, ClassNotFoundException, InvalidNumberException {
 		
+		Filter filter = new Filter();
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		Vector<City> cities = tempser.getVector(cnt);
 		File f = new File(path);
-		Vector<String> dateNecessarie = jumpingDate(data, numdays);
-		Iterator<String> iter1 = dateNecessarie.iterator();
-		Filter filter = new Filter();
+		Vector<String> dateNecessarie = filter.jumpingDate(data, numdays);
 		Vector<String> date = filter.DateDisponibili();
 		if (!date.contains(data)) {
 			throw new InvalidDateException();
