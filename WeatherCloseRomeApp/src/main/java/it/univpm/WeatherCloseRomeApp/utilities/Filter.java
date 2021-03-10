@@ -66,13 +66,13 @@ public class Filter {
 			e.printStackTrace();
 		}
 		boolean ret = true;
-		int vvv = 0;
+		int incr = 0;
 		for (int i = 0; i < numdays; i++) {
-			c.add(Calendar.DATE, vvv);
+			c.add(Calendar.DATE, incr);
 			String v = sdf.format(c.getTime());
 			if (!str.contains(v))
 				ret = false;
-			vvv = 1;
+			incr = 1;
 		}
 		return ret;
 	}
@@ -116,6 +116,7 @@ public class Filter {
 				try {
 					ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 					Vector<SaveModel> filedata = (Vector<SaveModel>) in.readObject();
+					in.close();
 					Iterator<SaveModel> iter = filedata.iterator();
 					while (iter.hasNext()) {
 						SaveModel save = iter.next();
@@ -164,20 +165,6 @@ public class Filter {
 	}
 
 	
-//	public static City findByID(long id, Vector<City> c) {
-//		
-//		Iterator<City> citer = c.iterator();
-//		City c1 = new City();
-//		boolean found = false;
-//		while (citer.hasNext()) {
-//			c1 = citer.next();
-//			if (c1.getID() == id) {
-//				found = true;
-//				return c1;
-//			}
-//		}
-//		return c1;
-//	}
 
 	
 	public static Vector<String> jumpingDate(String s, int numdays) {

@@ -29,6 +29,7 @@ public class Stats {
 		Vector<City> forStats = new Vector<City>();
 		forStats = tempser.getVector(cnt);
 		fromFile = (Vector<SaveModel>) in.readObject();
+		in.close();
 		Iterator<SaveModel> iter = fromFile.iterator();
 		while (iter.hasNext()) {
 			SaveModel tmp = iter.next();
@@ -169,7 +170,7 @@ public class Stats {
 		
 		Iterator<City> citer = c.iterator();
 		City c1 = new City();
-		boolean found = false;
+		boolean found;
 		while (citer.hasNext()) {
 			c1 = citer.next();
 			if (c1.getID() == id) {

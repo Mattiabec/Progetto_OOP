@@ -103,15 +103,8 @@ public class TempServiceImpl implements TempService {
 	public org.json.simple.JSONArray getJSONList(int cnt) throws InvalidNumberException {
 
 		TempServiceImpl temps = new TempServiceImpl();
-		JSONObject jobj = temps.APICall(cnt);
 		org.json.simple.JSONArray ritorno = new org.json.simple.JSONArray();
 
-		org.json.simple.JSONArray weatherArray = new org.json.simple.JSONArray();
-		weatherArray = (org.json.simple.JSONArray) jobj.get("list");
-		org.json.simple.JSONObject support;
-		double temp, tempMin, tempMax;
-		long id;
-		String name;
 		Vector<City> cities = new Vector<City>();
 
 		cities = temps.getVector(cnt);
@@ -141,7 +134,7 @@ public class TempServiceImpl implements TempService {
 		org.json.simple.JSONArray weatherArray = new org.json.simple.JSONArray();
 		weatherArray = (org.json.simple.JSONArray) jobj.get("list");
 		org.json.simple.JSONObject support;
-		double temp = 0;
+		double temp=0;
 		double tempMin, tempMax;
 		long id;
 		String name;
@@ -189,7 +182,6 @@ public class TempServiceImpl implements TempService {
 		} else {
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 			savings = (Vector<SaveModel>) in.readObject();
-			savings.add(saveobj);
 			in.close();
 			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
 			savings.add(saveobj);
@@ -201,9 +193,8 @@ public class TempServiceImpl implements TempService {
 		return jret;
 	}
 
-	public org.json.simple.JSONObject saveEvery5Hours() {
+	public void saveEvery5Hours() {
 		
-		org.json.simple.JSONObject jret= new org.json.simple.JSONObject();
 		ScheduledExecutorService schedule = Executors.newSingleThreadScheduledExecutor();
 		schedule.scheduleAtFixedRate(new Runnable() {
 
@@ -222,8 +213,6 @@ public class TempServiceImpl implements TempService {
 				}
 			}
 		}, 5, 5, TimeUnit.HOURS);
-		jret.put("STATUS", message);
-		return jret;
 	}
 
 }

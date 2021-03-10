@@ -18,5 +18,5 @@ public interface TempService {
 
 	public org.json.simple.JSONObject save() throws IOException, ClassNotFoundException, InvalidNumberException;
 
-	public org.json.simple.JSONObject saveEvery5Hours();
+	public void saveEvery5Hours();
 }
