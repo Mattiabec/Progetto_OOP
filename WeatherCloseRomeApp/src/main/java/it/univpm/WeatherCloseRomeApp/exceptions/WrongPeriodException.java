@@ -1,10 +1,23 @@
 package it.univpm.WeatherCloseRomeApp.exceptions;
 
+/**
+ * Classe che segnala una eccezione se il "period" inserito è sbagliato
+ * 
+ * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
+ */
+
 public class WrongPeriodException extends Exception{
 	
+	/**
+	 * Costruttore di WrongPeriodException
+	 */
 	public WrongPeriodException() {
 		super("Periodo inserito incorretto. Scegliere tra: daily,weekly,monthly, oppure null se si vuole customperiod.");
 	}
+	
+	/**
+	 * Metodo che ritorna una rappresentazione testuale (stringa) dell'oggetto
+	 */
 	public String toString() {
 		return "WrongPeriodException: periodo inserito incorretto.";
 	} 
