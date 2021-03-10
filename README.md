@@ -307,15 +307,15 @@ Ci  mostra le date disponibili nel database in cui sono state salvate le tempera
 
 <a name="filters"></a>
 ### :round_pushpin: POST/filtres:
-Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.  
-Esempio e spiegazione del Body:
+Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*. Nel caso si voglia usare il CustomPeriod bisogna impostare il campo period come `null` (ovvero = ""). Se si immette un numero positivo si vedranno le date future al quella inserita, mentre nel caso negativo si vedranno le date passate.
+Esempio e spiegazione del Body: 
 ```ruby
 {
-"count" : 1,                // numero di città da visualizzare (da 1 a 50)
-"period" : "daily",         // periodo delle statistiche (daily, weekly, monthly)
-"data" : "2021-03-05",      // data di partenza delle statistiche
-"name" : "",                // Seleziona le città a seconda di quale sottostringa scriviamo (esempio 2)
-"customPeriod" : ""         // conta quante date vogliamo vedere, nel caso immettiamo un numero positivo si vedono le date future al quella inserita, mentre nel caso negativo si vedranno le date passate.
+"count" : "xx",                // numero di città da visualizzare (da 1 a 50).
+"period" : "xxxx",         // periodo delle statistiche (daily, weekly, monthly).
+"data" : "xxxx-xx-xx",      // data di partenza delle statistiche (anno-mese-giorno).
+"name" : "xxxx",                // Seleziona le città a seconda di quale sottostringa scriviamo (esempio 2.
+"customPeriod" : "xx"         // conta quante date vogliamo vedere.
 }
 ```
 
