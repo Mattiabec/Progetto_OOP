@@ -484,11 +484,13 @@ Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso c
 ```
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-[indice](#indice) [:house:](#indice) ------- [ritorna alle Eccezioni] (#eccezioni)[:no_entry:](#eccezioni)
+[indice](#indice) [:house:](#indice) ------- [ritorna alle Eccezioni](#eccezioni) [:no_entry:](#eccezioni)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="test"></a>
 # :ok: Test
+Abbiamo fatto dei test come possiamo vedere nel Diagramma delle classi ....
+![ClassDiagram TestClass](https://user-images.githubusercontent.com/44706799/110626151-ab159180-81a0-11eb-9145-d4e5aa42ee82.jpg)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna ai Test](#test) [:ok:](#test)
