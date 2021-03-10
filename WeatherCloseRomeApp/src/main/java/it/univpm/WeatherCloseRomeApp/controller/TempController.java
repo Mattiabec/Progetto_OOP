@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -214,18 +215,24 @@ public class TempController {
 			if (filtering.getPeriod().equals("")) {
 				if (filtering.getCustomPeriod() != 0) {
 					jreturn = filter.jumpPeriod(cnt, data, filtering.getCustomPeriod(), filtering.getName());
-					if (!s.equals(""))
+					if (!s.equals("")) {
+						org.json.simple.JSONObject jdate = (JSONObject) jreturn.get(0);
+						jreturn.remove(0);
 						jreturn = filter.orderFilterPeriod(s, jreturn);
-					break;
+						jreturn.add(0, jdate);
+						break;
+					} else {
+						throw new WrongPeriodException();
+					}
+
 				} else {
 					throw new WrongPeriodException();
 				}
-
-			} else {
-				throw new WrongPeriodException();
 			}
+
 		}
 		return jreturn;
 	}
 
 }
+

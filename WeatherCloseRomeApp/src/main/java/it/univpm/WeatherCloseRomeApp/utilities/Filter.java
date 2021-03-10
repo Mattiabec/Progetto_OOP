@@ -261,7 +261,7 @@ public class Filter {
 		if (s.equals("Massimo") || s.equals("MASSIMO") || s.equals("massimo")) {
 			while (scambio) {
 				scambio = false;
-				for (int i = 1; i < jarr.size() - 1; i++) {
+				for (int i = 0; i < jarr.size() - 1; i++) {
 					org.json.simple.JSONObject jobj = (JSONObject) jarr.get(i);
 					org.json.simple.JSONObject jobjsucc = (JSONObject) jarr.get(i + 1);
 					double paramsucc = (double) jobjsucc.get("Massimo");
