@@ -5,15 +5,23 @@ Data la città di Roma, abbiamo scritto questo programma in modo di visualizzare
 
 * [Introduzione](#introduzione)
 * [Diagrammi UML](#uml)
+  * [Casi d'uso](#ucs)
+  * [Classi](#ucd)
+  * [Sequenze](#ucs)
 * [API](#api)
 * [Rotte](#rotte)
   * [Temperature](#temp)
-  * [Salva dati](#save)
-  * [SaveEvery5Hours](#save5)
+  * [Salvataggio dati](#save)
+  * [Salvataggio ogni 5 Ore](#save5)
   * [Date Disponibili](#date)  
   * [Statistiche](#stats)
   * [Filtri](#filters)
 * [Eccezioni](#eccezioni)
+  * [Data non valida](#id)
+  * [Campo non valido](#if)
+  * [Numero citta non valido](#in)
+  * [Date introvabili](#sd)
+  * [Periodo sbagliato](#wp)
 * [Test](#test)
 * [Autori](#autori)
 
@@ -26,13 +34,15 @@ Inoltre si possono ordinare le statistiche in base ai campi selezionati: valori 
 
 <a name="uml"></a>
 # Diagrammi UML
-Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro programma.
+Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro programma. Abbiamo creato 3 diagrammi: [Casi d'uso](#ucs), [Classi](#ucd), [Sequenze](#ucs).
 
+<a name="ucs"></a>
 ## Use Case Diagram -provvisorio- 
 In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'attore *utente* che si interfaccia al programma e richiede i dati sulle temperature, in base al numero di citta, cosi ottendendo le statistiche che sono poi ordinate e filtrate. Mentre l'attore non umano, *OpenWeather*, gestisce il programma. Quindi trammite una chiamata all'API di OpenWeather soddisfa le richieste dell'utente e salva tutti i dati di tutte le citta ogni 5 ore.
 
 ![Diagramma dei casi d'uso (1)](https://user-images.githubusercontent.com/44706799/110305538-145c9f80-7ffd-11eb-8ff8-880c78e7caaa.jpg)
 
+<a name="ucd"></a>
 ## Class Diagram -provvisorio-
 
 ![Diagramma delle classi (1)](https://user-images.githubusercontent.com/44706799/110305557-19215380-7ffd-11eb-80cd-dcbd86479a32.jpg)
@@ -46,7 +56,7 @@ Come possiamo vedere abbiamo diversi package:
 - Package exceptions : contiene tutte le eccezioni
 
 
-
+<a name="usd"></a>
 ## Sequence Diagram
 
 ![Diagramma delle sequenze](https://user-images.githubusercontent.com/44706799/110305616-2b9b8d00-7ffd-11eb-9335-2cd0d0d514b1.jpg)
@@ -323,10 +333,11 @@ Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o 
 
 <a name="eccezioni"></a>
 # :no_entry: Eccezioni
-Abbiamo scritto 5 eccezioni: InvalidData, InvalidField, InvalidNumber, ShortDatabase, WrongPeriod.
+Abbiamo scritto 5 eccezioni: [InvalidDate](#id), [InvalidField](#if), [InvalidNumber](#in), [ShortDatabase](#sd), [WrongPeriod](#wp).
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-## - InvalidDateException.java   : 
+<a name="id"></a>
+## - InvalidDateException.java   :
 Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia incorretta, si chiede di controllare la rotta `/date` per le date disponibili.
 :mag: ESEMPIO (`Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.`) :
 ![Screenshot (117)](https://user-images.githubusercontent.com/44706799/110466383-062e8200-80d6-11eb-8943-0562da92b201.png)
@@ -343,8 +354,8 @@ Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia 
     "path": "/filters"
 }
 ```
-
-## - InvalidFieldException.java  :
+<a name="if"></a>
+## - InvalidFieldException.java   :
 Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta ci ridà un messaggio di errore con i campi disponibili nel filtraggio.
 :mag: ESEMPIO (`Campo errato. I campi disponibili sono massimo,minimo,media,varianza.`) :
 ![Screenshot (125)](https://user-images.githubusercontent.com/44706799/110495944-4c470e00-80f5-11eb-82a6-d0a05d15ed1f.png)
@@ -361,8 +372,8 @@ Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta
     "path": "/stats"
 }
 ```
-
-## - InvalidNumberException.java :
+<a name="in"></a>
+## - InvalidNumberException.java   :
 Controlla se il numero di città richieste è un numero tra 1 e 50, nel caso non sia così il programma ci restituirà un messaggio di errore con il numerodi città accettabile.
 :mag: ESEMPIO (`Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi).`) :
 ![Screenshot (123)](https://user-images.githubusercontent.com/44706799/110493253-e2c60000-80f2-11eb-9991-7f7f221c4581.png)
@@ -379,8 +390,8 @@ Controlla se il numero di città richieste è un numero tra 1 e 50, nel caso non
     "path": "/temp"
 }
 ```
-
-## - ShortDatabaseException.java :
+<a name="sd"></a>
+## - ShortDatabaseException.java   :
 Controlla se nel database contiene le informazioni sufficenti per creare statistiche del periodo scelto. In caso negato avremmo un messaggio di errore con la richiesta di scelgiere un periodo piu breve.
 :mag: ESEMPIO (`Database non contiene abbastanza informazioni. Scegliere un periodo più breve.`) :
 ![Screenshot (121)](https://user-images.githubusercontent.com/44706799/110491675-cbd2de00-80f1-11eb-9158-62d66970d352.png)
@@ -397,8 +408,8 @@ Controlla se nel database contiene le informazioni sufficenti per creare statist
     "path": "/filters"
 }
 ```
-
- ## - WrongPeriodException.java   :
+<a name="wp"></a>
+## - WrongPeriodException.java   :
 Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso contrario avremmo un messaggio di errore con riportati i periodi selezionabili.
 :mag: ESEMPIO (`Periodo inserito incorretto. Scegliere tra: daily, weekly, monthly, oppure null se si vuole customperiod.`) :
 ![Screenshot (127)](https://user-images.githubusercontent.com/44706799/110496477-cb3c4680-80f5-11eb-9bd1-e26409856d6d.png)
