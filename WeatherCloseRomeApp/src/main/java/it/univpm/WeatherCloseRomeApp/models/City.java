@@ -3,12 +3,11 @@ package it.univpm.WeatherCloseRomeApp.models;
 import java.io.Serializable;
 import java.util.Vector;
 
-public class City implements Serializable {
+public class City {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6214288722856378619L;
 
 	private long ID;
 	private String name;
