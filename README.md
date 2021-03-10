@@ -7,6 +7,13 @@ Data la città di Roma, abbiamo scritto questo programma in modo di visualizzare
 * [Diagrammi UML](#uml)
 * [API](#api)
 * [Rotte](#rotte)
+  * [Temperature](#temp)
+  * [Salva dati](#save)
+  * [SaveEvery5Hours](#save5)
+  * [Date Disponibili](#date)  
+  * [Statistiche](#stats)
+  * [Filtri](#filters)
+* [Eccezioni](#eccezioni)
 * [Test](#test)
 * [Autori](#autori)
 
@@ -314,8 +321,11 @@ Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o 
 ```
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-
+<a name="eccezioni"></a>
 # :no_entry: Eccezioni
+Abbiamo scritto 5 eccezioni: InvalidData, InvalidField, InvalidNumber, ShortDatabase, WrongPeriod.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ## - InvalidDateException.java   : 
 Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia incorretta, si chiede di controllare la rotta `/date` per le date disponibili.
 :mag: ESEMPIO (`Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.`) :
