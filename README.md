@@ -194,7 +194,8 @@ Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, que
 
 <a name="stats"></a>
 ### :round_pushpin: GET/stats:
-Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza. Per il numero di città volute e ordinate secondo un parametro scelto.
+Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza.  
+Dovremmo aggiungere un parametro alla key `field`, che puo essere: Massimo, Minimo, Media e Varianza. (come nell'esempio 2)
 
 :mag: ESEMPIO 1 (/stats - ordinati per la vicinanza al centro di roma, default):
 
@@ -278,8 +279,8 @@ Ci restituisce le statistiche per ogni città: valore massimo e minimo di temper
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-<a name="data"></a>
-### :round_pushpin: GET/data:
+<a name="date"></a>
+### :round_pushpin: GET/date:
 Ci  mostra le date disponibili nel database in cui sono state salvate le temperature (il server non ha tutte le date perche è attivato da noi, solo in alcuni momenti) 
 
 :mag: ESEMPIO :
@@ -306,7 +307,17 @@ Ci  mostra le date disponibili nel database in cui sono state salvate le tempera
 
 <a name="filters"></a>
 ### :round_pushpin: POST/filtres:
-Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.
+Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.  
+Esempio e spiegazione del Body:
+```ruby
+{
+"count" : 1,                // numero di città da visualizzare (da 1 a 50)
+"period" : "daily",         // periodo delle statistiche (daily, weekly, monthly)
+"data" : "2021-03-05",      // data di partenza delle statistiche
+"name" : "",                // Seleziona le città a seconda di quale sottostringa scriviamo (esempio 2)
+"customPeriod" : ""         // conta quante date vogliamo vedere, nel caso immettiamo un numero positivo si vedono le date future al quella inserita, mentre nel caso negativo si vedranno le date passate.
+}
+```
 
 :mag: ESEMPIO 1 (/filters - 1 città, periodo  giornaliero, data 8\3\21) :
 
