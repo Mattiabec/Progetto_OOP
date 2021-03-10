@@ -3,6 +3,11 @@ package it.univpm.WeatherCloseRomeApp.models;
 import java.io.Serializable;
 import java.util.Vector;
 
+/**
+ * Classe che descrive il modello di una città con i suoi parametri interni
+ * 
+ * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
+ */
 public class City implements Serializable {
 
 	/**
@@ -18,6 +23,9 @@ public class City implements Serializable {
 	private Vector<Double> tempForstats = new Vector<Double>();
 	private double max, min, media, varianza;
 
+	/**
+	 * 
+	 */
 	public City() {
 		this.name = null;
 		this.ID = 0L;
@@ -27,6 +35,14 @@ public class City implements Serializable {
 		this.tempForstats = new Vector<Double>();
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @param name
+	 * @param temp
+	 * @param tempMax
+	 * @param tempMin
+	 */
 	public City(long id, String name, double temp, double tempMax, double tempMin) {
 		super();
 		ID = id;
@@ -36,50 +52,97 @@ public class City implements Serializable {
 		this.tempMin = tempMin;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public long getID() {
 		return ID;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 */
 	public void setID(long id) {
 		ID = id;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * 
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public double getTemp() {
 		return temp;
 	}
 
+	/**
+	 * 
+	 * @param temp
+	 */
 	public void setTemp(double temp) {
 		this.temp = temp;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public double getTempMax() {
 		return tempMax;
 	}
 
+	/**
+	 * 
+	 * @param tempMax
+	 */
 	public void setTempMax(double tempMax) {
 		this.tempMax = tempMax;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public double getTempMin() {
 		return tempMin;
 	}
 
+	/**
+	 * 
+	 * @param tempMin
+	 */
 	public void setTempMin(double tempMin) {
 		this.tempMin = tempMin;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public double getMax() {
 		return max;
 	}
 
+	/**
+	 * 
+	 */
 	public void setMax() {
 		for (Double d : tempForstats) {
 			if (d > max) {
@@ -88,10 +151,17 @@ public class City implements Serializable {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public double getMin() {
 		return min;
 	}
 
+	/**
+	 * 
+	 */
 	public void setMin() {
 		this.min = 1000;
 		for (Double d : tempForstats) {
@@ -101,10 +171,17 @@ public class City implements Serializable {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public double getMedia() {
 		return media;
 	}
 
+	/**
+	 * 
+	 */
 	public void setMedia() {
 		int length = tempForstats.size();
 		double sum = 0;
@@ -149,6 +226,9 @@ public class City implements Serializable {
 		this.tempForstats = tempForstats;
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public String toString() {
 		return "City [ID=" + ID + ", name=" + name + ", temp=" + temp + ", tempMax=" + tempMax + ", tempMin=" + tempMin

@@ -1,5 +1,10 @@
 package it.univpm.WeatherCloseRomeApp.models;
 
+/**
+ * 
+ * @author Mattia
+ *
+ */
 public class FilterBody {
 
 	private int count;
@@ -9,26 +14,50 @@ public class FilterBody {
 	private int customPeriod;
 	
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getCount() {
 		return count;
 	}
 
+	/**
+	 * 
+	 * @param count
+	 */
 	public void setCount(int count) {
 		this.count = count;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getPeriod() {
 		return period;
 	}
 
+	/**
+	 * 
+	 * @param period
+	 */
 	public void setPeriod(String period) {
 		this.period = period;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getData() {
 		return data;
 	}
 
+	/**
+	 * 
+	 * @param data
+	 */
 	public void setData(String data) {
 		this.data = data;
 	}
@@ -60,6 +89,5 @@ public class FilterBody {
 	public void setCustomPeriod(int customPeriod) {
 		this.customPeriod = customPeriod;
 	}
-	
 
 }
