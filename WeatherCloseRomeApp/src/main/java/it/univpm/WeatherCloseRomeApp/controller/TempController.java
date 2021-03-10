@@ -17,6 +17,7 @@ import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
 import it.univpm.WeatherCloseRomeApp.exceptions.WrongPeriodException;
 import it.univpm.WeatherCloseRomeApp.models.FilterBody;
+import it.univpm.WeatherCloseRomeApp.service.TempService;
 import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 import it.univpm.WeatherCloseRomeApp.utilities.Filter;
 import it.univpm.WeatherCloseRomeApp.utilities.Stats;
@@ -31,7 +32,7 @@ import it.univpm.WeatherCloseRomeApp.utilities.Stats;
 public class TempController {
 
 	@Autowired
-	private TempServiceImpl tempservice;
+	private TempService tempservice;
 	private Stats stat = new Stats();
 	private Filter filter = new Filter();
 
@@ -39,17 +40,17 @@ public class TempController {
 	 * Rotta di tipo GET che restituisce le informazioni relative alla temperatura
 	 * attuale, nome città e id città
 	 * 
-	 * @param count rappresenta il numero di città di cui vogliamo conoscere le
-	 *              informazioni relative la temperatura (default=7)
+	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
+	 *            informazioni relative la temperatura (default=7)
 	 * @return JSONArray contenente un JSONObject per ogni città con le temperature,
 	 *         nome e id
-	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
 	@GetMapping(value = "/temp")
-	public org.json.simple.JSONArray temp(@RequestParam(name = "number", defaultValue = "7") int count)
+	public org.json.simple.JSONArray temp(@RequestParam(name = "number", defaultValue = "7") int cnt)
 			throws InvalidNumberException {
 
-		return tempservice.getJSONList(count);
+		return tempservice.getJSONList(cnt);
 	}
 
 	/**
@@ -59,7 +60,7 @@ public class TempController {
 	 * 
 	 * @return JSONObject con all'interno una stringa che dice se l'operazione è
 	 *         andata a buon fine
-	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
 	 *                                metodo
 	 * @throws IOException            se si sono verificati errori durante la
@@ -81,7 +82,7 @@ public class TempController {
 	 * 
 	 * @return JSONObject con all'interno una stringa che dice se l'operazione è
 	 *         andata a buon fine
-	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
 	 *                                metodo
 	 * @throws IOException            se si sono verificati errori durante la
@@ -104,7 +105,7 @@ public class TempController {
 	 * @param s rappresenta il parametro di interesse da ordinare
 	 * @return JSONArray contenente un JSONObject per ogni città con le proprie
 	 *         statistiche
-	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
 	 *                                metodo
 	 * @throws IOException            se si sono verificati errori durante la
@@ -162,7 +163,7 @@ public class TempController {
 	 *                                metodo
 	 * @throws IOException            se si sono verificati errori durante la
 	 *                                lettura/scrittura del file
-	 * @throws InvalidNumberException se count è maggiore di 50 o minore di 1
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 * @throws InvalidDateException   se non si hanno dati nel database della data
 	 *                                inserita
 	 * @throws WrongPeriodException   se il "period" inserito è sbagliato
