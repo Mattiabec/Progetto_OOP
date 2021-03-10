@@ -5,6 +5,7 @@ Data la città di Roma, abbiamo scritto questo programma in modo di visualizzare
 
 * [Introduzione](#introduzione)
 * [Diagrammi UML](#uml)
+* [API](#api)
 * [Rotte](#rotte)
 * [Test](#test)
 * [Autori](#autori)
@@ -56,12 +57,12 @@ Le rotte definite sono le seguenti:
 
 N° | Tipo | Rotta | Descrizione
 ----- | ------------ | -------------------- | ----------------------
-[1](#1) | ` GET ` | * [`/temp`](#temp) | *restituisce un JSONArray che contiene: temperatura,  temp. max e min, pressione e umidità.*
-[2](#2) | ` GET ` | `/save` | *aggiorna il databese.*
-[3](#3) | ` GET ` | `/saveEvery5Hours` | *aggiorna il databese ogni 5 ore.*
-[4](#4) | ` GET ` | `/stats` | *restituisce le statistiche sulle temperature di ogni citta: valori minimi, massimi, media e varianza*
-[5](#5) | ` GET ` | `/date` | *restituisce le date nel file in una stringa*
-[6](#6) | ` POST ` | `/filters` | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
+[1](#1) | ` GET ` | [`/temp`](#temp) | *restituisce un JSONArray che contiene: temperatura,  temp. max e min, pressione e umidità.*
+[2](#2) | ` GET ` | [`/save`](#save) | *aggiorna il databese.*
+[3](#3) | ` GET ` | [`/saveEvery5Hours`](#save5) | *aggiorna il databese ogni 5 ore.*
+[4](#4) | ` GET ` | [`/stats`](#stats) | *restituisce le statistiche sulle temperature di ogni citta: valori minimi, massimi, media e varianza*
+[5](#5) | ` GET ` | [`/date`](#date) | *restituisce le date nel file in una stringa*
+[6](#6) | ` POST ` | [`/filters`](#filters) | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
 
 <a name="temp"></a>
 ### :round_pushpin: GET/temp:
@@ -149,19 +150,21 @@ Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visuali
 ```
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+<a name="save"></a>
 ### :round_pushpin: GET/save:
 Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.  
 :mag: ESEMPIO :
 ![Screenshot (129)](https://user-images.githubusercontent.com/44706799/110497692-fc694680-80f6-11eb-966e-9a6047b1fe75.png)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+<a name="save5"></a>
 ### :round_pushpin: GET/saveEvery5Hours:
 Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.  
 :mag: ESEMPIO :
 ![Screenshot (131)](https://user-images.githubusercontent.com/44706799/110611395-7816d200-818f-11eb-84dd-41c4e209530a.png)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-
+<a name="stats"></a>
 ### :round_pushpin: GET/stats:
 Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza. Per il numero di città volute e ordinate secondo un parametro scelto.
 
@@ -245,7 +248,7 @@ Ci restituisce le statistiche per ogni città: valore massimo e minimo di temper
 ```
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-
+<a name="data"></a>
 ### :round_pushpin: GET/data:
 Ci  mostra le date disponibili nel database in cui sono state salvate le temperature (il server non ha tutte le date perche è attivato da noi, solo in alcuni momenti) 
 
@@ -269,7 +272,7 @@ Ci  mostra le date disponibili nel database in cui sono state salvate le tempera
 ```
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-
+<a name="filters"></a>
 ### :round_pushpin: POST/filtres:
 Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.
 
