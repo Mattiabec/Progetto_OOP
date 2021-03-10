@@ -1,42 +1,52 @@
 # WeatherCloseRomeApp
 Data la città di Roma, abbiamo scritto questo programma in modo di visualizzare tutte le informazioni attuali relative alla temperatura delle città circostanti Roma.
 
-## **Indice cntenuti**
+## **Indice contenuti**
 
 * [Introduzione](#introduzione)
 * [Diagrammi UML](#uml)
+  * [Casi d'uso](#ucs)
+  * [Classi](#ucd)
+  * [Sequenze](#ucs)
 * [API](#api)
 * [Rotte](#rotte)
   * [Temperature](#temp)
-  * [Salva dati](#save)
-  * [SaveEvery5Hours](#save5)
+  * [Salvataggio dati](#save)
+  * [Salvataggio ogni 5 Ore](#save5)
   * [Date Disponibili](#date)  
   * [Statistiche](#stats)
   * [Filtri](#filters)
 * [Eccezioni](#eccezioni)
+  * [Data non valida](#id)
+  * [Campo non valido](#if)
+  * [Numero citta non valido](#in)
+  * [Date introvabili](#sd)
+  * [Periodo sbagliato](#wp)
 * [Test](#test)
 * [Autori](#autori)
 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="introduzione"></a>
 # Introduzione
-Abbiamo implentato un servizio meteo che ci permette di monitorare le temperature nelle citta circostanti a Roma. La ricerca avviene inserendo il numero di citta che si vogliono visualizzare, per un minimo di 5 ad un massimo di 50. Salveremo le informazioni delle 50 città ogni 5 ore, in un database, cosi da avere tutti i dati pronti per il calcolo di statistiche. L'utente puo consultare diverse statistiche come i valori periodici riguardanti valori minimi, massimi, media e varianza delle temperature per ogni città.
+Abbiamo implentato un servizio meteo che ci permette di monitorare le temperature nelle citta circostanti a Roma. La ricerca avviene inserendo il numero di citta che si vogliono visualizzare, per un minimo di 1 ad un massimo di 50. Salveremo le informazioni delle 50 città ogni 5 ore, in un database, cosi da avere tutti i dati pronti per il calcolo di statistiche. L'utente puo consultare diverse statistiche come i valori periodici riguardanti valori minimi, massimi, media e varianza delle temperature per ogni città.
 Inoltre si possono ordinare le statistiche in base ai campi selezionati: valori minimi, massimi, media e varianza. Infine possiamo filtrare le statistiche in base al numero delle città, alla periodicità (giornaliera, settimanale, mensile o range personalizzabile) o in base ad una sottostringa contenuta nel nome della città (Citta che iniziano per A).
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="uml"></a>
 # Diagrammi UML
-Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro programma.
+Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro programma.  
+Abbiamo creato 3 diagrammi: [Casi d'uso](#ucs), [Classi](#ucd), [Sequenze](#ucs).
 
+<a name="ucs"></a>
 ## Use Case Diagram -provvisorio- 
 In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'attore *utente* che si interfaccia al programma e richiede i dati sulle temperature, in base al numero di citta, cosi ottendendo le statistiche che sono poi ordinate e filtrate. Mentre l'attore non umano, *OpenWeather*, gestisce il programma. Quindi trammite una chiamata all'API di OpenWeather soddisfa le richieste dell'utente e salva tutti i dati di tutte le citta ogni 5 ore.
 
 ![Diagramma dei casi d'uso (1)](https://user-images.githubusercontent.com/44706799/110305538-145c9f80-7ffd-11eb-8ff8-880c78e7caaa.jpg)
 
+<a name="ucd"></a>
 ## Class Diagram -provvisorio-
-
-![Diagramma delle classi (1)](https://user-images.githubusercontent.com/44706799/110305557-19215380-7ffd-11eb-80cd-dcbd86479a32.jpg)
-
 Come possiamo vedere abbiamo diversi package:
 
 - Package controller : contiene le classi TempController
@@ -44,18 +54,21 @@ Come possiamo vedere abbiamo diversi package:
 - Package models     : contiene le classi City, FilterBody e SaveModel
 - Package utilities  : contiene le classi Stats e Filters
 - Package exceptions : contiene tutte le eccezioni
+- 
+![Diagramma delle classi (1)](https://user-images.githubusercontent.com/44706799/110305557-19215380-7ffd-11eb-80cd-dcbd86479a32.jpg)
 
-
-
+<a name="usd"></a>
 ## Sequence Diagram
 
 ![Diagramma delle sequenze](https://user-images.githubusercontent.com/44706799/110305616-2b9b8d00-7ffd-11eb-9335-2cd0d0d514b1.jpg)
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="api"></a>
 # API
 Sono fondamentali per il funzionamento del programma e per la raccolta dati. Con il programma *Postman* possiamo usare le rotte, sotto elencate, per far funzionare il nostro servizio.
 Per rispondere alle richieste degli utenti e avere un database abbiamo usato l'api: https://openweathermap.org/current#cycle.
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="rotte"></a>
@@ -73,8 +86,9 @@ N° | Tipo | Rotta | Descrizione
 
 <a name="temp"></a>
 ### :round_pushpin: GET/temp:
-L'utente puo specificare quante citta vuole monitorare tramite il paramentro `cnt` (da 1 a 50),altrimenti verranno riportate 7 città.
+L'utente puo specificare quante citta vuole monitorare tramite il paramentro `number` (da 1 a 50),altrimenti verranno riportate 7 città.
 Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visualizzare, con: temp, tempMin, tempMax, id (della città), nome (della città).
+(`number` è l'equivalente di cnt nel programma)
 
 :mag: ESEMPIO 1 (/temp - senza specificare il numero di città) :
 
@@ -155,20 +169,27 @@ Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visuali
 ]
 
 ```
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="save"></a>
 ### :round_pushpin: GET/save:
 Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.  
+
 :mag: ESEMPIO :
+
 ![Screenshot (129)](https://user-images.githubusercontent.com/44706799/110497692-fc694680-80f6-11eb-966e-9a6047b1fe75.png)
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="save5"></a>
 ### :round_pushpin: GET/saveEvery5Hours:
-Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.  
+Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni 5 ore su 50 città.  
+
 :mag: ESEMPIO :
+
 ![Screenshot (131)](https://user-images.githubusercontent.com/44706799/110611395-7816d200-818f-11eb-84dd-41c4e209530a.png)
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="stats"></a>
@@ -221,6 +242,7 @@ Ci restituisce le statistiche per ogni città: valore massimo e minimo di temper
 ```
 
 :mag: ESEMPIO 2 (/stats - ordinati per il valore max) :
+
 ![Screenshot (109)](https://user-images.githubusercontent.com/44706799/110317394-63f69780-800c-11eb-8f93-cbcb9380461a.png)
 ```ruby
 [
@@ -253,6 +275,7 @@ Ci restituisce le statistiche per ogni città: valore massimo e minimo di temper
     }
 ]
 ```
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="data"></a>
@@ -260,6 +283,7 @@ Ci restituisce le statistiche per ogni città: valore massimo e minimo di temper
 Ci  mostra le date disponibili nel database in cui sono state salvate le temperature (il server non ha tutte le date perche è attivato da noi, solo in alcuni momenti) 
 
 :mag: ESEMPIO :
+
 ![Screenshot (113)](https://user-images.githubusercontent.com/44706799/110461223-7685d500-80cf-11eb-981d-adb150a9b5ee.png)
 ```ruby
 [
@@ -277,6 +301,7 @@ Ci  mostra le date disponibili nel database in cui sono state salvate le tempera
     }
 ]
 ```
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="filters"></a>
@@ -284,6 +309,7 @@ Ci  mostra le date disponibili nel database in cui sono state salvate le tempera
 Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*.
 
 :mag: ESEMPIO 1 (/filters - 1 città, periodo  giornaliero, data 8\3\21) :
+
 ![Screenshot (91)](https://user-images.githubusercontent.com/44706799/110316197-adde7e00-800a-11eb-9c76-e2052a547894.png)
 ```ruby
 [
@@ -297,7 +323,9 @@ Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o 
     }
 ]
 ```
+
 :mag: ESEMPIO 2 (/filters - ricerca tra tutte le citta di nomi contenenti "castel", periodo  giornaliero, data 8\3\21) :
+
 ![Screenshot (111)](https://user-images.githubusercontent.com/44706799/110329452-e4bd8f80-801c-11eb-960c-df80a7999411.png)
 ```ruby
 [
@@ -319,16 +347,21 @@ Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o 
     }
 ]
 ```
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="eccezioni"></a>
 # :no_entry: Eccezioni
-Abbiamo scritto 5 eccezioni: InvalidData, InvalidField, InvalidNumber, ShortDatabase, WrongPeriod.
+Abbiamo scritto 5 eccezioni: [InvalidDate](#id), [InvalidField](#if), [InvalidNumber](#in), [ShortDatabase](#sd), [WrongPeriod](#wp).
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-## - InvalidDateException.java   : 
+
+<a name="id"></a>
+### :x: InvalidDateException.java   :
 Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia incorretta, si chiede di controllare la rotta `/date` per le date disponibili.
+
 :mag: ESEMPIO (`Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.`) :
+
 ![Screenshot (117)](https://user-images.githubusercontent.com/44706799/110466383-062e8200-80d6-11eb-8943-0562da92b201.png)
 ```ruby
 {
@@ -344,9 +377,13 @@ Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia 
 }
 ```
 
-## - InvalidFieldException.java  :
+<a name="if"></a>
+
+### :x: InvalidFieldException.java   :
 Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta ci ridà un messaggio di errore con i campi disponibili nel filtraggio.
+
 :mag: ESEMPIO (`Campo errato. I campi disponibili sono massimo,minimo,media,varianza.`) :
+
 ![Screenshot (125)](https://user-images.githubusercontent.com/44706799/110495944-4c470e00-80f5-11eb-82a6-d0a05d15ed1f.png)
 ```ruby
 {
@@ -362,9 +399,13 @@ Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta
 }
 ```
 
-## - InvalidNumberException.java :
+<a name="in"></a>
+
+### :x: InvalidNumberException.java   :
 Controlla se il numero di città richieste è un numero tra 1 e 50, nel caso non sia così il programma ci restituirà un messaggio di errore con il numerodi città accettabile.
+
 :mag: ESEMPIO (`Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi).`) :
+
 ![Screenshot (123)](https://user-images.githubusercontent.com/44706799/110493253-e2c60000-80f2-11eb-9991-7f7f221c4581.png)
 ```ruby
 {
@@ -380,9 +421,12 @@ Controlla se il numero di città richieste è un numero tra 1 e 50, nel caso non
 }
 ```
 
-## - ShortDatabaseException.java :
+<a name="sd"></a>
+### :x: ShortDatabaseException.java   :
 Controlla se nel database contiene le informazioni sufficenti per creare statistiche del periodo scelto. In caso negato avremmo un messaggio di errore con la richiesta di scelgiere un periodo piu breve.
+
 :mag: ESEMPIO (`Database non contiene abbastanza informazioni. Scegliere un periodo più breve.`) :
+
 ![Screenshot (121)](https://user-images.githubusercontent.com/44706799/110491675-cbd2de00-80f1-11eb-9158-62d66970d352.png)
 ```ruby
 {
@@ -398,9 +442,12 @@ Controlla se nel database contiene le informazioni sufficenti per creare statist
 }
 ```
 
- ## - WrongPeriodException.java   :
+<a name="wp"></a>
+### :x: WrongPeriodException.java   :
 Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso contrario avremmo un messaggio di errore con riportati i periodi selezionabili.
+
 :mag: ESEMPIO (`Periodo inserito incorretto. Scegliere tra: daily, weekly, monthly, oppure null se si vuole customperiod.`) :
+
 ![Screenshot (127)](https://user-images.githubusercontent.com/44706799/110496477-cb3c4680-80f5-11eb-9bd1-e26409856d6d.png)
 ```ruby
 {
@@ -415,12 +462,15 @@ Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso c
     "path": "/filters"
 }
 ```
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
 <a name="test"></a>
 # Test
 
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
 <a name="autori"></a>
 # Autori
 Il programma è stato sviluppato equamente da Mattia Beccerica, Alessandro Fermanelli e Giulio Gattari.

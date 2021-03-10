@@ -1,7 +1,7 @@
 package it.univpm.WeatherCloseRomeApp.exceptions;
 
 /**
- * Classe che segnala una eccezione se il numero di città è maggiore di 50 o minore di 1
+ * Classe che segnala una eccezione se il numero di città (=cnt) è maggiore di 50 o minore di 1
  * 
  * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
  */
