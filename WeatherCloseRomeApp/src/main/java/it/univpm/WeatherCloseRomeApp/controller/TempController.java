@@ -146,7 +146,7 @@ public class TempController {
 	}
 
 	/**
-	 * Rotta di tipo POST che restituisce le statistiche relative uno specifico
+	 * Rotta di tipo POST che restituisce le statistiche relative: uno specifico
 	 * periodo (daily, weekly, monthly) o ogni determinato giorno, una specifica
 	 * città, uno specifico numero di città, scrivendo in input un JSONObject del
 	 * tipo:
@@ -157,7 +157,10 @@ public class TempController {
 	 * 
 	 * { "count": 5, "period": "", "data": "2021-03-06", "customPeriod": 1, "name": "" }
 	 * 
+	 * Inoltre ho la possibilità di ordinare le statistiche risultanti
+	 * 
 	 * @param filtering rappresenta il JSONObject in input
+	 * @param s rappresenta il parametro di interesse da ordinare
 	 * @return JSONArray contenente un JSONObject per ogni città filtrata
 	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
 	 *                                metodo
