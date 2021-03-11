@@ -190,12 +190,13 @@ public class TempController {
 		String startDate = filtering.getStartDate();
 		String endDate = filtering.getEndDate();
 		String period = filtering.getPeriod();
+		String name = filtering.getName();
 		Vector<String> dateinFile = filter.DateDisponibili();
 		switch (period) {
 		case "Daily":
 		case "DAILY":
 		case "daily": {
-			jreturn = filter.filterPeriod(cnt, startDate, 1, filtering.getName());
+			jreturn = filter.filterPeriod(cnt, startDate, 1, name);
 			if (!s.equals(""))
 				jreturn = filter.orderFilterPeriod(s, jreturn);
 			break;
@@ -204,7 +205,7 @@ public class TempController {
 		case "Weekly":
 		case "WEEKLY":
 		case "weekly": {
-			jreturn = filter.filterPeriod(cnt, startDate, 7, filtering.getName());
+			jreturn = filter.filterPeriod(cnt, startDate, 7, name);
 			if (!s.equals(""))
 				jreturn = filter.orderFilterPeriod(s, jreturn);
 			break;
@@ -213,56 +214,63 @@ public class TempController {
 		case "Monthly":
 		case "MONTHLY":
 		case "monthly": {
-			jreturn = filter.filterPeriod(cnt, startDate, 30, filtering.getName());
+			jreturn = filter.filterPeriod(cnt, startDate, 30, name);
 			if (!s.equals(""))
 				jreturn = filter.orderFilterPeriod(s, jreturn);
 			break;
 		}
 
-		default:
-			if (period.equals("")) {
-				if (!endDate.equals("")) {
-					if (!dateinFile.contains(endDate)) {
-						throw new InvalidDateException();
-					} else {
-						int numdays = 1;
-						String incrDate = startDate;
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-						Calendar c = Calendar.getInstance();
-						try {
-							c.setTime(sdf.parse(startDate));
-						} catch (ParseException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						while (!incrDate.equals(endDate)) {
-							c.add(Calendar.DATE, 1);
-							incrDate = sdf.format(c.getTime());
-							numdays++;
-						}
-						jreturn = filter.filterPeriod(cnt, startDate, numdays, s);
-					}
+		case "custom":
+		case "CUSTOM":
+		case "Custom": {
+			if (!endDate.equals("")) {
+				if (!dateinFile.contains(endDate)) {
+					throw new InvalidDateException();
 				} else {
-					if (filtering.getCustomPeriod() != 0) {
-						jreturn = filter.jumpPeriod(cnt, startDate, filtering.getCustomPeriod(), filtering.getName());
-						if (!s.equals("")) {
-							org.json.simple.JSONObject jdate = (JSONObject) jreturn.get(0);
-							jreturn.remove(0);
-							jreturn = filter.orderFilterPeriod(s, jreturn);
-							jreturn.add(0, jdate);
-							break;
-
-						}
-					} else {
-						throw new WrongPeriodException();
+					int numdays = 1;
+					String incrDate = startDate;
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					Calendar c = Calendar.getInstance();
+					try {
+						c.setTime(sdf.parse(startDate));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-
+					while (!incrDate.equals(endDate)) {
+						c.add(Calendar.DATE, 1);
+						incrDate = sdf.format(c.getTime());
+						numdays++;
+					}
+					jreturn = filter.filterPeriod(cnt, startDate, numdays, s);
+					if (!s.equals("")) {
+						jreturn = filter.orderFilterPeriod(s, jreturn);
+					}
 				}
 			} else {
-				throw new WrongPeriodException();
-			}
+				if (filtering.getCustomPeriod() != 0) {
+					jreturn = filter.jumpPeriod(cnt, startDate, filtering.getCustomPeriod(), filtering.getName());
+					if (!s.equals("")) {
+						org.json.simple.JSONObject jdate = (JSONObject) jreturn.get(0);
+						jreturn.remove(0);
+						jreturn = filter.orderFilterPeriod(s, jreturn);
+						jreturn.add(0, jdate);
+						break;
 
+					}
+				} else {
+					throw new WrongPeriodException();
+				}
+
+			}
+			break;
 		}
+
+		default: {
+			throw new WrongPeriodException();
+		}
+		}
+
 		return jreturn;
 	}
 }
