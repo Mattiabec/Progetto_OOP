@@ -23,7 +23,7 @@ public class SaveModel implements Serializable {
 	/**
 	 * 
 	 */
-	String dataSave;
+	private String dataSave;
 
 	/**
 	 * Metodo che restituisce il vettore cities
