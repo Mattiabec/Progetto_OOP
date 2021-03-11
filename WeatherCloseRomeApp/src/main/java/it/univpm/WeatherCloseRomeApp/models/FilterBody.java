@@ -21,7 +21,7 @@ public class FilterBody {
 	/**
 	 * Data di inizio filtraggio (formato: YYYY-MM-DD)
 	 */
-	private String data;
+	private String startDate;
 
 	/**
 	 * Nome della città da filtrare
@@ -32,6 +32,11 @@ public class FilterBody {
 	 * Numero intero.....
 	 */
 	private int customPeriod;
+	
+	/**
+	 * Data di fine filtraggio (formato: YYYY-MM-DD)
+	 */
+	private String endDate;
 
 	/**
 	 * Metodo che restituisce il numero delle città
@@ -70,21 +75,21 @@ public class FilterBody {
 	}
 
 	/**
-	 * Metodo che restituisce data
+	 * Metodo che restituisce startDate
 	 * 
 	 * @return
 	 */
-	public String getData() {
-		return data;
+	public String getStartDate() {
+		return startDate;
 	}
 
 	/**
-	 * Metodo che setta data
+	 * Metodo che setta startDate
 	 * 
 	 * @param data
 	 */
-	public void setData(String data) {
-		this.data = data;
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
 
 	/**
@@ -122,5 +127,16 @@ public class FilterBody {
 	public void setCustomPeriod(int customPeriod) {
 		this.customPeriod = customPeriod;
 	}
+
+	
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	
+	
 
 }

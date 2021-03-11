@@ -76,7 +76,7 @@ class StatsAndFiltersTest {
 		FilterBody filtering = new FilterBody();
 		filtering.setPeriod("mensile");
 		filtering.setCount(5);
-		filtering.setData("2021-03-05");
+		filtering.setStartDate("2021-03-05");
 		WrongPeriodException e = assertThrows(WrongPeriodException.class, () -> {
 			controller.filters(filtering, "");
 		});

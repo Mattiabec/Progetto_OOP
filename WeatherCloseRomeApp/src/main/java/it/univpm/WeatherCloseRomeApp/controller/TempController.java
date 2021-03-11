@@ -1,6 +1,9 @@
 package it.univpm.WeatherCloseRomeApp.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -151,16 +154,18 @@ public class TempController {
 	 * città, uno specifico numero di città, scrivendo in input un JSONObject del
 	 * tipo:
 	 * 
-	 * { "count": 5, "period": "daily", "data": "2021-03-09", "customPeriod": "", "name": "" }
+	 * { "count": 5, "period": "daily", "data": "2021-03-09", "customPeriod": "",
+	 * "name": "" }
 	 *
 	 * Oppure:
 	 * 
-	 * { "count": 5, "period": "", "data": "2021-03-06", "customPeriod": 1, "name": "" }
+	 * { "count": 5, "period": "", "data": "2021-03-06", "customPeriod": 1, "name":
+	 * "" }
 	 * 
 	 * Inoltre ho la possibilità di ordinare le statistiche risultanti
 	 * 
 	 * @param filtering rappresenta il JSONObject in input
-	 * @param s rappresenta il parametro di interesse da ordinare
+	 * @param s         rappresenta il parametro di interesse da ordinare
 	 * @return JSONArray contenente un JSONObject per ogni città filtrata
 	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
 	 *                                metodo
@@ -182,15 +187,15 @@ public class TempController {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		int cnt = filtering.getCount();
-		if (cnt <= 0 || cnt > 50) {
-			throw new InvalidNumberException();
-		}
-		String data = filtering.getData();
-		switch (filtering.getPeriod()) {
+		String startDate = filtering.getStartDate();
+		String endDate = filtering.getEndDate();
+		String period = filtering.getPeriod();
+		Vector<String> dateinFile = filter.DateDisponibili();
+		switch (period) {
 		case "Daily":
 		case "DAILY":
 		case "daily": {
-			jreturn = filter.filterPeriod(cnt, data, 1, filtering.getName());
+			jreturn = filter.filterPeriod(cnt, startDate, 1, filtering.getName());
 			if (!s.equals(""))
 				jreturn = filter.orderFilterPeriod(s, jreturn);
 			break;
@@ -199,7 +204,7 @@ public class TempController {
 		case "Weekly":
 		case "WEEKLY":
 		case "weekly": {
-			jreturn = filter.filterPeriod(cnt, data, 7, filtering.getName());
+			jreturn = filter.filterPeriod(cnt, startDate, 7, filtering.getName());
 			if (!s.equals(""))
 				jreturn = filter.orderFilterPeriod(s, jreturn);
 			break;
@@ -208,32 +213,56 @@ public class TempController {
 		case "Monthly":
 		case "MONTHLY":
 		case "monthly": {
-			jreturn = filter.filterPeriod(cnt, data, 30, filtering.getName());
+			jreturn = filter.filterPeriod(cnt, startDate, 30, filtering.getName());
 			if (!s.equals(""))
 				jreturn = filter.orderFilterPeriod(s, jreturn);
 			break;
 		}
 
 		default:
-			if (filtering.getPeriod().equals("")) {
-				if (filtering.getCustomPeriod() != 0) {
-					jreturn = filter.jumpPeriod(cnt, data, filtering.getCustomPeriod(), filtering.getName());
-					if (!s.equals("")) {
-						org.json.simple.JSONObject jdate = (JSONObject) jreturn.get(0);
-						jreturn.remove(0);
-						jreturn = filter.orderFilterPeriod(s, jreturn);
-						jreturn.add(0, jdate);
-						break;
+			if (period.equals("")) {
+				if (!endDate.equals("")) {
+					if (!dateinFile.contains(endDate)) {
+						throw new InvalidDateException();
+					} else {
+						int numdays = 1;
+						String incrDate = startDate;
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						Calendar c = Calendar.getInstance();
+						try {
+							c.setTime(sdf.parse(startDate));
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						while (!incrDate.equals(endDate)) {
+							c.add(Calendar.DATE, 1);
+							incrDate = sdf.format(c.getTime());
+							numdays++;
+						}
+						jreturn = filter.filterPeriod(cnt, startDate, numdays, s);
+					}
+				} else {
+					if (filtering.getCustomPeriod() != 0) {
+						jreturn = filter.jumpPeriod(cnt, startDate, filtering.getCustomPeriod(), filtering.getName());
+						if (!s.equals("")) {
+							org.json.simple.JSONObject jdate = (JSONObject) jreturn.get(0);
+							jreturn.remove(0);
+							jreturn = filter.orderFilterPeriod(s, jreturn);
+							jreturn.add(0, jdate);
+							break;
+
+						}
 					} else {
 						throw new WrongPeriodException();
 					}
 
-				} else {
-					throw new WrongPeriodException();
 				}
+			} else {
+				throw new WrongPeriodException();
 			}
+
 		}
 		return jreturn;
 	}
-
 }
