@@ -1,5 +1,6 @@
 package it.univpm.WeatherCloseRomeApp.models;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 /**
@@ -7,8 +8,13 @@ import java.util.Vector;
  * 
  * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
  */
-public class City {
+public class City implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6214288722856378619L;
+	
 	private long ID;
 	private String name;
 	private double temp;
