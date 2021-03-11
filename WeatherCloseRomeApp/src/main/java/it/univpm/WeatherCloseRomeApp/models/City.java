@@ -8,23 +8,32 @@ import java.util.Vector;
  * 
  * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
  */
-public class City implements Serializable{
+public class City implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6214288722856378619L;
-	
+
+	/**
+	 * Attributi principali
+	 */
 	private long ID;
 	private String name;
-	private double temp;
-	private double tempMax;
-	private double tempMin;
+	private double temp, tempMax, tempMin;
+
+	/**
+	 * Vettore contenente le temperature di una città per fare statistiche
+	 */
 	private Vector<Double> tempForstats = new Vector<Double>();
+
+	/**
+	 * Attributi usati per calcolare le statistiche
+	 */
 	private double max, min, media, varianza;
 
 	/**
-	 * Costruttore classe City
+	 * Costruttore classe City senza parametri
 	 */
 	public City() {
 		this.name = null;
@@ -36,13 +45,13 @@ public class City implements Serializable{
 	}
 
 	/**
-	 * Costruttore classe City
+	 * Costruttore classe City con tutti i parametri
 	 * 
-	 * @param id
-	 * @param name
-	 * @param temp
-	 * @param tempMax
-	 * @param tempMin
+	 * @param id      id della città
+	 * @param name    Nome della città
+	 * @param temp    Temperatura della città
+	 * @param tempMax Temperatura massima della città
+	 * @param tempMin Temperatura minima della città
 	 */
 	public City(long id, String name, double temp, double tempMax, double tempMin) {
 		super();
@@ -54,13 +63,16 @@ public class City implements Serializable{
 	}
 
 	/**
-	 * @return ID della classe City
+	 * Metodo che restituisce id della città
+	 * 
+	 * @return id
 	 */
 	public long getID() {
 		return ID;
 	}
 
 	/**
+	 * Metodo che setta l'id della città
 	 * 
 	 * @param id
 	 */
@@ -69,6 +81,7 @@ public class City implements Serializable{
 	}
 
 	/**
+	 * Metodo che restituisce il nome della città
 	 * 
 	 * @return name
 	 */
@@ -77,6 +90,7 @@ public class City implements Serializable{
 	}
 
 	/**
+	 * Metodo che setta il nome della città
 	 * 
 	 * @param name
 	 */
@@ -85,6 +99,7 @@ public class City implements Serializable{
 	}
 
 	/**
+	 * Metodo che restituisce la temperatura di una città
 	 * 
 	 * @return temp
 	 */
@@ -93,6 +108,7 @@ public class City implements Serializable{
 	}
 
 	/**
+	 * Metodo che setta la temperatura di una città
 	 * 
 	 * @param temp
 	 */
@@ -101,6 +117,7 @@ public class City implements Serializable{
 	}
 
 	/**
+	 * Metodo che restituisce la temperatura massima di una città
 	 * 
 	 * @return tempMax
 	 */
@@ -109,6 +126,7 @@ public class City implements Serializable{
 	}
 
 	/**
+	 * Metodo che setta la temperatura massima di una città
 	 * 
 	 * @param tempMax
 	 */
@@ -117,6 +135,7 @@ public class City implements Serializable{
 	}
 
 	/**
+	 * Metodo che restituisce la temperatura minima di una città
 	 * 
 	 * @return tempMin
 	 */
@@ -125,6 +144,7 @@ public class City implements Serializable{
 	}
 
 	/**
+	 * Metodo che setta la temperatura minima di una città
 	 * 
 	 * @param tempMin
 	 */
@@ -133,6 +153,7 @@ public class City implements Serializable{
 	}
 
 	/**
+	 * Metodo che restituisce il valore massimo di tutte le temperature
 	 * 
 	 * @return max
 	 */
@@ -141,7 +162,7 @@ public class City implements Serializable{
 	}
 
 	/**
-	 * 
+	 * Metodo che setta su max il massimo valore di temperatura della città
 	 */
 	public void setMax() {
 		for (Double d : tempForstats) {
@@ -152,6 +173,7 @@ public class City implements Serializable{
 	}
 
 	/**
+	 * Metodo che restituisce il valore minimo di tutte le temperature
 	 * 
 	 * @return min
 	 */
@@ -160,7 +182,7 @@ public class City implements Serializable{
 	}
 
 	/**
-	 * 
+	 * Metodo che setta su min il minimo valore di temperatura della città
 	 */
 	public void setMin() {
 		this.min = 1000;
@@ -172,6 +194,7 @@ public class City implements Serializable{
 	}
 
 	/**
+	 * Metodo che restituisce la media delle temperature della città
 	 * 
 	 * @return media
 	 */
@@ -180,7 +203,7 @@ public class City implements Serializable{
 	}
 
 	/**
-	 * 
+	 * Metodo che setta su media la media delle temperature della città
 	 */
 	public void setMedia() {
 		int length = tempForstats.size();
@@ -192,14 +215,16 @@ public class City implements Serializable{
 	}
 
 	/**
-	 * @return the varianza
+	 * Metodo che restituisce la varianza delle temperature della città
+	 * 
+	 * @return varianza
 	 */
 	public double getVarianza() {
 		return varianza;
 	}
 
 	/**
-	 * @param varianza the varianza to set
+	 * Metodo che setta su varianza la varianza delle temperature della città
 	 */
 	public void setVarianza() {
 		int length = tempForstats.size();
@@ -213,21 +238,27 @@ public class City implements Serializable{
 	}
 
 	/**
-	 * @return the tempForstats
+	 * Metodo che restituisce tempForStats
+	 * 
+	 * @return tempForStats
 	 */
 	public Vector<Double> getTempForstats() {
 		return tempForstats;
 	}
 
 	/**
-	 * @param tempForstats the tempForstats to set
+	 * Metodo che setta tempForStats
+	 * 
+	 * @param tempForStats
 	 */
 	public void setTempForstats(Vector<Double> tempForstats) {
 		this.tempForstats = tempForstats;
 	}
 
 	/**
+	 * Override del metodo toString
 	 * 
+	 * @return String che rappresenta la città
 	 */
 	@Override
 	public String toString() {

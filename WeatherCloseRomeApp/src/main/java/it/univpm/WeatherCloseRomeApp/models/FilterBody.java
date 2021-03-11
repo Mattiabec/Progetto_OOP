@@ -1,28 +1,49 @@
 package it.univpm.WeatherCloseRomeApp.models;
 
 /**
+ * Classe che descrive il modello del JSONObject utilizzato per fare il
+ * filtraggio
  * 
- * @author Mattia
- *
+ * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
  */
 public class FilterBody {
 
+	/**
+	 * Numero delle città (cnt)
+	 */
 	private int count;
-	private String period;
-	private String data; // Formato data : yyyy-MM-dd
-	private String name;
-	private int customPeriod;
-	
 
 	/**
+	 * Periodo da considerare: daily, weekly, monthly
+	 */
+	private String period;
+
+	/**
+	 * Data di inizio filtraggio (formato: YYYY-MM-DD)
+	 */
+	private String data;
+
+	/**
+	 * Nome della città da filtrare
+	 */
+	private String name;
+
+	/**
+	 * Numero intero.....
+	 */
+	private int customPeriod;
+
+	/**
+	 * Metodo che restituisce il numero delle città
 	 * 
-	 * @return
+	 * @return count
 	 */
 	public int getCount() {
 		return count;
 	}
 
 	/**
+	 * Metodo che setta count
 	 * 
 	 * @param count
 	 */
@@ -31,14 +52,16 @@ public class FilterBody {
 	}
 
 	/**
+	 * Metodo che restituisce period
 	 * 
-	 * @return
+	 * @return period
 	 */
 	public String getPeriod() {
 		return period;
 	}
 
 	/**
+	 * Metodo che setta period
 	 * 
 	 * @param period
 	 */
@@ -47,6 +70,7 @@ public class FilterBody {
 	}
 
 	/**
+	 * Metodo che restituisce data
 	 * 
 	 * @return
 	 */
@@ -55,6 +79,7 @@ public class FilterBody {
 	}
 
 	/**
+	 * Metodo che setta data
 	 * 
 	 * @param data
 	 */
@@ -63,28 +88,36 @@ public class FilterBody {
 	}
 
 	/**
-	 * @return the name
+	 * Metodo che restituisce name
+	 * 
+	 * @return name
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name the name to set
+	 * Metodo che setta name
+	 * 
+	 * @param name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * @return the customPeriod
+	 * Metodo che restituisce customPeriod
+	 * 
+	 * @return customPeriod
 	 */
 	public int getCustomPeriod() {
 		return customPeriod;
 	}
 
 	/**
-	 * @param customPeriod the customPeriod to set
+	 * Metodo che setta customPeriod
+	 * 
+	 * @param customPeriod
 	 */
 	public void setCustomPeriod(int customPeriod) {
 		this.customPeriod = customPeriod;
