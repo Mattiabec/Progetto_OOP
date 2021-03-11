@@ -128,11 +128,20 @@ public class FilterBody {
 		this.customPeriod = customPeriod;
 	}
 
-	
+	/**
+	 * Metodo che restituisce endDate
+	 * 
+	 * @return endDate
+	 */
 	public String getEndDate() {
 		return endDate;
 	}
 
+	/**
+	 * Metodo che setta endDate
+	 * 
+	 * @param endDate
+	 */
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
