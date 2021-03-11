@@ -496,11 +496,9 @@ Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso c
 <a name="test"></a>
 # :ok: Test
 Abbiamo fatto diversi test per verificare il giusto e corretto funzionamento del programma.
-Test effettuati:
-* Test City
-* Scambia Test
-* 
-*
+Package Test effettuati:
+- Service : abbiamo testato il giusto funzionamento del costruttore city, la corretta generazione dell'eccezione InvalidNumberException e la verifica della funzionalità del metodo scambia().
+- Utilities : abbiamo testato il giusto funzionamento delle eccezioni.
 
 ![ClassDiagram TestClass](https://user-images.githubusercontent.com/44706799/110626151-ab159180-81a0-11eb-9145-d4e5aa42ee82.jpg)
 
@@ -514,7 +512,8 @@ Software utilizzati:
 * [Eclipse](https://www.eclipse.org/) - IDE che abbiamo usato per scrivere il programma
 * [PostMan](https://www.postman.com/) - Programma per testare il funzionamento del programma e l'iterazione con l'API
 * [UML Designer](http://www.umldesigner.org/) - programma usato per creare i diagrammi UML 
-* [Github](https://github.com/) -  è un servizio che abbiamo usato per hostare il nostro progetto    
+* [Github](https://github.com/) -  è un servizio che abbiamo usato per hostare il nostro progetto   
+*  
 
 Librerie usate in Eclipse
 * Spring Tools 4 (quindi Spring Boot)
