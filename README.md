@@ -24,6 +24,8 @@ Data la città di Roma, abbiamo scritto questo programma in modo di visualizzare
   * [Date introvabili](#sd)
   * [Periodo sbagliato](#wp)
 * [Test](#test)
+* [Software e Librerie](#soft)
+* [Installazione](#funz)
 * [Autori](#autori)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -31,7 +33,8 @@ Data la città di Roma, abbiamo scritto questo programma in modo di visualizzare
 <a name="introduzione"></a>
 # :scroll: Introduzione
 Abbiamo implentato un servizio meteo che ci permette di monitorare le temperature nelle citta circostanti a Roma. La ricerca avviene inserendo il numero di citta che si vogliono visualizzare, per un minimo di 1 ad un massimo di 50. Salveremo le informazioni delle 50 città ogni 5 ore, in un database, cosi da avere tutti i dati pronti per il calcolo di statistiche. L'utente puo consultare diverse statistiche come i valori periodici riguardanti valori minimi, massimi, media e varianza delle temperature per ogni città.
-Inoltre si possono ordinare le statistiche in base ai campi selezionati: valori minimi, massimi, media e varianza. Infine possiamo filtrare le statistiche in base al numero delle città, alla periodicità (giornaliera, settimanale, mensile o range personalizzabile) o in base ad una sottostringa contenuta nel nome della città (Citta che iniziano per A).
+Inoltre si possono ordinare le statistiche in base ai campi selezionati: valori minimi, massimi, media e varianza.   
+Infine possiamo filtrare le statistiche in base al numero delle città, alla periodicità (giornaliera, settimanale, mensile o range personalizzabile) o in base ad una sottostringa contenuta nel nome della città (Citta che iniziano per A).
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna ad introduzione](#introduzione) [:scroll:](#introduzione)
@@ -71,8 +74,11 @@ Come possiamo vedere abbiamo diversi package:
 
 <a name="api"></a>
 # :honeybee: API
-Sono fondamentali per il funzionamento del programma e per la raccolta dati. Con il programma *Postman* possiamo usare le rotte, sotto elencate, per far funzionare il nostro servizio.
+Sono fondamentali per il funzionamento del programma e per la raccolta dati. Con il programma *Postman* possiamo usare le rotte, sotto elencate,  
+per far funzionare il nostro servizio.
 Per rispondere alle richieste degli utenti e avere un database abbiamo usato l'api: https://openweathermap.org/current#cycle.
+L'API restituisce i dati delle città disposte all'interno di un cerchio, definito dal un punto centrale ( `lat`, `lon`), nel nostro caso roma (41.902782, 12.496365),     
+e dal numero previsto di città ( `cnt`) attorno a questo punto.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna ad API](#api) [:honeybee:](#api)
@@ -502,7 +508,8 @@ Test effettuati:
 [indice](#indice) [:house:](#indice) ------- [ritorna ai Test](#test) [:ok:](#test)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-# Strumenti utilizzati
+<a name="soft"></a>
+# :inbox_tray: Strumenti utilizzati
 Software utilizzati:
 * Eclipse - IDE che abbiamo usato per scrivere il programma
 * SpringBoot - ????
@@ -519,18 +526,19 @@ Librerie usate in Eclipse
 * ???
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-[indice](#indice) [:house:](#indice) ------- [ritorna ai Software e Librerie](#soft) [xxxxxxx](#soft)
+[indice](#indice) [:house:](#indice) ------- [ritorna ai Software e Librerie](#soft) [:inbox_tray:](#soft)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-# Come far funzionare il programma
+<a name="funz"></a>
+# :computer: Installazione del nostro programma
 * avviare Eclipse
-* Importare il progetto facendo il cloning usando l'url di questa pagina
+* Importare questo progetto. [(come importare su progetto su eclipse)](https://qastack.it/programming/6760115/importing-a-github-project-into-eclipse) 
 * Lanciare l'applicazione `WeatherCloseRomeAppApplication.java` con *Spring Boot App* (in *run as*)
-* Avviare Postman e seguire gli esempi in [Rotte](#rotte) .
-* Interrogare le API usate dal nostro programma usando le [Rotte](#rotte) come negli esempi precedenti.
+* Avviare Postman.
+* Interrogare le API usate dal nostro programma usando le [Rotte](#rotte), come negli esempi.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-[indice](#indice) [:house:](#indice) ------- [ritorna ai Software e Librerie](#soft) [xxxxxxx](#soft)
+[indice](#indice) [:house:](#indice) ------- [ritorna alla Installazione](#funz) [:computer:](#funz)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="autori"></a>
