@@ -496,8 +496,8 @@ Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso c
 <a name="test"></a>
 # :ok: Test
 Abbiamo fatto diversi test per verificare il giusto e corretto funzionamento del programma.
-Package Test effettuati:
-- Service : abbiamo testato il giusto funzionamento del costruttore city, la corretta generazione dell'eccezione InvalidNumberException e la verifica della funzionalità del metodo scambia().
+Package dei Test effettuati:
+- Service : abbiamo testato il giusto funzionamento del costruttore city, la corretta generazione dell'eccezione InvalidNumberException e la verifica della funzionalità del metodo scambia.
 - Utilities : abbiamo testato il giusto funzionamento delle eccezioni.
 
 ![ClassDiagram TestClass](https://user-images.githubusercontent.com/44706799/110626151-ab159180-81a0-11eb-9145-d4e5aa42ee82.jpg)
