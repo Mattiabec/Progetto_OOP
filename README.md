@@ -32,8 +32,7 @@ Data la città di Roma, abbiamo scritto questo programma in modo di visualizzare
 
 <a name="introduzione"></a>
 # :scroll: Introduzione
-Abbiamo implentato un servizio meteo che ci permette di monitorare le temperature nelle citta circostanti a Roma. La ricerca avviene inserendo il numero di citta che si vogliono visualizzare, per un minimo di 1 ad un massimo di 50. Salveremo le informazioni delle 50 città ogni 5 ore, in un database, cosi da avere tutti i dati pronti per il calcolo di statistiche. L'utente puo consultare diverse statistiche come i valori periodici riguardanti valori minimi, massimi, media e varianza delle temperature per ogni città.
-Inoltre si possono ordinare le statistiche in base ai campi selezionati: valori minimi, massimi, media e varianza.   
+Abbiamo implentato un servizio meteo che ci permette di monitorare le temperature nelle citta circostanti a Roma. La ricerca avviene inserendo il numero di citta che si vogliono visualizzare, per un minimo di 1 ad un massimo di 50. Salveremo le informazioni delle 50 città ogni 5 ore, in un database, cosi da avere tutti i dati pronti per il calcolo di statistiche. L'utente puo consultare diverse statistiche, ovvero valori minimi, massimi, media e varianza delle temperature per ogni città ed ordinarli secondo i precedenti paramentri.
 Infine possiamo filtrare le statistiche in base al numero delle città, alla periodicità (giornaliera, settimanale, mensile o range personalizzabile) o in base ad una sottostringa contenuta nel nome della città (Citta che iniziano per A).
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -55,12 +54,13 @@ In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'att
 ## Class Diagram -provvisorio-
 Come possiamo vedere abbiamo diversi package:
 
-- Package controller : contiene le classi TempController
-- Package service    : contiene le classi TempService e TempServiceImpl
-- Package models     : contiene le classi City, FilterBody e SaveModel
-- Package utilities  : contiene le classi Stats e Filters
-- Package exceptions : contiene tutte le eccezioni
-- 
+- Package controller : contiene la classe controller che gestisce tutte le rotte del programma.
+- Package service    : contiene le classi TempService e TempServiceImpl. Il primo contiene l'interfaccia e inizializza i metodi. Il secondo li gestisce e implementa. 
+- Package models     : contiene le classi City, FilterBody e SaveModel, ovvero tutti i body dei JSONObject rispettivi???
+- Package utilities  : contiene le classi Stats e Filters, rispettivamente gestiscono le statistiche e i filtri
+- Package exceptions : contiene tutte le [Eccezioni](#eccezioni)
++ WeatherCloseRomeApp: classe contenente il main che avvia l'applicazione Spring
+
 ![Diagramma delle classi (1)](https://user-images.githubusercontent.com/44706799/110305557-19215380-7ffd-11eb-80cd-dcbd86479a32.jpg)
 
 <a name="usd"></a>
@@ -511,19 +511,16 @@ Test effettuati:
 <a name="soft"></a>
 # :inbox_tray: Strumenti utilizzati
 Software utilizzati:
-* Eclipse - IDE che abbiamo usato per scrivere il programma
-* SpringBoot - ????
-* PostMan - Programma per testare il funzionamento del programma e l'iterazione con l'API
-* UMLGenerator - programma usato per creare i diagrami UML ???
-* JUnit per i test ???
-* Github - lo abbiamo usato come repository del programma ???
+* [Eclipse](https://www.eclipse.org/) - IDE che abbiamo usato per scrivere il programma
+* [PostMan](https://www.postman.com/) - Programma per testare il funzionamento del programma e l'iterazione con l'API
+* [UML Designer](http://www.umldesigner.org/) - programma usato per creare i diagrammi UML 
+* [Github](https://github.com/) -  è un servizio che abbiamo usato per hostare il nostro progetto    
 
 Librerie usate in Eclipse
-* Spring Inizializr
-* Spring Tool 4
-* Maven Integration for Eclipse (m4e)
-* JSON simple ????
-* ???
+* Spring Tools 4 (quindi Spring Boot)
+* Maven Integration for Eclipse (e m2e)
+* JSON simple (dependency)
+* JUnit (per i test)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna ai Software e Librerie](#soft) [:inbox_tray:](#soft)
