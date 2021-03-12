@@ -30,12 +30,29 @@ import it.univpm.WeatherCloseRomeApp.models.SaveModel;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.models.City;
 
+/**
+ * Classe che implementa TempService in cui vengono implementati i metodi di
+ * base del programma
+ * 
+ * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
+ */
 @Service
 public class TempServiceImpl implements TempService {
 
+	/**
+	 * Key univoca per ogni utente necessaria per comunicare con l'API OpenWeather
+	 */
 	String API_KEY = "008c7fc03fb19021c703f488733a8695";
 	String message;
 
+	/**
+	 * Metodo che chiama l'API
+	 * 
+	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
+	 *            informazioni relative la temperatura
+	 * @return JSONObject
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
+	 */
 	public JSONObject APICall(int cnt) throws InvalidNumberException {
 
 		JSONObject jobj = null;
@@ -68,14 +85,12 @@ public class TempServiceImpl implements TempService {
 
 						while ((line = buf.readLine()) != null) {
 							data += line;
-
 						}
 
 						try {
 							jobj = (JSONObject) JSONValue.parseWithException(data);
 
 						} catch (org.json.simple.parser.ParseException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					} finally {
@@ -83,30 +98,35 @@ public class TempServiceImpl implements TempService {
 					}
 				}
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		return jobj;
 	}
 
+	/**
+	 * Metodo che mette in un JSONArray, gli oggetti di tipo City del vettore cities
+	 * 
+	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
+	 *            informazioni relative la temperatura
+	 * @return JSONArray con un JSONObject per ogni città
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
+	 */
 	public org.json.simple.JSONArray getJSONList(int cnt) throws InvalidNumberException {
 
 		TempServiceImpl tempServiceImpl = new TempServiceImpl();
 		org.json.simple.JSONArray ritorno = new org.json.simple.JSONArray();
 
 		Vector<City> cities = new Vector<City>();
-
 		cities = tempServiceImpl.getVector(cnt);
 
 		Iterator<City> iter = cities.iterator();
 		while (iter.hasNext()) {
-
 			org.json.simple.JSONObject jnew = new JSONObject();
 			City city = iter.next();
+
 			jnew.put("id", city.getID());
 			jnew.put("name", city.getName());
 			jnew.put("temp", city.getTemp());
@@ -118,14 +138,23 @@ public class TempServiceImpl implements TempService {
 		return ritorno;
 	}
 
+	/**
+	 * Metodo che ricava dalla chiamata dell'API solo i dati relativi al nome, id,
+	 * temp, tempMax, tempMin e li mette in un vettore di tipo City chiamato cities
+	 * 
+	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
+	 *            informazioni relative la temperatura
+	 * @return Vector<City> cities con all'interno il modello City di ogni città
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
+	 */
 	public Vector<City> getVector(int cnt) throws InvalidNumberException {
 
 		TempServiceImpl tempServiceImpl = new TempServiceImpl();
 		JSONObject jobj = tempServiceImpl.APICall(cnt);
-		org.json.simple.JSONArray ritorno = new org.json.simple.JSONArray();
 
 		org.json.simple.JSONArray weatherArray = new org.json.simple.JSONArray();
 		weatherArray = (org.json.simple.JSONArray) jobj.get("list");
+
 		org.json.simple.JSONObject support;
 		double temp = 0;
 		double tempMin, tempMax;
@@ -138,34 +167,52 @@ public class TempServiceImpl implements TempService {
 			name = (String) support.get("name");
 			id = (long) support.get("id");
 			JSONObject jsup = (JSONObject) support.get("main");
+
 			if (jsup.get("temp") instanceof Long) {
 				long convert = (long) jsup.get("temp");
 				temp = (double) convert;
 			} else if (jsup.get("temp") instanceof Double) {
 				temp = (double) jsup.get("temp");
 			}
+
 			tempMin = (double) jsup.get("temp_min");
 			tempMax = (double) jsup.get("temp_max");
+
 			City tempCity = new City(id, name, temp, tempMax, tempMin);
 			cities.add(tempCity);
 		}
 		return cities;
 	}
 
+	/**
+	 * Metodo che salva all'interno del file "database.dat" le informazioni relative
+	 * le temperature attuali di tutte e 50 le città disponibili
+	 * 
+	 * @return JSONObject con una stringa che conferma il salvataggio
+	 * @throws IOException            se si sono verificati errori durante la
+	 *                                lettura/scrittura del file
+	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
+	 *                                metodo
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
+	 */
 	public JSONObject save() throws IOException, ClassNotFoundException, InvalidNumberException {
 
 		org.json.simple.JSONObject jret = new org.json.simple.JSONObject();
 		String path = System.getProperty("user.dir") + "/database.dat";
 		File f = new File(path);
+
 		TempServiceImpl tempServiceImpl = new TempServiceImpl();
 		Vector<City> cities = new Vector<City>();
 		cities = tempServiceImpl.getVector(50);
+
 		Vector<SaveModel> savings = new Vector<SaveModel>();
 		SaveModel saveobj = new SaveModel();
 		saveobj.setCities(cities);
+
 		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 		String today = date.format(new Date());
 		saveobj.setDataSave(today);
+
 		if (!f.exists()) {
 			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
 			savings.add(saveobj);
@@ -186,6 +233,9 @@ public class TempServiceImpl implements TempService {
 		return jret;
 	}
 
+	/**
+	 * Metodo che richiama il metodo save() ogni 5 ore
+	 */
 	public void saveEvery5Hours() {
 
 		ScheduledExecutorService schedule = Executors.newSingleThreadScheduledExecutor();
@@ -195,13 +245,10 @@ public class TempServiceImpl implements TempService {
 				try {
 					save();
 				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvalidNumberException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
