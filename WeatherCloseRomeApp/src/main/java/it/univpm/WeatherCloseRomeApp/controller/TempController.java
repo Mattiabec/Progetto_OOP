@@ -30,7 +30,6 @@ import it.univpm.WeatherCloseRomeApp.utilities.Stats;
  * 
  * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
  */
-
 @RestController
 public class TempController {
 
@@ -74,9 +73,7 @@ public class TempController {
 
 		org.json.simple.JSONObject jret = new org.json.simple.JSONObject();
 		jret = tempService.save();
-
 		return jret;
-
 	}
 
 	/**
@@ -121,7 +118,6 @@ public class TempController {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		if (s.equals("")) {
-
 			jreturn = stat.stats(50);
 		} else
 			jreturn = stat.orderStats(s, 50);
@@ -227,7 +223,9 @@ public class TempController {
 				if (!dateinFile.contains(endDate)) {
 					throw new InvalidDateException();
 				} else {
-					if (!filter.afterDay(startDate, endDate)) {throw new InvalidDateException();}
+					if (!filter.afterDay(startDate, endDate)) {
+						throw new InvalidDateException();
+					}
 					int numdays = 1;
 					String incrDate = startDate;
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -235,7 +233,6 @@ public class TempController {
 					try {
 						c.setTime(sdf.parse(startDate));
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					while (!incrDate.equals(endDate)) {
@@ -256,12 +253,10 @@ public class TempController {
 					jreturn = filter.orderFilterPeriod(s, jreturn);
 					jreturn.add(0, jdate);
 					break;
-
 				}
 			} else {
 				throw new WrongPeriodException();
 			}
-
 			break;
 		}
 
@@ -269,7 +264,7 @@ public class TempController {
 			throw new WrongPeriodException();
 		}
 		}
-
 		return jreturn;
 	}
+
 }

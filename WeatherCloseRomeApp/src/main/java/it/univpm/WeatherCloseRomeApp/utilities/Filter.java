@@ -22,12 +22,20 @@ import it.univpm.WeatherCloseRomeApp.models.City;
 import it.univpm.WeatherCloseRomeApp.models.SaveModel;
 import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 
+/**
+ * Classe che permette il filtraggio dei dati salvati nel file "database.dat"
+ * 
+ * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
+ */
 public class Filter {
 
 	TempServiceImpl tempser = new TempServiceImpl();
 	String path = System.getProperty("user.dir") + "/database.dat";
 
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public Vector<String> DateDisponibili() {
 		
 		Vector<String> dateAvailable = new Vector<String>();
@@ -45,16 +53,20 @@ public class Filter {
 			}
 			in.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return dateAvailable;
 	}
 
-	
+	/**
+	 * 
+	 * @param s
+	 * @param numdays
+	 * @param str
+	 * @return
+	 */
 	public boolean databaseWidth(String s, int numdays, Vector<String> str) {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -62,7 +74,6 @@ public class Filter {
 		try {
 			c.setTime(sdf.parse(s));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		boolean ret = true;
@@ -77,7 +88,12 @@ public class Filter {
 		return ret;
 	}
 
-	
+	/**
+	 * 
+	 * @param s
+	 * @param numdays
+	 * @return
+	 */
 	public Vector<String> dateForStats(String s, int numdays) {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -86,7 +102,6 @@ public class Filter {
 		try {
 			c.setTime(sdf.parse(s));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		int incr = 0;
@@ -99,7 +114,19 @@ public class Filter {
 		return ret;
 	}
 
-	
+	/**
+	 * 
+	 * @param cnt
+	 * @param data
+	 * @param numdays
+	 * @param name
+	 * @return
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws InvalidDateException
+	 * @throws ShortDatabaseException
+	 * @throws InvalidNumberException
+	 */
 	public org.json.simple.JSONArray filterPeriod(int cnt, String data, int numdays, String name)
 			throws IOException, ClassNotFoundException, InvalidDateException, ShortDatabaseException, InvalidNumberException {
 		
@@ -164,9 +191,12 @@ public class Filter {
 		return jarr;
 	}
 
-	
-
-	
+	/**
+	 * 
+	 * @param s
+	 * @param numdays
+	 * @return
+	 */
 	public Vector<String> jumpingDate(String s, int numdays) {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -175,7 +205,6 @@ public class Filter {
 		try {
 			c.setTime(sdf.parse(s));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		for (int i = 0; i < ret.capacity(); i++) {
@@ -189,7 +218,18 @@ public class Filter {
 		return ret;
 	}
 
-
+	/**
+	 * 
+	 * @param cnt
+	 * @param data
+	 * @param numdays
+	 * @param name
+	 * @return
+	 * @throws InvalidDateException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws InvalidNumberException
+	 */
 	public org.json.simple.JSONArray jumpPeriod(int cnt, String data, int numdays, String name)
 			throws InvalidDateException, IOException, ClassNotFoundException, InvalidNumberException {
 		
@@ -254,6 +294,13 @@ public class Filter {
 		return jarr;
 	}
 
+	/**
+	 * 
+	 * @param s
+	 * @param jarr
+	 * @return
+	 * @throws InvalidFieldException
+	 */
 	public JSONArray orderFilterPeriod(String s, org.json.simple.JSONArray jarr) throws InvalidFieldException {
 		Stats stat = new Stats();
 		boolean scambio = true;
@@ -317,6 +364,12 @@ public class Filter {
 		return jarr;
 	}
 	
+	/**
+	 * 
+	 * @param start
+	 * @param end
+	 * @return
+	 */
 	public boolean afterDay(String start, String end) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c1 = Calendar.getInstance();
@@ -324,13 +377,11 @@ public class Filter {
 		try {
 			c1.setTime(sdf.parse(start));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			c2.setTime(sdf.parse(end));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return c1.before(c2);

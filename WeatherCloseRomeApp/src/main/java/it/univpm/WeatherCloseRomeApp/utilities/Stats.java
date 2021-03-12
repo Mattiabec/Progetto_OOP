@@ -16,12 +16,24 @@ import it.univpm.WeatherCloseRomeApp.models.City;
 import it.univpm.WeatherCloseRomeApp.models.SaveModel;
 import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 
+/**
+ * Classe che permette la statistica dei dati salvati nel file "database.dat"
+ * 
+ * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
+ */
 public class Stats {
 
 	TempServiceImpl tempser = new TempServiceImpl();
 	String path = System.getProperty("user.dir") + "/database.dat";
 
-	
+	/**
+	 * 
+	 * @param cnt
+	 * @return
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws InvalidNumberException
+	 */
 	public org.json.simple.JSONArray stats(int cnt) throws IOException, ClassNotFoundException, InvalidNumberException {
 		File f = new File(path);
 		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
@@ -64,7 +76,14 @@ public class Stats {
 		return jarr;
 	}
 
-	
+	/**
+	 * 
+	 * @param s
+	 * @param cnt
+	 * @return
+	 * @throws InvalidNumberException
+	 * @throws InvalidFieldException
+	 */
 	public org.json.simple.JSONArray orderStats(String s, int cnt) throws InvalidNumberException, InvalidFieldException {
 		
 		Stats stat = new Stats();
@@ -72,7 +91,6 @@ public class Stats {
 		try {
 			jarr = stat.stats(cnt);
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		boolean scambio = true;
@@ -136,7 +154,12 @@ public class Stats {
 		return jarr;
 	}
 
-	
+	/**
+	 * 
+	 * @param i1
+	 * @param i2
+	 * @param jarr
+	 */
 	public void scambia(int i1, int i2, org.json.simple.JSONArray jarr) {
 		
 		org.json.simple.JSONObject j1 = (JSONObject) jarr.get(i1);
@@ -165,7 +188,12 @@ public class Stats {
 		j1.put("id", jsupp.get("id"));
 	}
 
-	
+	/**
+	 * 
+	 * @param id
+	 * @param c
+	 * @return
+	 */
 	public static City findByID(long id, Vector<City> c) {
 		
 		Iterator<City> citer = c.iterator();
