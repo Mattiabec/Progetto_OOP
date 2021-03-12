@@ -227,6 +227,7 @@ public class TempController {
 				if (!dateinFile.contains(endDate)) {
 					throw new InvalidDateException();
 				} else {
+					if (!filter.afterDay(startDate, endDate)) {throw new InvalidDateException();}
 					int numdays = 1;
 					String incrDate = startDate;
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -242,27 +243,25 @@ public class TempController {
 						incrDate = sdf.format(c.getTime());
 						numdays++;
 					}
-					jreturn = filter.filterPeriod(cnt, startDate, numdays, s);
+					jreturn = filter.filterPeriod(cnt, startDate, numdays, name);
 					if (!s.equals("")) {
 						jreturn = filter.orderFilterPeriod(s, jreturn);
 					}
+				}
+			} else if (endDate.equals("") && filtering.getCustomPeriod() != 0) {
+				jreturn = filter.jumpPeriod(cnt, startDate, filtering.getCustomPeriod(), name);
+				if (!s.equals("")) {
+					org.json.simple.JSONObject jdate = (JSONObject) jreturn.get(0);
+					jreturn.remove(0);
+					jreturn = filter.orderFilterPeriod(s, jreturn);
+					jreturn.add(0, jdate);
+					break;
+
 				}
 			} else {
-				if (filtering.getCustomPeriod() != 0) {
-					jreturn = filter.jumpPeriod(cnt, startDate, filtering.getCustomPeriod(), filtering.getName());
-					if (!s.equals("")) {
-						org.json.simple.JSONObject jdate = (JSONObject) jreturn.get(0);
-						jreturn.remove(0);
-						jreturn = filter.orderFilterPeriod(s, jreturn);
-						jreturn.add(0, jdate);
-						break;
-
-					}
-				} else {
-					throw new WrongPeriodException();
-				}
-
+				throw new WrongPeriodException();
 			}
+
 			break;
 		}
 

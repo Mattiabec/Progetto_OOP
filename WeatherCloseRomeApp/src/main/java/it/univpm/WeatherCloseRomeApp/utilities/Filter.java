@@ -317,4 +317,23 @@ public class Filter {
 		return jarr;
 	}
 	
+	public boolean afterDay(String start, String end) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		try {
+			c1.setTime(sdf.parse(start));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			c2.setTime(sdf.parse(end));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return c1.before(c2);
+	}
+	
 }
