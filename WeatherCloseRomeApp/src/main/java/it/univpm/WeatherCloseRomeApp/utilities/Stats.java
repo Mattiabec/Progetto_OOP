@@ -218,12 +218,10 @@ public class Stats {
 	public static City findByID(long id, Vector<City> c) {
 
 		City c1 = new City();
-		boolean found;
 		Iterator<City> citer = c.iterator();
 		while (citer.hasNext()) {
 			c1 = citer.next();
 			if (c1.getID() == id) {
-				found = true;
 				return c1;
 			}
 		}

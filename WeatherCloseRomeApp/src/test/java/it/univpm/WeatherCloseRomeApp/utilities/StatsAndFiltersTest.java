@@ -12,18 +12,26 @@ import org.junit.jupiter.api.Test;
 import it.univpm.WeatherCloseRomeApp.controller.TempController;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidDateException;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidFieldException;
-import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
 import it.univpm.WeatherCloseRomeApp.exceptions.WrongPeriodException;
 import it.univpm.WeatherCloseRomeApp.models.FilterBody;
-import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 
+/**
+ * Classe che testa le eccezioni
+ * 
+ * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
+ */
 class StatsAndFiltersTest {
 
 	private Stats stat;
 	private Filter filter;
 	private TempController controller;
 
+	/**
+	 * Inizializza i componenti necessari a testare i metodi
+	 * 
+	 * @throws Exception
+	 */
 	@BeforeEach
 	void setUp() throws Exception {
 		stat = new Stats();
@@ -31,10 +39,18 @@ class StatsAndFiltersTest {
 		controller = new TempController();
 	}
 
+	/**
+	 * Serve per distruggere ciò che è stato inizializzato dal metodo setUp
+	 * 
+	 * @throws Exception
+	 */
 	@AfterEach
 	void tearDown() throws Exception {
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	@DisplayName("Corretta esecuzione di InvalidFieldException")
 	void IFEtest() {
@@ -45,6 +61,9 @@ class StatsAndFiltersTest {
 
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	@DisplayName("Corretta esecuzione di InvalidDateException")
 	void IDETest() {
@@ -58,6 +77,9 @@ class StatsAndFiltersTest {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	@DisplayName("Corretta esecuzione ShortDatabaseException")
 	void SDETest() {
@@ -69,7 +91,10 @@ class StatsAndFiltersTest {
 		});
 		assertEquals("ShortDatabaseException: database insufficente.", e.toString());
 	}
-	
+
+	/**
+	 * 
+	 */
 	@Test
 	@DisplayName("Corretta esecuzione WrongPeriodException")
 	void WPETest() {

@@ -63,11 +63,13 @@ public class Filter {
 	}
 
 	/**
+	 * Metodo che verifica che ci siano dei dati salvati nel file "database.dat" nei
+	 * giorni di interesse
 	 * 
-	 * @param s
-	 * @param numdays
-	 * @param str
-	 * @return
+	 * @param s       rappresenta la data
+	 * @param numdays rappresenta
+	 * @param str     rappresenta
+	 * @return un boolean
 	 */
 	public boolean databaseWidth(String s, int numdays, Vector<String> str) {
 
@@ -78,6 +80,7 @@ public class Filter {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+
 		boolean ret = true;
 		int incr = 0;
 		for (int i = 0; i < numdays; i++) {
@@ -91,10 +94,11 @@ public class Filter {
 	}
 
 	/**
+	 * Metodo che mette in un vettore di tipo stringa, le date di interesse
 	 * 
-	 * @param s
-	 * @param numdays
-	 * @return
+	 * @param s       rappresenta
+	 * @param numdays rappresenta
+	 * @return Vector<String> ret
 	 */
 	public Vector<String> dateForStats(String s, int numdays) {
 
@@ -106,6 +110,7 @@ public class Filter {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+
 		int incr = 0;
 		for (int i = 0; i < numdays; i++) {
 			c.add(Calendar.DATE, incr);
@@ -117,6 +122,7 @@ public class Filter {
 	}
 
 	/**
+	 * Metodo che filtra le statistiche di interesse
 	 * 
 	 * @param cnt
 	 * @param data
@@ -142,6 +148,7 @@ public class Filter {
 		Vector<String> datedavalutare = filter.dateForStats(data, numdays);
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		File f = new File(path);
+
 		if (!date.contains(data)) {
 			throw new InvalidDateException();
 		} else {
@@ -301,11 +308,12 @@ public class Filter {
 	}
 
 	/**
+	 * Metodo che ordina le statistiche filtrate
 	 * 
 	 * @param s
 	 * @param jarr
 	 * @return
-	 * @throws InvalidFieldException
+	 * @throws InvalidFieldException se il parametro s inserito non esiste
 	 */
 	public JSONArray orderFilterPeriod(String s, org.json.simple.JSONArray jarr) throws InvalidFieldException {
 		Stats stat = new Stats();

@@ -2,8 +2,6 @@ package it.univpm.WeatherCloseRomeApp.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Vector;
-
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,23 +12,39 @@ import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.models.City;
 import it.univpm.WeatherCloseRomeApp.utilities.Stats;
 
+/**
+ * Classe che testa il modello City
+ * 
+ * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
+ */
 class TempServiceImplTest {
 
 	private TempServiceImpl service;
-	private Vector<City> cities;
 	private Stats stat;
 
+	/**
+	 * Inizializza i componenti necessari a testare i metodi
+	 * 
+	 * @throws Exception
+	 */
 	@BeforeEach
 	void setUp() throws Exception {
 		service = new TempServiceImpl();
-		cities = new Vector<City>();
 		stat = new Stats();
 	}
 
+	/**
+	 * Serve per distruggere ciò che è stato inizializzato dal metodo setUp
+	 * 
+	 * @throws Exception
+	 */
 	@AfterEach
 	void tearDown() throws Exception {
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	@DisplayName("Costruttore City.")
 	void testCity() {
@@ -43,6 +57,9 @@ class TempServiceImplTest {
 		assertEquals(301.0, c1.getTempMax());
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	@DisplayName("Corretta generazione dell'eccezione InvalidNumberException.")
 	void INETest() {
@@ -54,6 +71,9 @@ class TempServiceImplTest {
 				e.toString());
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	@DisplayName("Verifica funzionalità metodo scambia().")
 	void scambiaTest() {
