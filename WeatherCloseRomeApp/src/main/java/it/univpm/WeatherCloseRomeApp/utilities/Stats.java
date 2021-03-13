@@ -23,29 +23,40 @@ import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
  */
 public class Stats {
 
-	TempServiceImpl tempser = new TempServiceImpl();
+	TempServiceImpl tempServiceImpl = new TempServiceImpl();
 	String path = System.getProperty("user.dir") + "/database.dat";
 
 	/**
+	 * Metodo che fa statistica non ordinata delle temperature fino a quel momento
+	 * salvate nel file "database.dat", calcolando il valore di Massimo, Minimo,
+	 * Media e Varianza per ogni città
 	 * 
-	 * @param cnt
-	 * @return
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 * @throws InvalidNumberException
+	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
+	 *            informazioni relative la temperatura
+	 * @return JSONArray con statistiche di Massimo, Minimo, Media e Varianza delle
+	 *         temperature fino a quel momento salvate
+	 * @throws IOException            se si sono verificati errori durante la
+	 *                                lettura/scrittura del file
+	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
+	 *                                metodo
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
 	public org.json.simple.JSONArray stats(int cnt) throws IOException, ClassNotFoundException, InvalidNumberException {
+
 		File f = new File(path);
 		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
+
 		Vector<SaveModel> fromFile = new Vector<SaveModel>();
 		Vector<City> forStats = new Vector<City>();
-		forStats = tempser.getVector(cnt);
+		forStats = tempServiceImpl.getVector(cnt);
 		fromFile = (Vector<SaveModel>) in.readObject();
 		in.close();
+
 		Iterator<SaveModel> iter = fromFile.iterator();
 		while (iter.hasNext()) {
-			SaveModel tmp = iter.next();
-			Vector<City> cities = tmp.getCities();
+			SaveModel saveModel = iter.next();
+			Vector<City> cities = saveModel.getCities();
+
 			Iterator<City> iterCity = cities.iterator();
 			while (iterCity.hasNext()) {
 				City c = iterCity.next();
@@ -54,15 +65,16 @@ public class Stats {
 				c1.getTempForstats().add(temperatura);
 			}
 		}
-		Iterator<City> iterForStats = forStats.iterator();
 
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
+		Iterator<City> iterForStats = forStats.iterator();
 		while (iterForStats.hasNext()) {
 			City c = iterForStats.next();
 			c.setMax();
 			c.setMin();
 			c.setMedia();
 			c.setVarianza();
+
 			org.json.simple.JSONObject jobj = new org.json.simple.JSONObject();
 			jobj.put("name", c.getName());
 			jobj.put("id", c.getID());
@@ -72,27 +84,32 @@ public class Stats {
 			jobj.put("Varianza", c.getVarianza());
 			jarr.add(jobj);
 		}
-
 		return jarr;
 	}
 
 	/**
+	 * Metodo che permette l'ordinamento decrescente delle statistiche scegliendo il
+	 * parametro da ordinare: Massimo, Minimo, Media, Varianza
 	 * 
-	 * @param s
-	 * @param cnt
-	 * @return
-	 * @throws InvalidNumberException
-	 * @throws InvalidFieldException
+	 * @param s   rappresenta il parametro di interesse da ordinare
+	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
+	 *            informazioni relative la temperatura
+	 * @return JSONArray ordinato
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
+	 * @throws InvalidFieldException  se il parametro s inserito non esiste
 	 */
-	public org.json.simple.JSONArray orderStats(String s, int cnt) throws InvalidNumberException, InvalidFieldException {
-		
+	public org.json.simple.JSONArray orderStats(String s, int cnt)
+			throws InvalidNumberException, InvalidFieldException {
+
 		Stats stat = new Stats();
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
+
 		try {
 			jarr = stat.stats(cnt);
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
+
 		boolean scambio = true;
 		if (s.equals("Massimo") || s.equals("MASSIMO") || s.equals("massimo")) {
 			while (scambio) {
@@ -150,18 +167,21 @@ public class Stats {
 					}
 				}
 			}
-		} else throw new InvalidFieldException();
+		} else
+			throw new InvalidFieldException();
 		return jarr;
 	}
 
 	/**
+	 * Metodo che scambia la posizione di due oggetti successivi all'interno del
+	 * JSONArray
 	 * 
-	 * @param i1
-	 * @param i2
-	 * @param jarr
+	 * @param i1   rappresenta la posizione nel JSONArray attuale
+	 * @param i2   rappresenta la posizione nel JSONArray successiva
+	 * @param jarr rappresenta il JSONArray
 	 */
 	public void scambia(int i1, int i2, org.json.simple.JSONArray jarr) {
-		
+
 		org.json.simple.JSONObject j1 = (JSONObject) jarr.get(i1);
 		org.json.simple.JSONObject jsupp = new org.json.simple.JSONObject();
 		org.json.simple.JSONObject j2 = (JSONObject) jarr.get(i2);
@@ -173,7 +193,7 @@ public class Stats {
 		jsupp.put("Varianza", j2.get("Varianza"));
 		jsupp.put("id", j2.get("id"));
 
-		j2.put("name", j1.get("name")); // mette i parametri di j1 su j2
+		j2.put("name", j1.get("name"));
 		j2.put("Massimo", j1.get("Massimo"));
 		j2.put("Minimo", j1.get("Minimo"));
 		j2.put("Media", j1.get("Media"));
@@ -189,16 +209,17 @@ public class Stats {
 	}
 
 	/**
+	 * Metodo che
 	 * 
-	 * @param id
-	 * @param c
-	 * @return
+	 * @param id rappresenta id della città
+	 * @param c rappresenta un vettore di tipo City
+	 * @return oggetto City
 	 */
 	public static City findByID(long id, Vector<City> c) {
-		
-		Iterator<City> citer = c.iterator();
+
 		City c1 = new City();
 		boolean found;
+		Iterator<City> citer = c.iterator();
 		while (citer.hasNext()) {
 			c1 = citer.next();
 			if (c1.getID() == id) {

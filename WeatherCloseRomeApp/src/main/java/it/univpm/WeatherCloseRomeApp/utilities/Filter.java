@@ -29,25 +29,27 @@ import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
  */
 public class Filter {
 
-	TempServiceImpl tempser = new TempServiceImpl();
+	TempServiceImpl tempServiceImpl = new TempServiceImpl();
 	String path = System.getProperty("user.dir") + "/database.dat";
 
 	/**
+	 * Metodo che restituisce le date in cui sono presenti dati relativi le
+	 * temperature salvati nel file "database.dat"
 	 * 
-	 * @return
+	 * @return Vector<String> dateAvailable
 	 */
 	public Vector<String> DateDisponibili() {
-		
+
 		Vector<String> dateAvailable = new Vector<String>();
 		File f = new File(path);
 		try {
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 			Vector<SaveModel> savings = (Vector<SaveModel>) in.readObject();
+
 			Iterator<SaveModel> iter = savings.iterator();
 			while (iter.hasNext()) {
 				String tmp = iter.next().getDataSave();
 				if (!(dateAvailable.contains(tmp))) {
-
 					dateAvailable.add(tmp);
 				}
 			}
@@ -68,7 +70,7 @@ public class Filter {
 	 * @return
 	 */
 	public boolean databaseWidth(String s, int numdays, Vector<String> str) {
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		try {
@@ -95,7 +97,7 @@ public class Filter {
 	 * @return
 	 */
 	public Vector<String> dateForStats(String s, int numdays) {
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		Vector<String> ret = new Vector<String>();
@@ -121,18 +123,22 @@ public class Filter {
 	 * @param numdays
 	 * @param name
 	 * @return
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 * @throws InvalidDateException
-	 * @throws ShortDatabaseException
-	 * @throws InvalidNumberException
+	 * @throws IOException            se si sono verificati errori durante la
+	 *                                lettura/scrittura del file
+	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
+	 *                                metodo
+	 * @throws InvalidDateException   se non si hanno dati nel database della data
+	 *                                inserita
+	 * @throws ShortDatabaseException se nel "period" scelto non si hanno dati
+	 *                                sufficienti
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
-	public org.json.simple.JSONArray filterPeriod(int cnt, String data, int numdays, String name)
-			throws IOException, ClassNotFoundException, InvalidDateException, ShortDatabaseException, InvalidNumberException {
-		
+	public org.json.simple.JSONArray filterPeriod(int cnt, String data, int numdays, String name) throws IOException,
+			ClassNotFoundException, InvalidDateException, ShortDatabaseException, InvalidNumberException {
+
 		Filter filter = new Filter();
 		Vector<String> date = filter.DateDisponibili();
-		Vector<City> cities = tempser.getVector(cnt);
+		Vector<City> cities = tempServiceImpl.getVector(cnt);
 		Vector<String> datedavalutare = filter.dateForStats(data, numdays);
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		File f = new File(path);
@@ -198,7 +204,7 @@ public class Filter {
 	 * @return
 	 */
 	public Vector<String> jumpingDate(String s, int numdays) {
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		Vector<String> ret = new Vector<String>(10);
@@ -232,10 +238,10 @@ public class Filter {
 	 */
 	public org.json.simple.JSONArray jumpPeriod(int cnt, String data, int numdays, String name)
 			throws InvalidDateException, IOException, ClassNotFoundException, InvalidNumberException {
-		
+
 		Filter filter = new Filter();
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
-		Vector<City> cities = tempser.getVector(cnt);
+		Vector<City> cities = tempServiceImpl.getVector(cnt);
 		File f = new File(path);
 		Vector<String> dateNecessarie = filter.jumpingDate(data, numdays);
 		Vector<String> date = filter.DateDisponibili();
@@ -360,10 +366,11 @@ public class Filter {
 					}
 				}
 			}
-		} else throw new InvalidFieldException();
+		} else
+			throw new InvalidFieldException();
 		return jarr;
 	}
-	
+
 	/**
 	 * 
 	 * @param start
@@ -386,5 +393,5 @@ public class Filter {
 		}
 		return c1.before(c2);
 	}
-	
+
 }
