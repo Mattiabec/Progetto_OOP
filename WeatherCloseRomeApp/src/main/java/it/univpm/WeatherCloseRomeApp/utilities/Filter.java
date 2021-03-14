@@ -66,53 +66,55 @@ public class Filter {
 	 * Metodo che verifica che ci siano dei dati salvati nel file "database.dat" nei
 	 * giorni di interesse
 	 * 
-	 * @param s       rappresenta la data
-	 * @param numdays rappresenta
-	 * @param str     rappresenta
-	 * @return un boolean
+	 * @param startDate       rappresenta la data iniziale
+	 * @param numDays         rappresenta il "period" (daily, weekly, monthly,
+	 *                        custom)
+	 * @param dateDisponibili rappresenta un vettore con all'interno le date
+	 *                        presenti nel file "database.dat"
+	 * @return boolean flag
 	 */
-	public boolean databaseWidth(String s, int numdays, Vector<String> str) {
+	public boolean databaseWidth(String startDate, int numDays, Vector<String> dateDisponibili) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		try {
-			c.setTime(sdf.parse(s));
+			c.setTime(sdf.parse(startDate));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
-		boolean ret = true;
+		boolean flag = true;
 		int incr = 0;
-		for (int i = 0; i < numdays; i++) {
+		for (int i = 0; i < numDays; i++) {
 			c.add(Calendar.DATE, incr);
 			String v = sdf.format(c.getTime());
-			if (!str.contains(v))
-				ret = false;
+			if (!dateDisponibili.contains(v))
+				flag = false;
 			incr = 1;
 		}
-		return ret;
+		return flag;
 	}
 
 	/**
 	 * Metodo che mette in un vettore di tipo stringa, le date di interesse
 	 * 
-	 * @param s       rappresenta
-	 * @param numdays rappresenta
+	 * @param startDate rappresenta la data iniziale
+	 * @param numDays   rappresenta il "period" (daily, weekly, monthly, custom)
 	 * @return Vector<String> ret
 	 */
-	public Vector<String> dateForStats(String s, int numdays) {
+	public Vector<String> dateForStats(String startDate, int numDays) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		Vector<String> ret = new Vector<String>();
 		try {
-			c.setTime(sdf.parse(s));
+			c.setTime(sdf.parse(startDate));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
 		int incr = 0;
-		for (int i = 0; i < numdays; i++) {
+		for (int i = 0; i < numDays; i++) {
 			c.add(Calendar.DATE, incr);
 			String v = sdf.format(c.getTime());
 			ret.add(v);
@@ -124,11 +126,13 @@ public class Filter {
 	/**
 	 * Metodo che filtra le statistiche di interesse
 	 * 
-	 * @param cnt     rappresenta
-	 * @param data    rappresenta
-	 * @param numdays rappresenta
-	 * @param name    rappresenta
-	 * @return JSONArray
+	 * @param cnt       rappresenta il numero di città di cui vogliamo conoscere le
+	 *                  informazioni relative la temperatura
+	 * @param startDate rappresenta la data iniziale
+	 * @param numDays   rappresenta il "period" (daily, weekly, monthly, custom)
+	 * @param name      rappresenta il nome della città
+	 * @return JSONArray composto da JSONObject per ogni città filtrata con le
+	 *         proprie statistiche
 	 * @throws IOException            se si sono verificati errori durante la
 	 *                                lettura/scrittura del file
 	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
@@ -139,20 +143,21 @@ public class Filter {
 	 *                                sufficienti
 	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
-	public org.json.simple.JSONArray filterPeriod(int cnt, String data, int numdays, String name) throws IOException,
-			ClassNotFoundException, InvalidDateException, ShortDatabaseException, InvalidNumberException {
+	public org.json.simple.JSONArray filterPeriod(int cnt, String startDate, int numDays, String name)
+			throws IOException, ClassNotFoundException, InvalidDateException, ShortDatabaseException,
+			InvalidNumberException {
 
 		Filter filter = new Filter();
 		Vector<String> date = filter.DateDisponibili();
 		Vector<City> cities = tempServiceImpl.getVector(cnt);
-		Vector<String> datedavalutare = filter.dateForStats(data, numdays);
+		Vector<String> datedavalutare = filter.dateForStats(startDate, numDays);
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		File f = new File(path);
 
-		if (!date.contains(data)) {
+		if (!date.contains(startDate)) {
 			throw new InvalidDateException();
 		} else {
-			if (filter.databaseWidth(data, numdays, date)) {
+			if (filter.databaseWidth(startDate, numDays, date)) {
 				try {
 					ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 					Vector<SaveModel> filedata = (Vector<SaveModel>) in.readObject();
@@ -183,7 +188,6 @@ public class Filter {
 		}
 
 		Iterator<City> iterForStats = cities.iterator();
-
 		while (iterForStats.hasNext()) {
 			City c = iterForStats.next();
 			if (c.getName().contains(name)) {
@@ -313,11 +317,12 @@ public class Filter {
 	}
 
 	/**
-	 * Metodo che ordina le statistiche filtrate
+	 * Metodo che permette l'ordinamento decrescente delle statistiche filtrate,
+	 * scegliendo il parametro da ordinare: Massimo, Minimo, Media, Varianza
 	 * 
-	 * @param s    rappresenta
-	 * @param jarr rappresenta
-	 * @return JSONArray
+	 * @param s    rappresenta il parametro di interesse da ordinare
+	 * @param jarr rappresenta il JSONArray da ordinare
+	 * @return JSONArray ordinato
 	 * @throws InvalidFieldException se il parametro s inserito non esiste
 	 */
 	public JSONArray orderFilterPeriod(String s, org.json.simple.JSONArray jarr) throws InvalidFieldException {
@@ -387,21 +392,21 @@ public class Filter {
 	/**
 	 * Metodo che
 	 * 
-	 * @param start rappresenta
-	 * @param end   rappresenta
+	 * @param startDate rappresenta la data iniziale
+	 * @param endDate   rappresenta la data finale
 	 * @return
 	 */
-	public boolean afterDay(String start, String end) {
+	public boolean afterDay(String startDate, String endDate) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = Calendar.getInstance();
 		try {
-			c1.setTime(sdf.parse(start));
+			c1.setTime(sdf.parse(startDate));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		try {
-			c2.setTime(sdf.parse(end));
+			c2.setTime(sdf.parse(endDate));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

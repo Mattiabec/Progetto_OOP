@@ -209,10 +209,11 @@ public class Stats {
 	}
 
 	/**
-	 * Metodo che
+	 * Metodo che restituisce una città presente nel vettore di tipo City tramite il
+	 * parametro id
 	 * 
 	 * @param id rappresenta id della città
-	 * @param c rappresenta un vettore di tipo City
+	 * @param c  rappresenta un vettore di tipo City
 	 * @return oggetto City
 	 */
 	public static City findByID(long id, Vector<City> c) {
