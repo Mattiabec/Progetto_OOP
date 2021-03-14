@@ -11,11 +11,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidDateException;
-import it.univpm.WeatherCloseRomeApp.exceptions.InvalidFieldException;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
 import it.univpm.WeatherCloseRomeApp.models.City;
@@ -186,7 +182,6 @@ public class Filter {
 				throw new ShortDatabaseException();
 			}
 		}
-
 		Iterator<City> iterForStats = cities.iterator();
 		while (iterForStats.hasNext()) {
 			City c = iterForStats.next();
@@ -209,19 +204,20 @@ public class Filter {
 	}
 
 	/**
-	 * Metodo che
+	 * Metodo che restituisce le date da valutare per il filtraggio di statistiche
+	 * ogni "customperiod" giorni
 	 * 
-	 * @param s       rappresenta
-	 * @param numdays rappresenta
+	 * @param startDate rappresenta la data iniziale
+	 * @param numDays   rappresenta il "customperiod"
 	 * @return Vector<String> ret
 	 */
-	public Vector<String> jumpingDate(String s, int numdays) {
+	public Vector<String> jumpingDate(String startDate, int numDays) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		Vector<String> ret = new Vector<String>(10);
 		try {
-			c.setTime(sdf.parse(s));
+			c.setTime(sdf.parse(startDate));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -229,7 +225,7 @@ public class Filter {
 			if (i == 0)
 				c.add(Calendar.DATE, 0);
 			else
-				c.add(Calendar.DATE, numdays);
+				c.add(Calendar.DATE, numDays);
 			String v = sdf.format(c.getTime());
 			ret.add(v);
 		}
@@ -237,13 +233,15 @@ public class Filter {
 	}
 
 	/**
-	 * Metodo che
+	 * Metodo che filtra le statistiche ogni "customperiod" giorni
 	 * 
-	 * @param cnt     rappresenta
-	 * @param data    rappresenta
-	 * @param numdays rappresenta
-	 * @param name    rappresenta
-	 * @return JSONArray
+	 * @param cnt       rappresenta il numero di città di cui vogliamo conoscere le
+	 *                  informazioni relative la temperatura
+	 * @param startDate rappresenta la data iniziale
+	 * @param numDays   rappresenta il "customperiod"
+	 * @param name      rappresenta il nome della città
+	 * @return JSONArray composto da JSONObject per ogni città filtrata con le
+	 *         proprie statistiche
 	 * @throws InvalidDateException   se non si hanno dati nel database della data
 	 *                                inserita
 	 * @throws IOException            se si sono verificati errori durante la
@@ -252,18 +250,20 @@ public class Filter {
 	 *                                metodo
 	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
-	public org.json.simple.JSONArray jumpPeriod(int cnt, String data, int numdays, String name)
+	public org.json.simple.JSONArray jumpPeriod(int cnt, String startDate, int numDays, String name)
 			throws InvalidDateException, IOException, ClassNotFoundException, InvalidNumberException {
 
 		Filter filter = new Filter();
-		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
-		Vector<City> cities = tempServiceImpl.getVector(cnt);
-		File f = new File(path);
-		Vector<String> dateNecessarie = filter.jumpingDate(data, numdays);
 		Vector<String> date = filter.DateDisponibili();
-		if (!date.contains(data)) {
+		Vector<City> cities = tempServiceImpl.getVector(cnt);
+		Vector<String> dateNecessarie = filter.jumpingDate(startDate, numDays);
+		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
+		File f = new File(path);
+
+		if (!date.contains(startDate)) {
 			throw new InvalidDateException();
 		}
+
 		Vector<String> dateArrivabili = new Vector<String>();
 		for (String ss : dateNecessarie) {
 			if (date.contains(ss))
@@ -278,13 +278,13 @@ public class Filter {
 		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 		Vector<SaveModel> filedata = (Vector<SaveModel>) in.readObject();
 		in.close();
+
 		Iterator<SaveModel> iter = filedata.iterator();
 		while (iter.hasNext()) {
 			SaveModel save = iter.next();
 			String str = save.getDataSave();
 			Vector<City> tmp = save.getCities();
 			if (dateArrivabili.contains(str)) {
-
 				for (int i = 0; i < cnt; i++) {
 					City tmpcity = tmp.get(i);
 					double temp = tmpcity.getTemp();
@@ -293,9 +293,7 @@ public class Filter {
 				}
 			}
 		}
-
 		Iterator<City> iterForStats = cities.iterator();
-
 		while (iterForStats.hasNext()) {
 			City c = iterForStats.next();
 			if (c.getName().contains(name)) {
@@ -316,13 +314,12 @@ public class Filter {
 		return jarr;
 	}
 
-
 	/**
-	 * Metodo che
+	 * Metodo che verifica che startDate sia precedente a endDate
 	 * 
 	 * @param startDate rappresenta la data iniziale
 	 * @param endDate   rappresenta la data finale
-	 * @return
+	 * @return boolean
 	 */
 	public boolean afterDay(String startDate, String endDate) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

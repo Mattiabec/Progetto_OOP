@@ -101,7 +101,6 @@ public class Stats {
 	public org.json.simple.JSONArray orderStats(String s, org.json.simple.JSONArray jarr)
 			throws InvalidNumberException, InvalidFieldException {
 
-
 		boolean scambio = true;
 		if (s.equals("Massimo") || s.equals("MASSIMO") || s.equals("massimo")) {
 			while (scambio) {

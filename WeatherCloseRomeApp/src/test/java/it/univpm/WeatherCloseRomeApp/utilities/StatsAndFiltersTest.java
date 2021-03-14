@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Vector;
 
-import org.json.simple.JSONArray;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -65,7 +64,6 @@ class StatsAndFiltersTest {
 		try {
 			jarr = service.getJSONList(22);
 		} catch (InvalidNumberException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		InvalidFieldException e = assertThrows(InvalidFieldException.class, () -> {
