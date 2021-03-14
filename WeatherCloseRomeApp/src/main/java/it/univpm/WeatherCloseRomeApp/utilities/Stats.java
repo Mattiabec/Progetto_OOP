@@ -98,17 +98,9 @@ public class Stats {
 	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 * @throws InvalidFieldException  se il parametro s inserito non esiste
 	 */
-	public org.json.simple.JSONArray orderStats(String s, int cnt)
+	public org.json.simple.JSONArray orderStats(String s, org.json.simple.JSONArray jarr)
 			throws InvalidNumberException, InvalidFieldException {
 
-		Stats stat = new Stats();
-		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
-
-		try {
-			jarr = stat.stats(cnt);
-		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
-		}
 
 		boolean scambio = true;
 		if (s.equals("Massimo") || s.equals("MASSIMO") || s.equals("massimo")) {

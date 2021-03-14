@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Vector;
 
+import org.json.simple.JSONArray;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,9 +13,11 @@ import org.junit.jupiter.api.Test;
 import it.univpm.WeatherCloseRomeApp.controller.TempController;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidDateException;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidFieldException;
+import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
 import it.univpm.WeatherCloseRomeApp.exceptions.WrongPeriodException;
 import it.univpm.WeatherCloseRomeApp.models.FilterBody;
+import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 
 /**
  * Classe che testa le eccezioni
@@ -26,6 +29,8 @@ class StatsAndFiltersTest {
 	private Stats stat;
 	private Filter filter;
 	private TempController controller;
+	private TempServiceImpl service;
+	org.json.simple.JSONArray jarr;
 
 	/**
 	 * Inizializza i componenti necessari a testare i metodi
@@ -37,6 +42,8 @@ class StatsAndFiltersTest {
 		stat = new Stats();
 		filter = new Filter();
 		controller = new TempController();
+		service = new TempServiceImpl();
+		jarr = new org.json.simple.JSONArray();
 	}
 
 	/**
@@ -55,8 +62,14 @@ class StatsAndFiltersTest {
 	@DisplayName("Corretta esecuzione di InvalidFieldException")
 	void IFEtest() {
 
+		try {
+			jarr = service.getJSONList(22);
+		} catch (InvalidNumberException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		InvalidFieldException e = assertThrows(InvalidFieldException.class, () -> {
-			stat.orderStats("max", 3);
+			stat.orderStats("max", jarr);
 		});
 		assertEquals("InvalidFieldException: campo errato.", e.toString());
 

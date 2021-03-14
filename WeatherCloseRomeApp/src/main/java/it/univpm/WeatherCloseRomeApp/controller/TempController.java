@@ -117,10 +117,12 @@ public class TempController {
 			throws InvalidNumberException, ClassNotFoundException, IOException, InvalidFieldException {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
-		if (s.equals("")) {
-			jreturn = stat.stats(50);
-		} else
-			jreturn = stat.orderStats(s, 50);
+
+		jreturn = stat.stats(50);
+		if (!s.equals("")) {
+			jreturn = stat.orderStats(s, jreturn);
+		}
+
 		return jreturn;
 	}
 
@@ -194,7 +196,7 @@ public class TempController {
 		case "daily": {
 			jreturn = filter.filterPeriod(cnt, startDate, 1, name);
 			if (!s.equals(""))
-				jreturn = filter.orderFilterPeriod(s, jreturn);
+				jreturn = stat.orderStats(s, jreturn);
 			break;
 		}
 
@@ -203,7 +205,7 @@ public class TempController {
 		case "weekly": {
 			jreturn = filter.filterPeriod(cnt, startDate, 7, name);
 			if (!s.equals(""))
-				jreturn = filter.orderFilterPeriod(s, jreturn);
+				jreturn = stat.orderStats(s, jreturn);
 			break;
 		}
 
@@ -212,7 +214,7 @@ public class TempController {
 		case "monthly": {
 			jreturn = filter.filterPeriod(cnt, startDate, 30, name);
 			if (!s.equals(""))
-				jreturn = filter.orderFilterPeriod(s, jreturn);
+				jreturn = stat.orderStats(s, jreturn);
 			break;
 		}
 
@@ -242,7 +244,7 @@ public class TempController {
 					}
 					jreturn = filter.filterPeriod(cnt, startDate, numdays, name);
 					if (!s.equals("")) {
-						jreturn = filter.orderFilterPeriod(s, jreturn);
+						jreturn = stat.orderStats(s, jreturn);
 					}
 				}
 			} else if (endDate.equals("") && filtering.getCustomPeriod() != 0) {
@@ -250,7 +252,7 @@ public class TempController {
 				if (!s.equals("")) {
 					org.json.simple.JSONObject jdate = (JSONObject) jreturn.get(0);
 					jreturn.remove(0);
-					jreturn = filter.orderFilterPeriod(s, jreturn);
+					jreturn = stat.orderStats(s, jreturn);
 					jreturn.add(0, jdate);
 					break;
 				}
