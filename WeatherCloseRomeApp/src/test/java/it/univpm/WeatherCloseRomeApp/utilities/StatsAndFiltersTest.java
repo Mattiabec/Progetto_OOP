@@ -40,7 +40,7 @@ class StatsAndFiltersTest {
 	}
 
 	/**
-	 * Serve per distruggere ciò che è stato inizializzato dal metodo setUp
+	 * Distrugge ciò che è stato inizializzato dal metodo setUp
 	 * 
 	 * @throws Exception
 	 */
@@ -49,11 +49,12 @@ class StatsAndFiltersTest {
 	}
 
 	/**
-	 * 
+	 * Test dell'eccezione InvalidFieldException
 	 */
 	@Test
 	@DisplayName("Corretta esecuzione di InvalidFieldException")
 	void IFEtest() {
+
 		InvalidFieldException e = assertThrows(InvalidFieldException.class, () -> {
 			stat.orderStats("max", 3);
 		});
@@ -62,11 +63,12 @@ class StatsAndFiltersTest {
 	}
 
 	/**
-	 * 
+	 * Test dell'eccezione InvalidDataException
 	 */
 	@Test
 	@DisplayName("Corretta esecuzione di InvalidDateException")
 	void IDETest() {
+
 		String data = "12-12-1999";
 		Vector<String> datedisponibili = filter.DateDisponibili();
 		if (!datedisponibili.contains(data)) {
@@ -78,11 +80,12 @@ class StatsAndFiltersTest {
 	}
 
 	/**
-	 * 
+	 * Test dell'eccezione ShortDatabaseException
 	 */
 	@Test
 	@DisplayName("Corretta esecuzione ShortDatabaseException")
 	void SDETest() {
+
 		int numdays = 30;
 		Vector<String> datedisponibili = filter.DateDisponibili();
 		String data0 = datedisponibili.get(0);
@@ -93,11 +96,12 @@ class StatsAndFiltersTest {
 	}
 
 	/**
-	 * 
+	 * Test dell'eccezione WrongPeriodException
 	 */
 	@Test
 	@DisplayName("Corretta esecuzione WrongPeriodException")
 	void WPETest() {
+
 		FilterBody filtering = new FilterBody();
 		filtering.setPeriod("mensile");
 		filtering.setCount(5);

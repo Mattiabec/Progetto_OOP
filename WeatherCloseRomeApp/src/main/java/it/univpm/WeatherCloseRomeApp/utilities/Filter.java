@@ -124,11 +124,11 @@ public class Filter {
 	/**
 	 * Metodo che filtra le statistiche di interesse
 	 * 
-	 * @param cnt
-	 * @param data
-	 * @param numdays
-	 * @param name
-	 * @return
+	 * @param cnt     rappresenta
+	 * @param data    rappresenta
+	 * @param numdays rappresenta
+	 * @param name    rappresenta
+	 * @return JSONArray
 	 * @throws IOException            se si sono verificati errori durante la
 	 *                                lettura/scrittura del file
 	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
@@ -205,10 +205,11 @@ public class Filter {
 	}
 
 	/**
+	 * Metodo che
 	 * 
-	 * @param s
-	 * @param numdays
-	 * @return
+	 * @param s       rappresenta
+	 * @param numdays rappresenta
+	 * @return Vector<String> ret
 	 */
 	public Vector<String> jumpingDate(String s, int numdays) {
 
@@ -232,16 +233,20 @@ public class Filter {
 	}
 
 	/**
+	 * Metodo che
 	 * 
-	 * @param cnt
-	 * @param data
-	 * @param numdays
-	 * @param name
-	 * @return
-	 * @throws InvalidDateException
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 * @throws InvalidNumberException
+	 * @param cnt     rappresenta
+	 * @param data    rappresenta
+	 * @param numdays rappresenta
+	 * @param name    rappresenta
+	 * @return JSONArray
+	 * @throws InvalidDateException   se non si hanno dati nel database della data
+	 *                                inserita
+	 * @throws IOException            se si sono verificati errori durante la
+	 *                                lettura/scrittura del file
+	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
+	 *                                metodo
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
 	public org.json.simple.JSONArray jumpPeriod(int cnt, String data, int numdays, String name)
 			throws InvalidDateException, IOException, ClassNotFoundException, InvalidNumberException {
@@ -310,9 +315,9 @@ public class Filter {
 	/**
 	 * Metodo che ordina le statistiche filtrate
 	 * 
-	 * @param s
-	 * @param jarr
-	 * @return
+	 * @param s    rappresenta
+	 * @param jarr rappresenta
+	 * @return JSONArray
 	 * @throws InvalidFieldException se il parametro s inserito non esiste
 	 */
 	public JSONArray orderFilterPeriod(String s, org.json.simple.JSONArray jarr) throws InvalidFieldException {
@@ -380,9 +385,10 @@ public class Filter {
 	}
 
 	/**
+	 * Metodo che
 	 * 
-	 * @param start
-	 * @param end
+	 * @param start rappresenta
+	 * @param end   rappresenta
 	 * @return
 	 */
 	public boolean afterDay(String start, String end) {
