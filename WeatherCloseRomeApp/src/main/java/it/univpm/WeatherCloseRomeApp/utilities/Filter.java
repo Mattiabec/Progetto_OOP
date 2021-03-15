@@ -215,7 +215,7 @@ public class Filter {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
-		Vector<String> ret = new Vector<String>(10);
+		Vector<String> ret = new Vector<String>();
 		try {
 			c.setTime(sdf.parse(startDate));
 		} catch (ParseException e) {

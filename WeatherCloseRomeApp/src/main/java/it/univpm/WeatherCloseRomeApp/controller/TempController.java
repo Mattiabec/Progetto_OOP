@@ -150,7 +150,7 @@ public class TempController {
 	 * Rotta di tipo POST che filtra le statistiche nel file "database.dat"
 	 * attraverso un JSONObject in input. Il filtraggio ci permette di ottenere
 	 * statistiche periodiche ("period"=daily/weekly/monthly/custom) di "count"
-	 * città, con la possibilità di specificare il nome della città ("name") e di
+	 * città, con la possibilità di specificare una sottostringa del nome della città ("name") e di
 	 * considerare statistiche ogni "customPeriod" giorni. Esempi:
 	 * 
 	 * -Conoscere le statistiche delle città che iniziano con la lettera "T" della
@@ -160,8 +160,8 @@ public class TempController {
 	 * -Conoscere le statistiche di 10 città dal "2021-03-10" al "2021-03-14":
 	 *  {"count":10, "period":"custom", "startDate":"2021-03-10", "endDate":"2021-03-14", "customPeriod":"", "name":""}
 	 * 
-	 * -Conoscere le statistiche di 5 città, prendendo i dati dal 2021-03-10 fino
-	 *  ad oggi, solo ogni "4" giorni:
+	 * -Conoscere le statistiche di 5 città, prendendo i dati del 2021-03-10, 
+	 *  del 2021-03-14, del 2021-03-18 e così via... ogni '4' giorni:
 	 *  {"count": 5,"period": "custom","startDate": "2021-03-10","endDate":"","customPeriod":4,"name":""}
 	 * 
 	 * Inoltre ho la possibilità di ordinare in modo decrescente le statistiche
