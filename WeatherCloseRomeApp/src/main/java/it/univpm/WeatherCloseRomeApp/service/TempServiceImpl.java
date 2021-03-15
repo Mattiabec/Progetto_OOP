@@ -43,8 +43,8 @@ public class TempServiceImpl implements TempService {
 	/**
 	 * Key univoca per ogni utente necessaria per comunicare con l'API OpenWeather
 	 */
-	String API_KEY = "008c7fc03fb19021c703f488733a8695";
-	String message = "DEFAULT";
+	private String API_KEY = "008c7fc03fb19021c703f488733a8695";
+	private String message = "DEFAULT";
 
 	/**
 	 * Metodo che chiama l'API
