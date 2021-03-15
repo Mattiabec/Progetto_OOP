@@ -64,7 +64,7 @@ Come possiamo vedere abbiamo diversi package:
 ![Diagramma delle classi (1)](https://user-images.githubusercontent.com/44706799/110305557-19215380-7ffd-11eb-80cd-dcbd86479a32.jpg)
 
 <a name="usd"></a>
-## Sequence Diagram
+## Sequence Diagram - provvisorio- 
 
 ![Diagramma delle sequenze](https://user-images.githubusercontent.com/44706799/110305616-2b9b8d00-7ffd-11eb-9335-2cd0d0d514b1.jpg)
 
@@ -187,22 +187,20 @@ Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visuali
 
 <a name="save"></a>
 ### :round_pushpin: GET/save:
-Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni volta su 50 città.  
+Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni volta su 50 città.  
 
 :mag: ESEMPIO :
 
-![Screenshot (129)](https://user-images.githubusercontent.com/44706799/110497692-fc694680-80f6-11eb-966e-9a6047b1fe75.png)
-
+METTI IMMAGINE
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="save5"></a>
 ### :round_pushpin: GET/saveEvery5Hours:
-Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data, questa operazione verrà fatta ogni 5 ore su 50 città.  
+Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni 5 ore su 50 città.  
 
 :mag: ESEMPIO :
 
-![Screenshot (131)](https://user-images.githubusercontent.com/44706799/110611395-7816d200-818f-11eb-84dd-41c4e209530a.png)
-
+METTI IMMAGINE
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="stats"></a>
@@ -320,15 +318,19 @@ Ci  mostra le date disponibili nel database in cui sono state salvate le tempera
 
 <a name="filters"></a>
 ### :round_pushpin: POST/filtres:
-Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni o in base ad una sottostringa, come citta che iniziiano con *A*. Nel caso si voglia usare il CustomPeriod bisogna impostare il campo period come `null` (ovvero = ""). Se si immette un numero positivo si vedranno le date future al quella inserita, mentre nel caso negativo si vedranno le date passate.
+Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni, custom o in base ad una sottostringa, come citta che iniziano con *A*. Nel caso si voglia usare un periodo a nostro piacimento bisogna impostare il campo period come `custom`. Nel campo startDate bisogna inserire il giorno in cui si vuole iniziare a filtrare, nel campo endDate bisogna inserire la data di fine filtraggio. Nel caso non si immetta nulla nel campo endDate si deve aggiungere un numero intero nel campo customPeriod, vvero ogni quanti giorni fare le statistiche. Se si immette un numero positivo si vedranno le date future al quella inserita, mentre nel caso negativo si vedranno le date passate.
+
+CONTINUA Rivedi esemppi
+
 Esempio e spiegazione del Body: 
 ```ruby
 {
-"count" : "xx",                // numero di città da visualizzare (da 1 a 50).
-"period" : "xxxx",         // periodo delle statistiche (daily, weekly, monthly).
-"data" : "xxxx-xx-xx",      // data di partenza delle statistiche (anno-mese-giorno).
-"name" : "xxxx",                // Seleziona le città a seconda di quale sottostringa scriviamo (esempio 2.
-"customPeriod" : "xx"         // conta quante date vogliamo vedere.
+"count" : "xx",                 // numero di città da visualizzare (da 1 a 50).
+"period" : "xxxx",              // periodo delle statistiche (daily, weekly, monthly, custom).
+"startDate" : "xxxx-xx-xx",     // data di inizio filtraggio (anno-mese-giorno).
+"endDate" : "xxxx-xx-xx",       // data di fine filtraggio (anno-mese-giorno).
+"customPeriod" : "xx",          // numero intero che descrive ogni quanti giorni è stata fatta la statistica
+"name" : "xxxx"                 // seleziona le città a seconda di quale sottostringa scriviamo 
 }
 ```
 
