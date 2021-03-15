@@ -61,7 +61,7 @@ Come possiamo vedere abbiamo diversi package:
 - Package exceptions : contiene tutte le [Eccezioni](#eccezioni)
 + WeatherCloseRomeApp: classe contenente il main che avvia l'applicazione Spring
 
-![Diagramma delle classi (1)](https://user-images.githubusercontent.com/44706799/110305557-19215380-7ffd-11eb-80cd-dcbd86479a32.jpg)
+![OOP Class Diagram2 0](https://user-images.githubusercontent.com/44706799/111212628-1bbd1380-85d0-11eb-941e-d880bd0277d3.jpg)
 
 <a name="usd"></a>
 ## Sequence Diagram - provvisorio- 
@@ -74,8 +74,7 @@ Come possiamo vedere abbiamo diversi package:
 
 <a name="api"></a>
 # :honeybee: API
-Sono fondamentali per il funzionamento del programma e per la raccolta dati. Con il programma *Postman* possiamo usare le rotte, sotto elencate,  
-per far funzionare il nostro servizio.
+Sono fondamentali per il funzionamento del programma e per la raccolta dati. Con il programma *Postman* possiamo usare le rotte, sotto elencate, per far funzionare il nostro servizio.
 Per rispondere alle richieste degli utenti e avere un database abbiamo usato l'api: https://openweathermap.org/current#cycle.
 L'API restituisce i dati delle città disposte all'interno di un cerchio, definito dal un punto centrale ( `lat`, `lon`), nel nostro caso roma (41.902782, 12.496365),     
 e dal numero previsto di città ( `cnt`) attorno a questo punto.
@@ -190,8 +189,8 @@ Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visuali
 Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni volta su 50 città.  
 
 :mag: ESEMPIO :
+![Screenshot (138)](https://user-images.githubusercontent.com/44706799/111212153-8c176500-85cf-11eb-948f-e15fce1f8ea0.png)
 
-METTI IMMAGINE
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="save5"></a>
@@ -199,8 +198,8 @@ METTI IMMAGINE
 Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni 5 ore su 50 città.  
 
 :mag: ESEMPIO :
+![Screenshot (140)](https://user-images.githubusercontent.com/44706799/111212305-ba954000-85cf-11eb-8956-85597bd62b2a.png)
 
-METTI IMMAGINE
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="stats"></a>
@@ -317,10 +316,9 @@ Ci  mostra le date disponibili nel database in cui sono state salvate le tempera
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="filters"></a>
-### :round_pushpin: POST/filtres:
-Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni, custom o in base ad una sottostringa, come citta che iniziano con *A*. Nel caso si voglia usare un periodo a nostro piacimento bisogna impostare il campo period come `custom`. Nel campo startDate bisogna inserire il giorno in cui si vuole iniziare a filtrare, nel campo endDate bisogna inserire la data di fine filtraggio. Nel caso non si immetta nulla nel campo endDate si deve aggiungere un numero intero nel campo customPeriod, vvero ogni quanti giorni fare le statistiche. Se si immette un numero positivo si vedranno le date future al quella inserita, mentre nel caso negativo si vedranno le date passate.
+### :round_pushpin: POST/filtres: -provvisorio-
+Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni, custom o in base ad una sottostringa, come citta che iniziano con *A*. Nel caso si voglia usare un periodo a nostro piacimento bisogna impostare il campo period come `custom`. Nel campo startDate bisogna inserire il giorno in cui si vuole iniziare a filtrare, nel campo endDate bisogna inserire la data di fine filtraggio. Nel caso non si immetta nulla nel campo endDate si deve aggiungere un numero intero nel campo customPeriod, vvero ogni quanti giorni fare le statistiche. Se si immette un numero positivo si vedranno le date future al quella inserita, mentre nel caso negativo si vedranno le date passate. Nel caso il periodo sia daily, weekly, monthly, bisogna inserire la data di inizio di filtraggio. Mentre per la ricerca per nome bisogna inserire count=50.
 
-CONTINUA Rivedi esemppi
 
 Esempio e spiegazione del Body: 
 ```ruby
@@ -334,42 +332,66 @@ Esempio e spiegazione del Body:
 }
 ```
 
-:mag: ESEMPIO 1 (/filters - 1 città, periodo  giornaliero, data 8\3\21) :
+:mag: ESEMPIO 1 (/filters - 1 città, periodo  giornaliero, data 15\3\21 ovvero data dello screen) :
 
-![Screenshot (91)](https://user-images.githubusercontent.com/44706799/110316197-adde7e00-800a-11eb-9c76-e2052a547894.png)
+![Screenshot (145)](https://user-images.githubusercontent.com/44706799/111214218-f92bfa00-85d1-11eb-90c5-46de922493d5.png)
 ```ruby
 [
     {
-        "Massimo": 284.27,
+        "Massimo": 286.98,
         "name": "Trevi",
-        "Media": 284.005,
-        "Minimo": 283.74,
-        "Varianza": 0.07022499999999277,
+        "Media": 285.5933333333333,
+        "Minimo": 283.73,
+        "Varianza": 1.7860222222222093,
         "id": 6545158
     }
 ]
 ```
 
-:mag: ESEMPIO 2 (/filters - ricerca tra tutte le citta di nomi contenenti "castel", periodo  giornaliero, data 8\3\21) :
+:mag: ESEMPIO 2 (/filters - ricerca tra tutte le citta di nomi contenenti "cast", periodo settimanale, dal 9\3\21 al 15\3\21) :
 
-![Screenshot (111)](https://user-images.githubusercontent.com/44706799/110329452-e4bd8f80-801c-11eb-960c-df80a7999411.png)
+![Screenshot (143)](https://user-images.githubusercontent.com/44706799/111214031-b8cc7c00-85d1-11eb-922e-ac57f3eed6fd.png)
 ```ruby
 [
     {
-        "Massimo": 284.19,
+        "Massimo": 289.2,
         "name": "Castel Gandolfo",
-        "Media": 283.8066666666667,
-        "Minimo": 283.49,
-        "Varianza": 0.083888888888886,
+        "Media": 285.64714285714285,
+        "Minimo": 283.39,
+        "Varianza": 1.9189537414965967,
         "id": 3179680
     },
     {
-        "Massimo": 283.77,
+        "Massimo": 289.0,
         "name": "Castelnuovo di Porto",
-        "Media": 283.46,
-        "Minimo": 282.97,
-        "Varianza": 0.12286666666665236,
+        "Media": 284.5833333333333,
+        "Minimo": 282.94,
+        "Varianza": 3.3475174603174325,
         "id": 3179521
+    }
+]
+```
+
+:mag: ESEMPIO 3 (/filters - ricerca di 2 città, periodo custom, dal 10\3\21 al 14\3\21) :
+
+![Screenshot (147)](https://user-images.githubusercontent.com/44706799/111214925-d2ba8e80-85d2-11eb-95dc-73805cf29b59.png)
+```ruby
+[
+    {
+        "Massimo": 289.57,
+        "name": "Trevi",
+        "Media": 286.5914285714286,
+        "Minimo": 284.1,
+        "Varianza": 3.506726530612215,
+        "id": 6545158
+    },
+    {
+        "Massimo": 289.58,
+        "name": "Pigna",
+        "Media": 286.5957142857143,
+        "Minimo": 284.1,
+        "Varianza": 3.519853061224448,
+        "id": 6545151
     }
 ]
 ```
