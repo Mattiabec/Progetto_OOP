@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
@@ -43,7 +44,7 @@ public class TempServiceImpl implements TempService {
 	 * Key univoca per ogni utente necessaria per comunicare con l'API OpenWeather
 	 */
 	String API_KEY = "008c7fc03fb19021c703f488733a8695";
-	String message;
+	String message = "DEFAULT";
 
 	/**
 	 * Metodo che chiama l'API
@@ -188,14 +189,11 @@ public class TempServiceImpl implements TempService {
 	 * Metodo che salva all'interno del file "database.dat" le informazioni relative
 	 * le temperature attuali di tutte e 50 le città disponibili
 	 * 
-	 * @return JSONObject con una stringa che conferma il salvataggio
-	 * @throws IOException            se si sono verificati errori durante la
-	 *                                lettura/scrittura del file
-	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
-	 *                                metodo
+	 * @return JSONObject con una stringa che contiene data, path e conferma di avvenuto salvataggio o 
+	 * fail in caso di save non avvenuto
 	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
-	public JSONObject save() throws IOException, ClassNotFoundException, InvalidNumberException {
+	public JSONObject save() throws InvalidNumberException {
 
 		org.json.simple.JSONObject jret = new org.json.simple.JSONObject();
 		String path = System.getProperty("user.dir") + "/database.dat";
@@ -214,22 +212,44 @@ public class TempServiceImpl implements TempService {
 		saveobj.setDataSave(today);
 
 		if (!f.exists()) {
-			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
-			savings.add(saveobj);
-			out.writeObject(savings);
-			message = "OK";
-			out.close();
+			ObjectOutputStream out;
+			try {
+				out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
+
+				savings.add(saveobj);
+				out.writeObject(savings);
+				message = "OK";
+				out.close();
+			} catch (IOException e) {
+				message = "ERROR";
+				jret.put("STATUS", message);
+				e.printStackTrace();
+			}
 		} else {
-			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
-			savings = (Vector<SaveModel>) in.readObject();
-			in.close();
-			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
-			savings.add(saveobj);
-			out.writeObject(savings);
-			message = "OK";
-			out.close();
+			ObjectInputStream in;
+			try {
+				in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
+				savings = (Vector<SaveModel>) in.readObject();
+				in.close();
+				ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
+				savings.add(saveobj);
+				out.writeObject(savings);
+				message = "OK";
+				out.close();
+			} catch (IOException | ClassNotFoundException e) {
+				message = "ERROR";
+				jret.put("STATUS", message);
+				e.printStackTrace();
+				e.printStackTrace();
+			}
+
 		}
-		jret.put("STATUS", message);
+		if (message.equals("OK")) {
+			jret.put("TIME", today);
+			jret.put("STATUS", message);
+			jret.put("PATH", path);
+		}
+
 		return jret;
 	}
 
@@ -244,10 +264,6 @@ public class TempServiceImpl implements TempService {
 			public void run() {
 				try {
 					save();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
 				} catch (InvalidNumberException e) {
 					e.printStackTrace();
 				}
