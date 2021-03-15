@@ -20,7 +20,7 @@ public interface TempService {
 
 	public Vector<City> getVector(int cnt) throws InvalidNumberException;
 
-	public org.json.simple.JSONObject save() throws IOException, ClassNotFoundException, InvalidNumberException;
+	public org.json.simple.JSONObject save() throws InvalidNumberException;
 
 	public void saveEvery5Hours();
 }
