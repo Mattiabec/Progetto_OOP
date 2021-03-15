@@ -44,7 +44,7 @@ public class SaveModel implements Serializable {
 	}
 
 	/**
-	 * Metodo che restituisce dataSsave
+	 * Metodo che restituisce dataSave
 	 * 
 	 * @return dataSave
 	 */

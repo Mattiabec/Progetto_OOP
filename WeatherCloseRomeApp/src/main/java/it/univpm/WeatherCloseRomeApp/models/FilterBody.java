@@ -14,7 +14,7 @@ public class FilterBody {
 	private int count;
 
 	/**
-	 * Periodo da considerare: daily, weekly, monthly
+	 * Periodo da considerare: daily, weekly, monthly, custom
 	 */
 	private String period;
 
@@ -29,10 +29,10 @@ public class FilterBody {
 	private String name;
 
 	/**
-	 * Numero intero.....
+	 * Numero intero che descrive ogni quanti giorni è stata fatta la statistica
 	 */
 	private int customPeriod;
-	
+
 	/**
 	 * Data di fine filtraggio (formato: YYYY-MM-DD)
 	 */
@@ -145,7 +145,5 @@ public class FilterBody {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	
-	
 
 }

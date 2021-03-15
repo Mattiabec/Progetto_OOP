@@ -1,11 +1,10 @@
 package it.univpm.WeatherCloseRomeApp.exceptions;
 
 /**
- * Classe che segnala una eccezione se non si hanno dati nel database della data inserita
+ * Classe che segnala una eccezione se non si hanno dati nel database nella data inserita
  * 
  * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
  */
-
 public class InvalidDateException extends Exception{
 
 	/**

@@ -1,18 +1,17 @@
 package it.univpm.WeatherCloseRomeApp.exceptions;
 
 /**
- * Classe che segnala una eccezione se il parametro inserito non esiste
+ * Classe che segnala una eccezione se il "field" inserito non esiste
  * 
  * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
  */
-
 public class InvalidFieldException extends Exception{
 
 	/**
 	 * Costruttore di InvalidFieldException
 	 */
 	public InvalidFieldException() {
-		super("Campo errato. I campi disponibili sono massimo,minimo,media,varianza.");
+		super("Campo errato. I campi disponibili sono: Massimo, Minimo, Media, Varianza.");
 	}
 	
 	/**

@@ -5,14 +5,13 @@ package it.univpm.WeatherCloseRomeApp.exceptions;
  * 
  * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
  */
-
 public class WrongPeriodException extends Exception{
 	
 	/**
 	 * Costruttore di WrongPeriodException
 	 */
 	public WrongPeriodException() {
-		super("Periodo inserito incorretto. Scegliere tra: daily,weekly,monthly, oppure null se si vuole customperiod.");
+		super("Periodo inserito incorretto. Scegliere tra: daily,weekly,monthly,custom.");
 	}
 	
 	/**

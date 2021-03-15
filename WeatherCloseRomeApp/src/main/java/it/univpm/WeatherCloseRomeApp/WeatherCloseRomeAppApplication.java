@@ -14,7 +14,7 @@ public class WeatherCloseRomeAppApplication {
 	/**
 	 * Metodo main
 	 * 
-	 * @param args
+	 * @param args rappresentano gli argomenti passati dall'utente all'avvio
 	 */
 	public static void main(String[] args) {
 		SpringApplication.run(WeatherCloseRomeAppApplication.class, args);

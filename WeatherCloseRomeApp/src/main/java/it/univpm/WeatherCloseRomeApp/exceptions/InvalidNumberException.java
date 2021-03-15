@@ -5,7 +5,6 @@ package it.univpm.WeatherCloseRomeApp.exceptions;
  * 
  * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
  */
-
 public class InvalidNumberException extends Exception{
 
 	/**

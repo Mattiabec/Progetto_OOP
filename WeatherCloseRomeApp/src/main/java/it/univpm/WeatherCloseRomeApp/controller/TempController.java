@@ -56,7 +56,6 @@ public class TempController {
 	}
 
 	/**
-	 *
 	 * Rotta di tipo GET che salva in un file "database.dat" le informazioni
 	 * relative alla temperatura attuale di tutte e 50 le città
 	 * 
@@ -100,9 +99,9 @@ public class TempController {
 	/**
 	 * Rotta di tipo GET che restituisce le statistiche senza filtri, dei dati
 	 * salvati nel file "database.dat" e permette il loro ordinamento decrescente in
-	 * base al paramentro scelto (Massimo, Minimo, Media, Varianza)
+	 * base al "field" scelto (Massimo, Minimo, Media, Varianza)
 	 * 
-	 * @param s rappresenta il parametro di interesse da ordinare
+	 * @param s rappresenta il "field" di interesse da ordinare
 	 * @return JSONArray contenente un JSONObject per ogni città con le proprie
 	 *         statistiche
 	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
@@ -110,7 +109,7 @@ public class TempController {
 	 *                                metodo
 	 * @throws IOException            se si sono verificati errori durante la
 	 *                                lettura/scrittura del file
-	 * @throws InvalidFieldException  se il parametro s inserito non esiste
+	 * @throws InvalidFieldException  se il "field" s inserito non esiste
 	 */
 	@GetMapping(value = "/stats")
 	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s)
@@ -137,6 +136,7 @@ public class TempController {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		Vector<String> datestr = filter.DateDisponibili();
+
 		Iterator<String> iterstr = datestr.iterator();
 		while (iterstr.hasNext()) {
 			org.json.simple.JSONObject jobj = new org.json.simple.JSONObject();
@@ -147,23 +147,28 @@ public class TempController {
 	}
 
 	/**
-	 * Rotta di tipo POST che restituisce le statistiche relative: uno specifico
-	 * periodo (daily, weekly, monthly) o ogni determinato giorno, una specifica
-	 * città, uno specifico numero di città, scrivendo in input un JSONObject del
-	 * tipo:
+	 * Rotta di tipo POST che filtra le statistiche nel file "database.dat"
+	 * attraverso un JSONObject in input. Il filtraggio ci permette di ottenere
+	 * statistiche periodiche ("period"=daily/weekly/monthly/custom) di "count"
+	 * città, con la possibilità di specificare il nome della città ("name") e di
+	 * considerare statistiche ogni "customPeriod" giorni. Esempi:
 	 * 
-	 * { "count": 5, "period": "daily", "data": "2021-03-09", "customPeriod": "",
-	 * "name": "" }
-	 *
-	 * Oppure:
+	 * -Conoscere le statistiche delle città che iniziano con la lettera "T" della
+	 *  settimana che inizia il "2021-03-07": 
+	 *  {"count":50, "period":"weekly", "startDate":"2021-03-07", "endDate":"", "customPeriod":"", "name":"T"}
 	 * 
-	 * { "count": 5, "period": "", "data": "2021-03-06", "customPeriod": 1, "name":
-	 * "" }
+	 * -Conoscere le statistiche di 10 città dal "2021-03-10" al "2021-03-14":
+	 *  {"count":10, "period":"custom", "startDate":"2021-03-10", "endDate":"2021-03-14", "customPeriod":"", "name":""}
 	 * 
-	 * Inoltre ho la possibilità di ordinare le statistiche risultanti
+	 * -Conoscere le statistiche di 5 città, prendendo i dati dal 2021-03-10 fino
+	 *  ad oggi, solo ogni "4" giorni:
+	 *  {"count": 5,"period": "custom","startDate": "2021-03-10","endDate":"","customPeriod":4,"name":""}
+	 * 
+	 * Inoltre ho la possibilità di ordinare in modo decrescente le statistiche
+	 * risultanti specificando il "field" (Massimo, Minimo, Media, Varianza)
 	 * 
 	 * @param filtering rappresenta il JSONObject in input
-	 * @param s         rappresenta il parametro di interesse da ordinare
+	 * @param s         rappresenta il "field" di interesse da ordinare
 	 * @return JSONArray contenente un JSONObject per ogni città filtrata
 	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
 	 *                                metodo
@@ -190,6 +195,7 @@ public class TempController {
 		String period = filtering.getPeriod();
 		String name = filtering.getName();
 		Vector<String> dateinFile = filter.DateDisponibili();
+
 		switch (period) {
 		case "Daily":
 		case "DAILY":
