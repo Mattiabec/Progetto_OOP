@@ -59,8 +59,8 @@ public class TempController {
 	 * Rotta di tipo GET che salva in un file "database.dat" le informazioni
 	 * relative alla temperatura attuale di tutte e 50 le città
 	 * 
-	 * @return JSONObject con all'interno una stringa che dice se l'operazione è
-	 *         andata a buon fine
+	 * @return JSONObject con una stringa che contiene data, path e conferma di
+	 *         avvenuto salvataggio o fail in caso di save non avvenuto
 	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
 	 *                                metodo
@@ -79,8 +79,8 @@ public class TempController {
 	 * Rotta di tipo GET che salva ogni 5 ore in un file "database.dat" le
 	 * informazioni relative alla temperatura attuale di tutte e 50 le città
 	 * 
-	 * @return JSONObject con all'interno una stringa che dice se l'operazione è
-	 *         andata a buon fine
+	 * @return JSONObject con una stringa che contiene data, path e conferma di
+	 *         avvenuto salvataggio o fail in caso di save non avvenuto, ogni 5 ore
 	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
 	 *                                metodo
@@ -104,12 +104,6 @@ public class TempController {
 	 * @param s rappresenta il "field" di interesse da ordinare
 	 * @return JSONArray contenente un JSONObject per ogni città con le proprie
 	 *         statistiche
-	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
-	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
-	 *                                metodo
-	 * @throws IOException            se si sono verificati errori durante la
-	 *                                lettura/scrittura del file
-	 * @throws InvalidFieldException  se il "field" s inserito non esiste
 	 */
 	@GetMapping(value = "/stats")
 	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s) {
@@ -120,7 +114,6 @@ public class TempController {
 		if (!s.equals("")) {
 			jreturn = stat.orderStats(s, jreturn);
 		}
-
 		return jreturn;
 	}
 
@@ -157,19 +150,20 @@ public class TempController {
 	 * Rotta di tipo POST che filtra le statistiche nel file "database.dat"
 	 * attraverso un JSONObject in input. Il filtraggio ci permette di ottenere
 	 * statistiche periodiche ("period"=daily/weekly/monthly/custom) di "count"
-	 * città, con la possibilità di specificare una sottostringa del nome della città ("name") e di
-	 * considerare statistiche ogni "customPeriod" giorni. Esempi:
+	 * città, con la possibilità di specificare una sottostringa del nome della
+	 * città ("name") e di considerare statistiche ogni "customPeriod" giorni.
+	 * Esempi:
 	 * 
 	 * -Conoscere le statistiche delle città che iniziano con la lettera "T" della
-	 *  settimana che inizia il "2021-03-07": 
+	 *  settimana che inizia il "2021-03-07":
 	 *  {"count":50, "period":"weekly", "startDate":"2021-03-07", "endDate":"", "customPeriod":"", "name":"T"}
 	 * 
 	 * -Conoscere le statistiche di 10 città dal "2021-03-10" al "2021-03-14":
 	 *  {"count":10, "period":"custom", "startDate":"2021-03-10", "endDate":"2021-03-14", "customPeriod":"", "name":""}
 	 * 
-	 * -Conoscere le statistiche di 5 città, prendendo i dati del 2021-03-10, 
-	 *  del 2021-03-14, del 2021-03-18 e così via... ogni '4' giorni:
-	 *  {"count": 5,"period": "custom","startDate": "2021-03-10","endDate":"","customPeriod":4,"name":""}
+	 * -Conoscere le statistiche di 5 città, prendendo i dati del 2021-03-10, del
+	 *  2021-03-14, del 2021-03-18 e così via... ogni '4' giorni:
+	 *  {"count":5, "period":"custom", "startDate":"2021-03-10", "endDate":"", "customPeriod":4, "name":""}
 	 * 
 	 * Inoltre ho la possibilità di ordinare in modo decrescente le statistiche
 	 * risultanti specificando il "field" (Massimo, Minimo, Media, Varianza)
@@ -181,25 +175,17 @@ public class TempController {
 	 *                                metodo
 	 * @throws IOException            se si sono verificati errori durante la
 	 *                                lettura/scrittura del file
-	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
-	 * @throws InvalidDateException   se non si hanno dati nel database della data
-	 *                                inserita
-	 * @throws WrongPeriodException   se il "period" inserito è sbagliato
-	 * @throws ShortDatabaseException se nel "period" scelto non si hanno dati
-	 *                                sufficienti
-	 * @throws InvalidFieldException  se il parametro s inserito non esiste
 	 */
 	@PostMapping("/filters")
 	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering,
 			@RequestParam(name = "field", defaultValue = "") String s)
-			throws ClassNotFoundException, IOException, InvalidNumberException,
-			WrongPeriodException{
+			throws ClassNotFoundException, IOException {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		org.json.simple.JSONObject jerr = new org.json.simple.JSONObject();
 		int cnt = filtering.getCount();
-		if (cnt<=0 || cnt>50) {
-			InvalidNumberException e= new InvalidNumberException();
+		if (cnt <= 0 || cnt > 50) {
+			InvalidNumberException e = new InvalidNumberException();
 			jerr.put("ERROR", e.toString());
 			jreturn.add(jerr);
 			return jreturn;
