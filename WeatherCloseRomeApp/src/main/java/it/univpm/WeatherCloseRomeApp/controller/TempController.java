@@ -105,11 +105,12 @@ public class TempController {
 	 *         statistiche
 	 */
 	@GetMapping(value = "/stats")
-	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s) {
+	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s, 
+			@RequestParam(name = "number", defaultValue = "50") int cnt) {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 
-		jreturn = stat.stats(50);
+		jreturn = stat.stats(cnt);
 		if (!s.equals("")) {
 			jreturn = stat.orderStats(s, jreturn);
 		}

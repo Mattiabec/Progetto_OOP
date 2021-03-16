@@ -50,7 +50,7 @@ public class Stats {
 			fromFile = (Vector<SaveModel>) in.readObject();
 			in.close();
 		} catch (IOException | InvalidNumberException | ClassNotFoundException e) {
-			org.json.simple.JSONObject jerr = null;
+			org.json.simple.JSONObject jerr = new org.json.simple.JSONObject();
 			jerr.put("ERROR", e.toString());
 			jarr.add(jerr);
 			return jarr;
@@ -62,7 +62,7 @@ public class Stats {
 			Vector<City> cities = saveModel.getCities();
 
 			Iterator<City> iterCity = cities.iterator();
-			while (iterCity.hasNext()) {
+			for(int i=0; i<cnt; i++) {
 				City c = iterCity.next();
 				double temperatura = c.getTemp();
 				City c1 = findByID(c.getID(), forStats);
