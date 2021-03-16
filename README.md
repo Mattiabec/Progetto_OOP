@@ -9,6 +9,7 @@ Data la città di Roma, abbiamo scritto questo programma in modo di visualizzare
   * [Casi d'uso](#ucs)
   * [Classi](#ucd)
   * [Sequenze](#ucs)
+  * [Gerarchia](#ger)
 * [API](#api)
 * [Rotte](#rotte)
   * [Temperature](#temp)
@@ -61,12 +62,19 @@ Come possiamo vedere abbiamo diversi package:
 - Package exceptions : contiene tutte le [Eccezioni](#eccezioni)
 + WeatherCloseRomeApp: classe contenente il main che avvia l'applicazione Spring
 
-![OOP Class Diagram2 0](https://user-images.githubusercontent.com/44706799/111212628-1bbd1380-85d0-11eb-941e-d880bd0277d3.jpg)
+![OOP Class Diagram2 0 (1)](https://user-images.githubusercontent.com/44706799/111297262-b6a80300-864d-11eb-9a0c-fcf3f4aab02d.jpg)
 
 <a name="usd"></a>
 ## Sequence Diagram - provvisorio- 
+Definisce la sequenza temporale di ogni rotta, ovvero ciò che succede per ogni chiamata fatta tramite postman.
 
 ![Diagramma delle sequenze](https://user-images.githubusercontent.com/44706799/110305616-2b9b8d00-7ffd-11eb-9335-2cd0d0d514b1.jpg)
+
+<a name="ger"></a>
+## Hierarchy Diagram - provvisorio- 
+Questo scherma delle gerarchie ci mostra come abbiamo ordinato e gestito i diversi package nel progetto.
+
+![NewModel Package Hierarchy](https://user-images.githubusercontent.com/44706799/111297926-7ac16d80-864e-11eb-8a38-b3a86f64e786.jpg)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice)  ------- [ritorna ad Diagrammi UML](#uml) [:chart_with_upwards_trend:](#uml)
@@ -98,68 +106,13 @@ N° | Tipo | Rotta | Descrizione
 
 <a name="temp"></a>
 ### :round_pushpin: GET/temp:
-L'utente puo specificare quante citta vuole monitorare tramite il paramentro `number` (da 1 a 50),altrimenti verranno riportate 7 città.
+L'utente puo specificare quante citta vuole monitorare tramite il paramentro `number` (da 1 a 50), altrimenti verranno riportate 7 città se non viene aggiunto nessun paramentro.
 Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visualizzare, con: temp, tempMin, tempMax, id (della città), nome (della città).
 (`number` è l'equivalente di cnt nel programma)
 
-:mag: ESEMPIO 1 (/temp - senza specificare il numero di città) :
+url = `http://localhost:8080/temp` --- key = `number` --- value = `da 1 a 50`
 
-![Screenshot (82)](https://user-images.githubusercontent.com/44706799/110312160-06128180-8005-11eb-8591-42d49a66040a.png)
-```ruby
-[
-    {
-        "tempMax": 284.82,
-        "temp": 284.08,
-        "name": "Trevi",
-        "id": 6545158,
-        "tempMin": 283.15
-    },
-    {
-        "tempMax": 284.82,
-        "temp": 284.08,
-        "name": "Pigna",
-        "id": 6545151,
-        "tempMin": 283.15
-    },
-    {
-        "tempMax": 284.82,
-        "temp": 284.08,
-        "name": "Rome",
-        "id": 3169070,
-        "tempMin": 283.15
-    },
-    {
-        "tempMax": 284.82,
-        "temp": 284.08,
-        "name": "Vatican City",
-        "id": 6691831,
-        "tempMin": 283.15
-    },
-    {
-        "tempMax": 284.82,
-        "temp": 284.18,
-        "name": "State of the Vatican City",
-        "id": 3164670,
-        "tempMin": 283.71
-    },
-    {
-        "tempMax": 284.82,
-        "temp": 283.92,
-        "name": "Via di Villa Chigi",
-        "id": 7670575,
-        "tempMin": 282.59
-    },
-    {
-        "tempMax": 284.82,
-        "temp": 284.08,
-        "name": "Ardeatino",
-        "id": 7521552,
-        "tempMin": 283.15
-    }
-]
-```
-
-:mag: ESEMPIO 2 (/temp - con 2 città) :
+:mag: ESEMPIO (/temp - con 2 città) :
 
 ![Screenshot (84)](https://user-images.githubusercontent.com/44706799/110312817-e16ad980-8005-11eb-8546-6cabdf50fef5.png)
 ```ruby
@@ -188,6 +141,8 @@ Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visuali
 ### :round_pushpin: GET/save:
 Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni volta su 50 città.  
 
+url = `http://localhost:8080/save`
+
 :mag: ESEMPIO :
 ![Screenshot (138)](https://user-images.githubusercontent.com/44706799/111212153-8c176500-85cf-11eb-948f-e15fce1f8ea0.png)
 
@@ -196,6 +151,8 @@ Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data. Ved
 <a name="save5"></a>
 ### :round_pushpin: GET/saveEvery5Hours:
 Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni 5 ore su 50 città.  
+
+url = `http://localhost:8080/saveEvery5Hours` 
 
 :mag: ESEMPIO :
 ![Screenshot (140)](https://user-images.githubusercontent.com/44706799/111212305-ba954000-85cf-11eb-8956-85597bd62b2a.png)
@@ -207,52 +164,12 @@ Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data. Ved
 Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza.  
 Dovremmo aggiungere un parametro alla key `field`, che puo essere: Massimo, Minimo, Media e Varianza. (come nell'esempio 2)
 
-:mag: ESEMPIO 1 (/stats - ordinati per la vicinanza al centro di roma, default):
+url = `http://localhost:8080/saveEvery5Hours` --- key = `number` --- value = `da 1 a 50` --- key = `field` --- value = `Massimo o Minimo o Media o Varianza`
 
-![Screenshot (89)](https://user-images.githubusercontent.com/44706799/110314929-cbaae380-8008-11eb-8aed-94978654326d.png)
-```ruby
-[
-    {
-        "Massimo": 285.02,
-        "name": "Trevi",
-        "Media": 283.52799999999996,
-        "Minimo": 282.63,
-        "Varianza": 0.7784559999999934,
-        "id": 6545158
-    },
-    {
-        "Massimo": 285.02,
-        "name": "Pigna",
-        "Media": 283.534,
-        "Minimo": 282.64,
-        "Varianza": 0.7721439999999989,
-        "id": 6545151
-    },
-    
-    .
-    .
-    .
-    
-    {
-        "Massimo": 283.57,
-        "name": "Rocca Priora",
-        "Media": 282.686,
-        "Minimo": 281.83,
-        "Varianza": 0.32214400000000254,
-        "id": 3169149
-    },
-    {
-        "Massimo": 288.96,
-        "name": "Ariccia",
-        "Media": 285.4055454545449,
-        "Minimo": 279.71,
-        "Varianza": 6.722560763085377,
-        "id": 3182851
-    }
-]
-```
+:mag: ESEMPIO  (/stats - 3 città ordinate per il valore massimo) :
 
-:mag: ESEMPIO 2 (/stats - ordinati per il valore max) :
+
+:mag: ESEMPIO  (/stats - ordinati per il valore max) : -da sostituire con quello sopra-
 
 ![Screenshot (109)](https://user-images.githubusercontent.com/44706799/110317394-63f69780-800c-11eb-8f93-cbcb9380461a.png)
 ```ruby
@@ -293,6 +210,8 @@ Dovremmo aggiungere un parametro alla key `field`, che puo essere: Massimo, Mini
 ### :round_pushpin: GET/date:
 Ci  mostra le date disponibili nel database in cui sono state salvate le temperature (il server non ha tutte le date perche è attivato da noi, solo in alcuni momenti) 
 
+url = `http://localhost:8080/date` 
+
 :mag: ESEMPIO :
 
 ![Screenshot (113)](https://user-images.githubusercontent.com/44706799/110461223-7685d500-80cf-11eb-981d-adb150a9b5ee.png)
@@ -319,6 +238,7 @@ Ci  mostra le date disponibili nel database in cui sono state salvate le tempera
 ### :round_pushpin: POST/filtres: -provvisorio-
 Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni, custom o in base ad una sottostringa, come citta che iniziano con *A*. Nel caso si voglia usare un periodo a nostro piacimento bisogna impostare il campo period come `custom`. Nel campo startDate bisogna inserire il giorno in cui si vuole iniziare a filtrare, nel campo endDate bisogna inserire la data di fine filtraggio. Nel caso non si immetta nulla nel campo endDate si deve aggiungere un numero intero nel campo customPeriod, vvero ogni quanti giorni fare le statistiche. Se si immette un numero positivo si vedranno le date future al quella inserita, mentre nel caso negativo si vedranno le date passate. Nel caso il periodo sia daily, weekly, monthly, bisogna inserire la data di inizio di filtraggio. Mentre per la ricerca per nome bisogna inserire count=50.
 
+url = `http://localhost:8080/filters` --- key = `field` --- value = `Massimo o Minimo o Media o Varianza`
 
 Esempio e spiegazione del Body: 
 ```ruby
@@ -332,7 +252,8 @@ Esempio e spiegazione del Body:
 }
 ```
 
-:mag: ESEMPIO 1 (/filters - 1 città, periodo  giornaliero, data 15\3\21 ovvero data dello screen) :
+:mag: ESEMPIO 1 (/filters - 1 città, periodo  giornaliero, data 15\3\21 ovvero data dello screen, ordinato per distanza da roma) :
+(url `http://localhost:8080/filters`)
 
 ![Screenshot (145)](https://user-images.githubusercontent.com/44706799/111214218-f92bfa00-85d1-11eb-90c5-46de922493d5.png)
 ```ruby
@@ -348,31 +269,32 @@ Esempio e spiegazione del Body:
 ]
 ```
 
-:mag: ESEMPIO 2 (/filters - ricerca tra tutte le citta di nomi contenenti "cast", periodo settimanale, dal 9\3\21 al 15\3\21) :
+:mag: ESEMPIO 2 (/filters - ricerca tra tutte le citta di nomi contenenti "cast", periodo settimanale, dal 9\3\21 (al 15\3\21), ordinato per varianza) :
+(url `http://localhost:8080/filters?field=varianza`)
 
 ![Screenshot (143)](https://user-images.githubusercontent.com/44706799/111214031-b8cc7c00-85d1-11eb-922e-ac57f3eed6fd.png)
 ```ruby
 [
     {
-        "Massimo": 289.2,
-        "name": "Castel Gandolfo",
-        "Media": 285.64714285714285,
-        "Minimo": 283.39,
-        "Varianza": 1.9189537414965967,
-        "id": 3179680
-    },
-    {
         "Massimo": 289.0,
         "name": "Castelnuovo di Porto",
-        "Media": 284.5833333333333,
-        "Minimo": 282.94,
-        "Varianza": 3.3475174603174325,
+        "Media": 284.6311764705883,
+        "Minimo": 282.97,
+        "Varianza": 3.63524567474045,
         "id": 3179521
+    },
+    {
+        "Massimo": 289.2,
+        "name": "Castel Gandolfo",
+        "Media": 285.7747058823529,
+        "Minimo": 283.39,
+        "Varianza": 2.023154325259515,
+        "id": 3179680
     }
 ]
 ```
 
-:mag: ESEMPIO 3 (/filters - ricerca di 2 città, periodo custom, dal 10\3\21 al 14\3\21) :
+:mag: ESEMPIO 3 (/filters - ricerca di 2 città, periodo custom, dal 10\3\21 al 14\3\21, ordinato per distanza da roma) :
 
 ![Screenshot (147)](https://user-images.githubusercontent.com/44706799/111214925-d2ba8e80-85d2-11eb-95dc-73805cf29b59.png)
 ```ruby
