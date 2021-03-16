@@ -46,13 +46,13 @@ Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro
 Abbiamo creato 3 diagrammi: [Casi d'uso](#ucs), [Classi](#ucd), [Sequenze](#ucs).
 
 <a name="ucs"></a>
-## Use Case Diagram -provvisorio- 
+## :bar_chart: Use Case Diagram -provvisorio- 
 In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'attore *utente* che si interfaccia al programma e richiede i dati sulle temperature, in base al numero di citta, cosi ottendendo le statistiche che sono poi ordinate e filtrate. Mentre l'attore non umano, *OpenWeather*, gestisce il programma. Quindi trammite una chiamata all'API di OpenWeather soddisfa le richieste dell'utente e salva tutti i dati di tutte le citta ogni 5 ore.
 
 ![Diagramma dei casi d'uso (1)](https://user-images.githubusercontent.com/44706799/110305538-145c9f80-7ffd-11eb-8ff8-880c78e7caaa.jpg)
 
 <a name="ucd"></a>
-## Class Diagram -provvisorio-
+## :bar_chart: Class Diagram -provvisorio-
 Come possiamo vedere abbiamo diversi package:
 
 - Package controller : contiene la classe controller che gestisce tutte le rotte del programma.
@@ -65,13 +65,13 @@ Come possiamo vedere abbiamo diversi package:
 ![OOP Class Diagram2 0 (1)](https://user-images.githubusercontent.com/44706799/111297262-b6a80300-864d-11eb-9a0c-fcf3f4aab02d.jpg)
 
 <a name="usd"></a>
-## Sequence Diagram - provvisorio- 
+## :bar_chart: Sequence Diagram - provvisorio- 
 Definisce la sequenza temporale di ogni rotta, ovvero ciò che succede per ogni chiamata fatta tramite postman.
 
 ![Diagramma delle sequenze](https://user-images.githubusercontent.com/44706799/110305616-2b9b8d00-7ffd-11eb-9335-2cd0d0d514b1.jpg)
 
 <a name="ger"></a>
-## Hierarchy Diagram - provvisorio- 
+## :bar_chart: Hierarchy Diagram - provvisorio- 
 Questo scherma delle gerarchie ci mostra come abbiamo ordinato e gestito i diversi package nel progetto.
 
 ![NewModel Package Hierarchy](https://user-images.githubusercontent.com/44706799/111297926-7ac16d80-864e-11eb-8a38-b3a86f64e786.jpg)
@@ -113,6 +113,7 @@ Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visuali
 url = `http://localhost:8080/temp` --- key = `number` --- value = `da 1 a 50`
 
 :mag: ESEMPIO (/temp - con 2 città) :
+(url = `http://localhost:8080/temp?number=2`)
 
 ![Screenshot (84)](https://user-images.githubusercontent.com/44706799/110312817-e16ad980-8005-11eb-8546-6cabdf50fef5.png)
 ```ruby
@@ -162,14 +163,12 @@ url = `http://localhost:8080/saveEvery5Hours`
 <a name="stats"></a>
 ### :round_pushpin: GET/stats:
 Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza.  
-Dovremmo aggiungere un parametro alla key `field`, che puo essere: Massimo, Minimo, Media e Varianza. (come nell'esempio 2)
+Dovremmo aggiungere un parametro alla key `field`, che puo essere: Massimo, Minimo, Media e Varianza. (Nel caso il campo sia vuoto, le statistiche verranno ordinate per distanza, ovvero di defaut) 
 
-url = `http://localhost:8080/saveEvery5Hours` --- key = `number` --- value = `da 1 a 50` --- key = `field` --- value = `Massimo o Minimo o Media o Varianza`
+url = `http://localhost:8080/stats` --- key = `field` --- value = `Massimo o Minimo o Media o Varianza`
 
-:mag: ESEMPIO  (/stats - 3 città ordinate per il valore massimo) :
-
-
-:mag: ESEMPIO  (/stats - ordinati per il valore max) : -da sostituire con quello sopra-
+:mag: ESEMPIO  (/stats - ordinati per il valore massimo) :
+(url = `http://localhost:8080/stats?field=massimo`)
 
 ![Screenshot (109)](https://user-images.githubusercontent.com/44706799/110317394-63f69780-800c-11eb-8f93-cbcb9380461a.png)
 ```ruby
@@ -236,7 +235,10 @@ url = `http://localhost:8080/date`
 
 <a name="filters"></a>
 ### :round_pushpin: POST/filtres: -provvisorio-
-Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni, custom o in base ad una sottostringa, come citta che iniziano con *A*. Nel caso si voglia usare un periodo a nostro piacimento bisogna impostare il campo period come `custom`. Nel campo startDate bisogna inserire il giorno in cui si vuole iniziare a filtrare, nel campo endDate bisogna inserire la data di fine filtraggio. Nel caso non si immetta nulla nel campo endDate si deve aggiungere un numero intero nel campo customPeriod, vvero ogni quanti giorni fare le statistiche. Se si immette un numero positivo si vedranno le date future al quella inserita, mentre nel caso negativo si vedranno le date passate. Nel caso il periodo sia daily, weekly, monthly, bisogna inserire la data di inizio di filtraggio. Mentre per la ricerca per nome bisogna inserire count=50.
+Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni, custom o in base ad una sottostringa, come citta che iniziano con *A*. Possiamo selezionare quante citta vedere trammite il campo "count" (da 1 a 50). Tutto cio puo essere definito nel body. Mentre possiamo ordinare le statistiche filtrate nella sezione params di postman, la key dovrà essere "field" con valori: Massimo o Minimo o Media o Varianza. (Nel caso il parametro sia vuoto le statistiche verranno ordinate per distanza, ovvero di defaut) 
+*  Periodo Custom:  Impostare il campo "period" come `custom`. Nel campo "startDate" bisogna inserire il giorno in cui si vuole iniziare a filtrare, nel campo "endDate" bisogna inserire la data di fine filtraggio. Nel caso non si immetta nulla nel campo "endDate" si deve aggiungere un numero intero nel campo "customPeriod", ovvero ogni quanti giorni fare le statistiche. Se si immette un numero positivo si vedranno le date future al quella inserita, mentre nel caso negativo si vedranno le date passate.
+*  Periodo Prestabilito: Impostare il campo "period" come: daily o weekly o monthly. Poi bisogna inserire la data di inizio di filtraggio in "startDate". 
+*  Ricerca Per Nome: Bisogna inserire il nome, anche parziale, nel campo "name" e impostare "count"= 50.
 
 url = `http://localhost:8080/filters` --- key = `field` --- value = `Massimo o Minimo o Media o Varianza`
 
@@ -252,7 +254,7 @@ Esempio e spiegazione del Body:
 }
 ```
 
-:mag: ESEMPIO 1 (/filters - 1 città, periodo  giornaliero, data 15\3\21 ovvero data dello screen, ordinato per distanza da roma) :
+:mag: ESEMPIO 1 (/filters - 1 città, periodo  giornaliero, data 15\3\21 ovvero data dello screen, ordinato per distanza da roma(default)) :
 (url `http://localhost:8080/filters`)
 
 ![Screenshot (145)](https://user-images.githubusercontent.com/44706799/111214218-f92bfa00-85d1-11eb-90c5-46de922493d5.png)
@@ -294,7 +296,8 @@ Esempio e spiegazione del Body:
 ]
 ```
 
-:mag: ESEMPIO 3 (/filters - ricerca di 2 città, periodo custom, dal 10\3\21 al 14\3\21, ordinato per distanza da roma) :
+:mag: ESEMPIO 3 (/filters - ricerca di 2 città, periodo custom, dal 10\3\21 al 14\3\21, ordinato per distanza da roma(default)) :
+(url `http://localhost:8080/filters`)
 
 ![Screenshot (147)](https://user-images.githubusercontent.com/44706799/111214925-d2ba8e80-85d2-11eb-95dc-73805cf29b59.png)
 ```ruby
