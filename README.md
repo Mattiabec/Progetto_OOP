@@ -335,21 +335,13 @@ Abbiamo scritto 5 eccezioni: [InvalidDate](#id), [InvalidField](#if), [InvalidNu
 ### :x: InvalidDateException.java   :
 Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia incorretta, si chiede di controllare la rotta `/date` per le date disponibili.
 
-:mag: ESEMPIO (`Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.`) :
+:mag: ESEMPIO :
 
-![Screenshot (117)](https://user-images.githubusercontent.com/44706799/110466383-062e8200-80d6-11eb-8943-0562da92b201.png)
+![Screenshot (151)](https://user-images.githubusercontent.com/44706799/111303618-01794900-8655-11eb-9cf8-d8664d066efa.png)
 ```ruby
-{
-    "timestamp": "2021-03-09T11:43:37.275+00:00",
-    "status": 500,
-    "error": "Internal Server Error",
-    "trace": "InvalidDateException: Data inserita incorretta.\r\n\tat it.univpm.WeatherCloseRomeApp.utilities.Filter.filterPeriod(Filter.java:108)\r\n\tat... 
-    .
-    .
-    .
-    "message": "Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.",
-    "path": "/filters"
-}
+    {
+        "ERROR": "InvalidDateException: Data inserita incorretta."
+    }
 ```
 
 <a name="if"></a>
@@ -357,21 +349,13 @@ Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia 
 ### :x: InvalidFieldException.java   :
 Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta ci ridà un messaggio di errore con i campi disponibili nel filtraggio.
 
-:mag: ESEMPIO (`Campo errato. I campi disponibili sono massimo,minimo,media,varianza.`) :
+:mag: ESEMPIO :
 
 ![Screenshot (125)](https://user-images.githubusercontent.com/44706799/110495944-4c470e00-80f5-11eb-82a6-d0a05d15ed1f.png)
 ```ruby
-{
-    "timestamp": "2021-03-09T15:33:18.067+00:00",
-    "status": 500,
-    "error": "Internal Server Error",
-    "trace": "InvalidFieldException: campo errato.\r\n\tat it.univpm.WeatherCloseRomeApp.utilities.Stats.orderStats(Stats.java:134)\r\n\tat...
-    .
-    .
-    .
-    "message": "Campo errato. I campi disponibili sono massimo,minimo,media,varianza.",
-    "path": "/stats"
-}
+   {
+        "ERROR": "InvalidFieldException: campo errato."
+   }
 ```
 
 <a name="in"></a>
@@ -379,63 +363,39 @@ Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta
 ### :x: InvalidNumberException.java   :
 Controlla se il numero di città richieste è un numero tra 1 e 50, nel caso non sia così il programma ci restituirà un messaggio di errore con il numerodi città accettabile.
 
-:mag: ESEMPIO (`Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi).`) :
+:mag: ESEMPIO :
 
 ![Screenshot (123)](https://user-images.githubusercontent.com/44706799/110493253-e2c60000-80f2-11eb-9991-7f7f221c4581.png)
 ```ruby
-{
-    "timestamp": "2021-03-09T15:15:48.494+00:00",
-    "status": 500,
-    "error": "Internal Server Error",
-    "trace": "InvalidNumberException: Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi)\r\n\tat...
-    .
-    .
-    .
-    "message": "Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi)",
-    "path": "/temp"
-}
+    {
+        "ERROR": "InvalidNumberException: Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi)"
+    }
 ```
 
 <a name="sd"></a>
 ### :x: ShortDatabaseException.java   :
 Controlla se nel database contiene le informazioni sufficenti per creare statistiche del periodo scelto. In caso negato avremmo un messaggio di errore con la richiesta di scelgiere un periodo piu breve.
 
-:mag: ESEMPIO (`Database non contiene abbastanza informazioni. Scegliere un periodo più breve.`) :
+:mag: ESEMPIO :
 
-![Screenshot (121)](https://user-images.githubusercontent.com/44706799/110491675-cbd2de00-80f1-11eb-9158-62d66970d352.png)
+![Screenshot (153)](https://user-images.githubusercontent.com/44706799/111304343-e9ee9000-8655-11eb-8aea-ab519a4caedc.png)
 ```ruby
-{
-    "timestamp": "2021-03-09T15:06:05.284+00:00",
-    "status": 500,
-    "error": "Internal Server Error",
-    "trace": "ShortDatabaseException: database insufficente.\r\n\tat it.univpm.WeatherCloseRomeApp.utilities.Filter.filterPeriod(Filter.java:135)\r\n\tat...
-    .
-    .
-    .
-    "message": "Database non contiene abbastanza informazioni. Scegliere un periodo più breve.",
-    "path": "/filters"
-}
+    {
+        "ERROR": "ShortDatabaseException: database insufficente."
+    }
 ```
 
 <a name="wp"></a>
 ### :x: WrongPeriodException.java   :
 Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso contrario avremmo un messaggio di errore con riportati i periodi selezionabili.
 
-:mag: ESEMPIO (`Periodo inserito incorretto. Scegliere tra: daily, weekly, monthly, oppure null se si vuole customperiod.`) :
+:mag: ESEMPIO :
 
-![Screenshot (127)](https://user-images.githubusercontent.com/44706799/110496477-cb3c4680-80f5-11eb-9bd1-e26409856d6d.png)
+![Screenshot (156)](https://user-images.githubusercontent.com/44706799/111304671-494ca000-8656-11eb-8cc6-2c2e0fc1f9bd.png)
 ```ruby
-{
-    "timestamp": "2021-03-09T15:35:35.955+00:00",
-    "status": 500,
-    "error": "Internal Server Error",
-    "trace": "InvalidDateException: Data inserita incorretta.\r\n\tat it.univpm.WeatherCloseRomeApp.controller.TempController.filters(TempController.java:193)\r\n\tat...
-    .
-    .
-    .
-    "message": "Periodo inserito incorretto. Scegliere tra: daily,weekly,monthly, oppure null se si vuole customperiod.",
-    "path": "/filters"
-}
+    {
+        "ERROR": "WrongPeriodException: periodo inserito incorretto."
+    }
 ```
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -462,7 +422,6 @@ Software utilizzati:
 * [PostMan](https://www.postman.com/) - Programma per testare il funzionamento del programma e l'iterazione con l'API
 * [UML Designer](http://www.umldesigner.org/) - programma usato per creare i diagrammi UML 
 * [Github](https://github.com/) -  è un servizio che abbiamo usato per hostare il nostro progetto   
-*  
 
 Librerie usate in Eclipse
 * Spring Tools 4 (quindi Spring Boot)
