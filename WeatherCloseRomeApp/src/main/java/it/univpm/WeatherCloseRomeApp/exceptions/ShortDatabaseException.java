@@ -18,7 +18,7 @@ public class ShortDatabaseException extends Exception{
 	 * Metodo che ritorna una rappresentazione testuale (stringa) dell'oggetto
 	 */
 	public String toString() {
-		return "ShortDatabaseException: database insufficente.";
+		return "ShortDatabaseException: Database non contiene abbastanza informazioni. Scegliere un periodo più breve.";
 	}
 	
 }

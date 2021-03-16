@@ -10,9 +10,6 @@ import java.util.Vector;
  */
 public class City implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6214288722856378619L;
 
 	/**

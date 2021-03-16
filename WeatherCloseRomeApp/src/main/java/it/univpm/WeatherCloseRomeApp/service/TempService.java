@@ -1,6 +1,5 @@
 package it.univpm.WeatherCloseRomeApp.service;
 
-import java.io.IOException;
 import java.util.Vector;
 
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
@@ -16,7 +15,7 @@ public interface TempService {
 
 	public org.json.simple.JSONObject APICall(int cnt) throws InvalidNumberException;
 
-	public org.json.simple.JSONArray getJSONList(int cnt) ;
+	public org.json.simple.JSONArray getJSONList(int cnt);
 
 	public Vector<City> getVector(int cnt) throws InvalidNumberException;
 

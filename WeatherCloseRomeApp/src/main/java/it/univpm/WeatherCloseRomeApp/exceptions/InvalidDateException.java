@@ -18,6 +18,6 @@ public class InvalidDateException extends Exception{
 	 * Metodo che ritorna una rappresentazione testuale (stringa) dell'oggetto
 	 */
 	public String toString() {
-		return "InvalidDateException: Data inserita incorretta.";
+		return "InvalidDateException: Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.";
 	} 
 }

@@ -12,10 +12,8 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
@@ -47,17 +45,17 @@ public class TempServiceImpl implements TempService {
 	private String message = "DEFAULT";
 
 	/**
-	 * Metodo che chiama l'API
+	 * Metodo che invoca l'API OpenWeather
 	 * 
 	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
 	 *            informazioni relative la temperatura
 	 * @return JSONObject
-	 * @throws InvalidNumberException 
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
 	public JSONObject APICall(int cnt) throws InvalidNumberException {
 
 		JSONObject jobj = null;
-		org.json.simple.JSONObject jerr= new org.json.simple.JSONObject();
+		org.json.simple.JSONObject jerr = new org.json.simple.JSONObject();
 		if (cnt <= 0 || cnt > 50) {
 			InvalidNumberException e = new InvalidNumberException();
 			throw e;
@@ -94,7 +92,7 @@ public class TempServiceImpl implements TempService {
 							jobj = (JSONObject) JSONValue.parseWithException(data);
 
 						} catch (org.json.simple.parser.ParseException e) {
-							jerr.put("ERROR",e.toString());
+							jerr.put("ERROR", e.toString());
 							return jerr;
 						}
 					} finally {
@@ -102,7 +100,7 @@ public class TempServiceImpl implements TempService {
 					}
 				}
 			} catch (IOException e) {
-				jerr.put("ERROR",e.toString());
+				jerr.put("ERROR", e.toString());
 				return jerr;
 			}
 		}
@@ -111,19 +109,21 @@ public class TempServiceImpl implements TempService {
 
 	/**
 	 * Metodo che mette in un JSONArray, gli oggetti di tipo City del vettore cities
+	 * ricavato dal metodo getVector(cnt)
 	 * 
 	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
 	 *            informazioni relative la temperatura
-	 * @return JSONArray con un JSONObject per ogni città
+	 * @return JSONArray contenente un JSONObject per ogni città con le temperature,
+	 *         nome e id
 	 */
 	public org.json.simple.JSONArray getJSONList(int cnt) {
 
 		TempServiceImpl tempServiceImpl = new TempServiceImpl();
 		org.json.simple.JSONArray ritorno = new org.json.simple.JSONArray();
-		org.json.simple.JSONObject jerr= new org.json.simple.JSONObject();
+		org.json.simple.JSONObject jerr = new org.json.simple.JSONObject();
 
 		Vector<City> cities = new Vector<City>();
-		
+
 		try {
 			cities = tempServiceImpl.getVector(cnt);
 		} catch (InvalidNumberException e) {
@@ -131,7 +131,6 @@ public class TempServiceImpl implements TempService {
 			ritorno.add(jerr);
 			return ritorno;
 		}
-
 
 		Iterator<City> iter = cities.iterator();
 		while (iter.hasNext()) {
@@ -155,15 +154,14 @@ public class TempServiceImpl implements TempService {
 	 * 
 	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
 	 *            informazioni relative la temperatura
-	 * @return Vector<City> cities con all'interno il modello City di ogni città
-	 * @throws InvalidNumberException 
+	 * @return Vector<City> cities con all'interno i modelli City di ogni città
+	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
 	public Vector<City> getVector(int cnt) throws InvalidNumberException {
 
 		TempServiceImpl tempServiceImpl = new TempServiceImpl();
 		JSONObject jobj;
 		jobj = tempServiceImpl.APICall(cnt);
-
 
 		org.json.simple.JSONArray weatherArray = new org.json.simple.JSONArray();
 		weatherArray = (org.json.simple.JSONArray) jobj.get("list");
@@ -201,8 +199,8 @@ public class TempServiceImpl implements TempService {
 	 * Metodo che salva all'interno del file "database.dat" le informazioni relative
 	 * le temperature attuali di tutte e 50 le città disponibili
 	 * 
-	 * @return JSONObject con una stringa che contiene data, path e conferma di avvenuto salvataggio o 
-	 * fail in caso di save non avvenuto
+	 * @return JSONObject con una stringa che contiene data, path e conferma di
+	 *         avvenuto salvataggio o fail in caso di save non avvenuto
 	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
 	public JSONObject save() throws InvalidNumberException {

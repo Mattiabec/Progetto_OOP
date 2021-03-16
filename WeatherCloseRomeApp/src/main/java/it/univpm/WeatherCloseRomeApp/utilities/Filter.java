@@ -34,26 +34,29 @@ public class Filter {
 	 * temperature salvati nel file "database.dat"
 	 * 
 	 * @return Vector<String> dateAvailable
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
-	 * @throws ClassNotFoundException 
+	 * @throws IOException            se si sono verificati errori durante la
+	 *                                lettura/scrittura del file
+	 * @throws FileNotFoundException  se il tentativo di aprire "database.dat" nel
+	 *                                path è fallito
+	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
+	 *                                metodo
 	 */
 	public Vector<String> DateDisponibili() throws FileNotFoundException, IOException, ClassNotFoundException {
 
 		Vector<String> dateAvailable = new Vector<String>();
 		File f = new File(path);
 
-			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
-			Vector<SaveModel> savings = (Vector<SaveModel>) in.readObject();
+		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
+		Vector<SaveModel> savings = (Vector<SaveModel>) in.readObject();
 
-			Iterator<SaveModel> iter = savings.iterator();
-			while (iter.hasNext()) {
-				String tmp = iter.next().getDataSave();
-				if (!(dateAvailable.contains(tmp))) {
-					dateAvailable.add(tmp);
-				}
+		Iterator<SaveModel> iter = savings.iterator();
+		while (iter.hasNext()) {
+			String tmp = iter.next().getDataSave();
+			if (!(dateAvailable.contains(tmp))) {
+				dateAvailable.add(tmp);
 			}
-			in.close();
+		}
+		in.close();
 		return dateAvailable;
 	}
 
@@ -126,7 +129,7 @@ public class Filter {
 	 * @param startDate rappresenta la data iniziale
 	 * @param numDays   rappresenta il "period" (daily, weekly, monthly, custom)
 	 * @param name      rappresenta il nome della città
-	 * @return JSONArray composto da JSONObject per ogni città filtrata con le
+	 * @return JSONArray contenente un JSONObject per ogni città filtrata con le
 	 *         proprie statistiche
 	 * @throws IOException            se si sono verificati errori durante la
 	 *                                lettura/scrittura del file
@@ -139,15 +142,14 @@ public class Filter {
 	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
 	public org.json.simple.JSONArray filterPeriod(int cnt, String startDate, int numDays, String name)
-			throws IOException, ClassNotFoundException, ShortDatabaseException,
-			InvalidNumberException, InvalidDateException {
+			throws IOException, ClassNotFoundException, ShortDatabaseException, InvalidNumberException,
+			InvalidDateException {
 
 		Filter filter = new Filter();
 		Vector<String> date = filter.DateDisponibili();
 		Vector<City> cities = tempServiceImpl.getVector(cnt);
 		Vector<String> datedavalutare = filter.dateForStats(startDate, numDays);
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
-		org.json.simple.JSONObject jerr= new org.json.simple.JSONObject();
 		File f = new File(path);
 
 		if (!date.contains(startDate)) {
@@ -191,6 +193,7 @@ public class Filter {
 				c.setMin();
 				c.setMedia();
 				c.setVarianza();
+				
 				org.json.simple.JSONObject jobj = new org.json.simple.JSONObject();
 				jobj.put("name", c.getName());
 				jobj.put("id", c.getID());

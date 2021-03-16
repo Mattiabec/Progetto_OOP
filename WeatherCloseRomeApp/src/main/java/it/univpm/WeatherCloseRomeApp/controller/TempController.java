@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidDateException;
-import it.univpm.WeatherCloseRomeApp.exceptions.InvalidFieldException;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
 import it.univpm.WeatherCloseRomeApp.exceptions.WrongPeriodException;
@@ -171,10 +170,6 @@ public class TempController {
 	 * @param filtering rappresenta il JSONObject in input
 	 * @param s         rappresenta il "field" di interesse da ordinare
 	 * @return JSONArray contenente un JSONObject per ogni città filtrata
-	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
-	 *                                metodo
-	 * @throws IOException            se si sono verificati errori durante la
-	 *                                lettura/scrittura del file
 	 */
 	@PostMapping("/filters")
 	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering,

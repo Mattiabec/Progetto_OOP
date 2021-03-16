@@ -18,6 +18,6 @@ public class WrongPeriodException extends Exception{
 	 * Metodo che ritorna una rappresentazione testuale (stringa) dell'oggetto
 	 */
 	public String toString() {
-		return "WrongPeriodException: periodo inserito incorretto. Scegliere tra: daily,weekly,monthly,custom.";
+		return "WrongPeriodException: Periodo inserito incorretto. Scegliere tra: daily,weekly,monthly,custom.";
 	} 
 }

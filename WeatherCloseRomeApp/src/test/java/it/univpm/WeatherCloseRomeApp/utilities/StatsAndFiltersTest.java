@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import it.univpm.WeatherCloseRomeApp.controller.TempController;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidDateException;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidFieldException;
-import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
 import it.univpm.WeatherCloseRomeApp.exceptions.WrongPeriodException;
 import it.univpm.WeatherCloseRomeApp.models.FilterBody;
@@ -131,6 +130,9 @@ class StatsAndFiltersTest {
 		assertEquals("WrongPeriodException: periodo inserito incorretto. Scegliere tra: daily,weekly,monthly,custom.", e.toString());
 	}
 	
+	/**
+	 * Test metodo AfterDay
+	 */
 	@Test
 	@DisplayName("Corretta consecuzione di giorni")
 	void ADTest() {
@@ -142,6 +144,9 @@ class StatsAndFiltersTest {
 		assertEquals(filter.afterDay(startDate, endDate2), false);
 	}
 	
+	/**
+	 * Test metodo DatabaseWidth
+	 */
 	@Test
 	@DisplayName("Corretta consecuzione di giorni")
 	void DatabaseWidthTest() {

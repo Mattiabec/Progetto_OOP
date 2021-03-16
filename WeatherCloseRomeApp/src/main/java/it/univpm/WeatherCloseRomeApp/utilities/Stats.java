@@ -35,11 +35,6 @@ public class Stats {
 	 *            informazioni relative la temperatura
 	 * @return JSONArray con statistiche di Massimo, Minimo, Media e Varianza delle
 	 *         temperature fino a quel momento salvate
-	 * @throws IOException            se si sono verificati errori durante la
-	 *                                lettura/scrittura del file
-	 * @throws ClassNotFoundException se la classe segnalata non è visibile dal
-	 *                                metodo
-	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
 	public org.json.simple.JSONArray stats(int cnt) {
 
@@ -50,18 +45,15 @@ public class Stats {
 		Vector<City> forStats = new Vector<City>();
 		
 		try {
-			
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 			forStats = tempServiceImpl.getVector(cnt);
 			fromFile = (Vector<SaveModel>) in.readObject();
 			in.close();
-			
 		} catch (IOException | InvalidNumberException | ClassNotFoundException e) {
 			org.json.simple.JSONObject jerr = null;
 			jerr.put("ERROR", e.toString());
 			jarr.add(jerr);
 			return jarr;
-			
 		}
 
 		Iterator<SaveModel> iter = fromFile.iterator();
@@ -106,8 +98,6 @@ public class Stats {
 	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
 	 *            informazioni relative la temperatura
 	 * @return JSONArray ordinato
-	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
-	 * @throws InvalidFieldException  se il parametro s inserito non esiste
 	 */
 	public org.json.simple.JSONArray orderStats(String s, org.json.simple.JSONArray jarr) {
 			

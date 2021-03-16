@@ -10,9 +10,6 @@ import java.util.Vector;
  */
 public class SaveModel implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2425071011667367166L;
 
 	/**
@@ -21,7 +18,7 @@ public class SaveModel implements Serializable {
 	private Vector<City> cities;
 
 	/**
-	 * 
+	 * Data di salvataggio del vettore cities
 	 */
 	private String dataSave;
 
