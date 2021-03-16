@@ -61,11 +61,7 @@ class StatsAndFiltersTest {
 	@DisplayName("Corretta esecuzione di InvalidFieldException")
 	void IFEtest() {
 
-		try {
-			jarr = service.getJSONList(22);
-		} catch (InvalidNumberException e1) {
-			e1.printStackTrace();
-		}
+		jarr = service.getJSONList(22);
 		InvalidFieldException e = assertThrows(InvalidFieldException.class, () -> {
 			stat.orderStats("max", jarr);
 		});

@@ -112,12 +112,11 @@ public class TempController {
 	 * @throws InvalidFieldException  se il "field" s inserito non esiste
 	 */
 	@GetMapping(value = "/stats")
-	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s)
-			throws InvalidNumberException, ClassNotFoundException, IOException, InvalidFieldException {
+	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s, @RequestParam(name = "number", defaultValue = "50") int cnt) {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 
-		jreturn = stat.stats(50);
+		jreturn = stat.stats(cnt);
 		if (!s.equals("")) {
 			jreturn = stat.orderStats(s, jreturn);
 		}
@@ -135,7 +134,15 @@ public class TempController {
 	public org.json.simple.JSONArray datedisponibili() {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
-		Vector<String> datestr = filter.DateDisponibili();
+		org.json.simple.JSONObject jerr = new org.json.simple.JSONObject();
+		Vector<String> datestr;
+		try {
+			datestr = filter.DateDisponibili();
+		} catch (ClassNotFoundException | IOException e) {
+			jerr.put("ERROR", e.toString());
+			jreturn.add(jerr);
+			return jreturn;
+		}
 
 		Iterator<String> iterstr = datestr.iterator();
 		while (iterstr.hasNext()) {
@@ -185,10 +192,11 @@ public class TempController {
 	@PostMapping("/filters")
 	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering,
 			@RequestParam(name = "field", defaultValue = "") String s)
-			throws ClassNotFoundException, IOException, InvalidNumberException, InvalidDateException,
-			WrongPeriodException, ShortDatabaseException, InvalidFieldException {
+			throws ClassNotFoundException, IOException, InvalidNumberException,
+			WrongPeriodException{
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
+		org.json.simple.JSONObject jerr = new org.json.simple.JSONObject();
 		int cnt = filtering.getCount();
 		String startDate = filtering.getStartDate();
 		String endDate = filtering.getEndDate();
@@ -200,7 +208,14 @@ public class TempController {
 		case "Daily":
 		case "DAILY":
 		case "daily": {
-			jreturn = filter.filterPeriod(cnt, startDate, 1, name);
+			try {
+				jreturn = filter.filterPeriod(cnt, startDate, 1, name);
+			} catch (ClassNotFoundException | IOException | ShortDatabaseException | InvalidNumberException
+					| InvalidDateException e) {
+				jerr.put("ERROR", e.toString());
+				jreturn.add(jerr);
+				return jreturn;
+			}
 			if (!s.equals(""))
 				jreturn = stat.orderStats(s, jreturn);
 			break;
@@ -209,7 +224,14 @@ public class TempController {
 		case "Weekly":
 		case "WEEKLY":
 		case "weekly": {
-			jreturn = filter.filterPeriod(cnt, startDate, 7, name);
+			try {
+				jreturn = filter.filterPeriod(cnt, startDate, 7, name);
+			} catch (ClassNotFoundException | IOException | ShortDatabaseException | InvalidNumberException
+					| InvalidDateException e) {
+				jerr.put("ERROR", e.toString());
+				jreturn.add(jerr);
+				return jreturn;
+			}
 			if (!s.equals(""))
 				jreturn = stat.orderStats(s, jreturn);
 			break;
@@ -218,7 +240,14 @@ public class TempController {
 		case "Monthly":
 		case "MONTHLY":
 		case "monthly": {
-			jreturn = filter.filterPeriod(cnt, startDate, 30, name);
+			try {
+				jreturn = filter.filterPeriod(cnt, startDate, 30, name);
+			} catch (ClassNotFoundException | IOException | ShortDatabaseException | InvalidNumberException
+					| InvalidDateException e) {
+				jerr.put("ERROR", e.toString());
+				jreturn.add(jerr);
+				return jreturn;
+			}
 			if (!s.equals(""))
 				jreturn = stat.orderStats(s, jreturn);
 			break;
@@ -229,10 +258,16 @@ public class TempController {
 		case "Custom": {
 			if (!endDate.equals("")) {
 				if (!dateinFile.contains(endDate)) {
-					throw new InvalidDateException();
+					InvalidDateException e = new InvalidDateException();
+					jerr.put("ERROR", e.toString());
+					jreturn.add(jerr);
+					return jreturn;
 				} else {
 					if (!filter.afterDay(startDate, endDate)) {
-						throw new InvalidDateException();
+						InvalidDateException e = new InvalidDateException();
+						jerr.put("ERROR", e.toString());
+						jreturn.add(jerr);
+						return jreturn;
 					}
 					int numdays = 1;
 					String incrDate = startDate;
@@ -248,13 +283,25 @@ public class TempController {
 						incrDate = sdf.format(c.getTime());
 						numdays++;
 					}
-					jreturn = filter.filterPeriod(cnt, startDate, numdays, name);
+					try {
+						jreturn = filter.filterPeriod(cnt, startDate, numdays, name);
+					} catch (ClassNotFoundException | IOException | ShortDatabaseException | InvalidNumberException
+							| InvalidDateException e) {
+						jerr.put("ERROR", e.toString());
+						jreturn.add(jerr);
+					}
 					if (!s.equals("")) {
 						jreturn = stat.orderStats(s, jreturn);
 					}
 				}
 			} else if (endDate.equals("") && filtering.getCustomPeriod() != 0) {
-				jreturn = filter.jumpPeriod(cnt, startDate, filtering.getCustomPeriod(), name);
+				try {
+					jreturn = filter.jumpPeriod(cnt, startDate, filtering.getCustomPeriod(), name);
+				} catch (ClassNotFoundException | InvalidDateException | IOException | InvalidNumberException e) {
+					jerr.put("ERROR", e.toString());
+					jreturn.add(jerr);
+					return jreturn;
+				}
 				if (!s.equals("")) {
 					org.json.simple.JSONObject jdate = (JSONObject) jreturn.get(0);
 					jreturn.remove(0);

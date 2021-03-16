@@ -41,16 +41,28 @@ public class Stats {
 	 *                                metodo
 	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
-	public org.json.simple.JSONArray stats(int cnt) throws IOException, ClassNotFoundException, InvalidNumberException {
+	public org.json.simple.JSONArray stats(int cnt) {
 
 		File f = new File(path);
-		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 
+		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		Vector<SaveModel> fromFile = new Vector<SaveModel>();
 		Vector<City> forStats = new Vector<City>();
-		forStats = tempServiceImpl.getVector(cnt);
-		fromFile = (Vector<SaveModel>) in.readObject();
-		in.close();
+		
+		try {
+			
+			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
+			forStats = tempServiceImpl.getVector(cnt);
+			fromFile = (Vector<SaveModel>) in.readObject();
+			in.close();
+			
+		} catch (IOException | InvalidNumberException | ClassNotFoundException e) {
+			org.json.simple.JSONObject jerr = null;
+			jerr.put("ERROR", e.toString());
+			jarr.add(jerr);
+			return jarr;
+			
+		}
 
 		Iterator<SaveModel> iter = fromFile.iterator();
 		while (iter.hasNext()) {
@@ -66,7 +78,6 @@ public class Stats {
 			}
 		}
 
-		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		Iterator<City> iterForStats = forStats.iterator();
 		while (iterForStats.hasNext()) {
 			City c = iterForStats.next();
@@ -98,9 +109,8 @@ public class Stats {
 	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 * @throws InvalidFieldException  se il parametro s inserito non esiste
 	 */
-	public org.json.simple.JSONArray orderStats(String s, org.json.simple.JSONArray jarr)
-			throws InvalidNumberException, InvalidFieldException {
-
+	public org.json.simple.JSONArray orderStats(String s, org.json.simple.JSONArray jarr) {
+			
 		boolean scambio = true;
 		if (s.equals("Massimo") || s.equals("MASSIMO") || s.equals("massimo")) {
 			while (scambio) {
@@ -158,8 +168,14 @@ public class Stats {
 					}
 				}
 			}
-		} else
-			throw new InvalidFieldException();
+		} else {
+			org.json.simple.JSONArray jerrA = new org.json.simple.JSONArray();
+			org.json.simple.JSONObject jerr = new org.json.simple.JSONObject();
+			InvalidFieldException e = new InvalidFieldException();
+			jerr.put("ERROR", e.toString());
+			jerrA.add(jerr);
+			return jerrA;
+			}
 		return jarr;
 	}
 

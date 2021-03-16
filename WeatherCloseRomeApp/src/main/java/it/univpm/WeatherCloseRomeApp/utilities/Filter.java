@@ -3,6 +3,7 @@ package it.univpm.WeatherCloseRomeApp.utilities;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.text.ParseException;
@@ -25,20 +26,23 @@ import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
  */
 public class Filter {
 
-	TempServiceImpl tempServiceImpl = new TempServiceImpl();
-	String path = System.getProperty("user.dir") + "/database.dat";
+	private TempServiceImpl tempServiceImpl = new TempServiceImpl();
+	private String path = System.getProperty("user.dir") + "/database.dat";
 
 	/**
 	 * Metodo che restituisce le date in cui sono presenti dati relativi le
 	 * temperature salvati nel file "database.dat"
 	 * 
 	 * @return Vector<String> dateAvailable
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 * @throws ClassNotFoundException 
 	 */
-	public Vector<String> DateDisponibili() {
+	public Vector<String> DateDisponibili() throws FileNotFoundException, IOException, ClassNotFoundException {
 
 		Vector<String> dateAvailable = new Vector<String>();
 		File f = new File(path);
-		try {
+
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 			Vector<SaveModel> savings = (Vector<SaveModel>) in.readObject();
 
@@ -50,11 +54,6 @@ public class Filter {
 				}
 			}
 			in.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		return dateAvailable;
 	}
 
@@ -140,18 +139,20 @@ public class Filter {
 	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
 	public org.json.simple.JSONArray filterPeriod(int cnt, String startDate, int numDays, String name)
-			throws IOException, ClassNotFoundException, InvalidDateException, ShortDatabaseException,
-			InvalidNumberException {
+			throws IOException, ClassNotFoundException, ShortDatabaseException,
+			InvalidNumberException, InvalidDateException {
 
 		Filter filter = new Filter();
 		Vector<String> date = filter.DateDisponibili();
 		Vector<City> cities = tempServiceImpl.getVector(cnt);
 		Vector<String> datedavalutare = filter.dateForStats(startDate, numDays);
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
+		org.json.simple.JSONObject jerr= new org.json.simple.JSONObject();
 		File f = new File(path);
 
 		if (!date.contains(startDate)) {
-			throw new InvalidDateException();
+			InvalidDateException e = new InvalidDateException();
+			throw e;
 		} else {
 			if (filter.databaseWidth(startDate, numDays, date)) {
 				try {

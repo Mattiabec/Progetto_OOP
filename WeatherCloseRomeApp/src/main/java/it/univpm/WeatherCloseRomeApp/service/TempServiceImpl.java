@@ -52,13 +52,15 @@ public class TempServiceImpl implements TempService {
 	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
 	 *            informazioni relative la temperatura
 	 * @return JSONObject
-	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
+	 * @throws InvalidNumberException 
 	 */
 	public JSONObject APICall(int cnt) throws InvalidNumberException {
 
 		JSONObject jobj = null;
+		org.json.simple.JSONObject jerr= new org.json.simple.JSONObject();
 		if (cnt <= 0 || cnt > 50) {
-			throw new InvalidNumberException();
+			InvalidNumberException e = new InvalidNumberException();
+			throw e;
 		} else {
 			String urlstr;
 			urlstr = "https://api.openweathermap.org/data/2.5/find?lat=41.902782&lon=12.496365&cnt=" + cnt + "&appid="
@@ -92,16 +94,16 @@ public class TempServiceImpl implements TempService {
 							jobj = (JSONObject) JSONValue.parseWithException(data);
 
 						} catch (org.json.simple.parser.ParseException e) {
-							e.printStackTrace();
+							jerr.put("ERROR",e.toString());
+							return jerr;
 						}
 					} finally {
 						in.close();
 					}
 				}
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
 			} catch (IOException e) {
-				e.printStackTrace();
+				jerr.put("ERROR",e.toString());
+				return jerr;
 			}
 		}
 		return jobj;
@@ -113,15 +115,23 @@ public class TempServiceImpl implements TempService {
 	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
 	 *            informazioni relative la temperatura
 	 * @return JSONArray con un JSONObject per ogni città
-	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
-	public org.json.simple.JSONArray getJSONList(int cnt) throws InvalidNumberException {
+	public org.json.simple.JSONArray getJSONList(int cnt) {
 
 		TempServiceImpl tempServiceImpl = new TempServiceImpl();
 		org.json.simple.JSONArray ritorno = new org.json.simple.JSONArray();
+		org.json.simple.JSONObject jerr= new org.json.simple.JSONObject();
 
 		Vector<City> cities = new Vector<City>();
-		cities = tempServiceImpl.getVector(cnt);
+		
+		try {
+			cities = tempServiceImpl.getVector(cnt);
+		} catch (InvalidNumberException e) {
+			jerr.put("ERROR", e.toString());
+			ritorno.add(jerr);
+			return ritorno;
+		}
+
 
 		Iterator<City> iter = cities.iterator();
 		while (iter.hasNext()) {
@@ -146,12 +156,14 @@ public class TempServiceImpl implements TempService {
 	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
 	 *            informazioni relative la temperatura
 	 * @return Vector<City> cities con all'interno il modello City di ogni città
-	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
+	 * @throws InvalidNumberException 
 	 */
 	public Vector<City> getVector(int cnt) throws InvalidNumberException {
 
 		TempServiceImpl tempServiceImpl = new TempServiceImpl();
-		JSONObject jobj = tempServiceImpl.APICall(cnt);
+		JSONObject jobj;
+		jobj = tempServiceImpl.APICall(cnt);
+
 
 		org.json.simple.JSONArray weatherArray = new org.json.simple.JSONArray();
 		weatherArray = (org.json.simple.JSONArray) jobj.get("list");
@@ -224,6 +236,7 @@ public class TempServiceImpl implements TempService {
 				message = "ERROR";
 				jret.put("STATUS", message);
 				e.printStackTrace();
+				return jret;
 			}
 		} else {
 			ObjectInputStream in;
@@ -240,7 +253,7 @@ public class TempServiceImpl implements TempService {
 				message = "ERROR";
 				jret.put("STATUS", message);
 				e.printStackTrace();
-				e.printStackTrace();
+				return jret;
 			}
 
 		}
