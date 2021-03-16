@@ -178,8 +178,7 @@ public class TempController {
 	 */
 	@PostMapping("/filters")
 	public org.json.simple.JSONArray filters(@RequestBody FilterBody filtering,
-			@RequestParam(name = "field", defaultValue = "") String s)
-			throws ClassNotFoundException, IOException {
+			@RequestParam(name = "field", defaultValue = "") String s) {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		org.json.simple.JSONObject jerr = new org.json.simple.JSONObject();
@@ -194,7 +193,12 @@ public class TempController {
 		String endDate = filtering.getEndDate();
 		String period = filtering.getPeriod();
 		String name = filtering.getName();
-		Vector<String> dateinFile = filter.DateDisponibili();
+		Vector<String> dateinFile = new Vector<String>();
+		try {
+			dateinFile = filter.DateDisponibili();
+			} catch(IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 
 		switch (period) {
 		case "Daily":

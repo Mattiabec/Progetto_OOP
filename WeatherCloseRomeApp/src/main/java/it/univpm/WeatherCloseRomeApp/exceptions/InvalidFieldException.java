@@ -18,7 +18,7 @@ public class InvalidFieldException extends Exception{
 	 * Metodo che ritorna una rappresentazione testuale (stringa) dell'oggetto
 	 */
 	public String toString() {
-		return "InvalidFieldException: campo errato.";
+		return "Campo errato. I campi disponibili sono: Massimo, Minimo, Media, Varianza.";
 	}
 	
 }

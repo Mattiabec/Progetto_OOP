@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.util.Vector;
 
+import org.json.simple.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -63,11 +64,10 @@ class StatsAndFiltersTest {
 	void IFEtest() {
 
 		jarr = service.getJSONList(22);
-		InvalidFieldException e = assertThrows(InvalidFieldException.class, () -> {
-			stat.orderStats("max", jarr);
-		});
-		assertEquals("InvalidFieldException: campo errato.", e.toString());
-
+		org.json.simple.JSONArray jreturn = stat.orderStats("max", jarr);
+		org.json.simple.JSONObject jobj = (JSONObject) jreturn.get(0);
+		InvalidFieldException e = new InvalidFieldException();
+		assertEquals(e.toString(),jobj.get("ERROR"));
 	}
 
 	/**
@@ -124,10 +124,41 @@ class StatsAndFiltersTest {
 		filtering.setPeriod("mensile");
 		filtering.setCount(5);
 		filtering.setStartDate("2021-03-05");
-		WrongPeriodException e = assertThrows(WrongPeriodException.class, () -> {
-			controller.filters(filtering, "");
-		});
-		assertEquals("WrongPeriodException: periodo inserito incorretto.", e.toString());
+		jarr = controller.filters(filtering, "");
+		org.json.simple.JSONObject jobj = (JSONObject) jarr.get(0);
+		WrongPeriodException e = new WrongPeriodException();
+		assertEquals(e.toString(),jobj.get("ERROR"));
+		assertEquals("WrongPeriodException: periodo inserito incorretto. Scegliere tra: daily,weekly,monthly,custom.", e.toString());
+	}
+	
+	@Test
+	@DisplayName("Corretta consecuzione di giorni")
+	void ADTest() {
+
+		String startDate = "2021-03-06";
+		String endDate1 = "2021-03-11";
+		String endDate2 = "2021-03-03";
+		assertEquals(filter.afterDay(startDate, endDate1), true);
+		assertEquals(filter.afterDay(startDate, endDate2), false);
+	}
+	
+	@Test
+	@DisplayName("Corretta consecuzione di giorni")
+	void DatabaseWidthTest() {
+		Vector<String> dateDisponibili = new Vector<String>();
+		String data1 = "2021-03-08";
+		String data2 = "2021-03-09";
+		String data3 = "2021-03-10";
+		String data4 = "2021-03-11";
+		dateDisponibili.add(data1);
+		dateDisponibili.add(data2);
+		dateDisponibili.add(data3);
+		dateDisponibili.add(data4);
+		int numdays=2;
+		String startDate1= data1;
+		String startDate2 = data4;
+		assertEquals(filter.databaseWidth(startDate1, numdays, dateDisponibili), true);
+		assertEquals(filter.databaseWidth(startDate2, numdays, dateDisponibili), false);
 	}
 
 }
