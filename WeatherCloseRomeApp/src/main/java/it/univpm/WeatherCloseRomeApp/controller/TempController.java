@@ -198,6 +198,12 @@ public class TempController {
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 		org.json.simple.JSONObject jerr = new org.json.simple.JSONObject();
 		int cnt = filtering.getCount();
+		if (cnt<=0 || cnt>50) {
+			InvalidNumberException e= new InvalidNumberException();
+			jerr.put("ERROR", e.toString());
+			jreturn.add(jerr);
+			return jreturn;
+		}
 		String startDate = filtering.getStartDate();
 		String endDate = filtering.getEndDate();
 		String period = filtering.getPeriod();
