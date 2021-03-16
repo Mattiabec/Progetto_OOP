@@ -65,6 +65,7 @@ Come possiamo vedere abbiamo diversi package:
 
 <a name="usd"></a>
 ## Sequence Diagram - provvisorio- 
+Definisce la sequenza temporale di ogni rotta, ovvero ciò che succede per ogni chiamata fatta tramite postman.
 
 ![Diagramma delle sequenze](https://user-images.githubusercontent.com/44706799/110305616-2b9b8d00-7ffd-11eb-9335-2cd0d0d514b1.jpg)
 
