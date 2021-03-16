@@ -1,6 +1,6 @@
 <a name="indice"></a>
 # :house: WeatherCloseRomeApp
-Data la città di Roma, abbiamo scritto questo programma in modo di visualizzare tutte le informazioni attuali relative alla temperatura delle città circostanti Roma.
+Data la città di Roma, abbiamo scritto questo programma in modo da visualizzare tutte le informazioni relative alla temperatura delle città circostanti Roma.
 
 ## :pushpin: **Indice contenuti**
 
@@ -34,7 +34,7 @@ Data la città di Roma, abbiamo scritto questo programma in modo di visualizzare
 <a name="introduzione"></a>
 # :scroll: Introduzione
 Abbiamo implentato un servizio meteo che ci permette di monitorare le temperature nelle citta circostanti a Roma. La ricerca avviene inserendo il numero di citta che si vogliono visualizzare, per un minimo di 1 ad un massimo di 50. Salveremo le informazioni delle 50 città ogni 5 ore, in un database, cosi da avere tutti i dati pronti per il calcolo di statistiche. L'utente puo consultare diverse statistiche, ovvero valori minimi, massimi, media e varianza delle temperature per ogni città ed ordinarli secondo i precedenti paramentri.
-Infine possiamo filtrare le statistiche in base al numero delle città, alla periodicità (giornaliera, settimanale, mensile o range personalizzabile) o in base ad una sottostringa contenuta nel nome della città (Citta che iniziano per A).
+Infine possiamo filtrare le statistiche in base al numero delle città, alla periodicità (giornaliera, settimanale, mensile o range personalizzabile) o in base ad una sottostringa contenuta nel nome della città (Città che iniziano per A).
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna ad introduzione](#introduzione) [:scroll:](#introduzione)
@@ -47,7 +47,7 @@ Abbiamo creato 3 diagrammi: [Casi d'uso](#ucs), [Classi](#ucd), [Sequenze](#ucs)
 
 <a name="ucs"></a>
 ## :bar_chart: Use Case Diagram -provvisorio- 
-In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'attore *utente* che si interfaccia al programma e richiede i dati sulle temperature, in base al numero di citta, cosi ottendendo le statistiche che sono poi ordinate e filtrate. Mentre l'attore non umano, *OpenWeather*, gestisce il programma. Quindi trammite una chiamata all'API di OpenWeather soddisfa le richieste dell'utente e salva tutti i dati di tutte le citta ogni 5 ore.
+In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'attore *utente* che si interfaccia al programma e richiede i dati sulle temperature, in base al numero di citta, cosi ottendendo le statistiche che sono poi ordinate e filtrate. Mentre l'attore non umano, *OpenWeather*, gestisce il programma. Quindi tramite una chiamata all'API di OpenWeather soddisfa le richieste dell'utente e salva tutti i dati di tutte le citta ogni 5 ore.
 
 ![Diagramma dei casi d'uso (1)](https://user-images.githubusercontent.com/44706799/110305538-145c9f80-7ffd-11eb-8ff8-880c78e7caaa.jpg)
 
@@ -56,9 +56,9 @@ In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'att
 Come possiamo vedere abbiamo diversi package:
 
 - Package controller : contiene la classe controller che gestisce tutte le rotte del programma.
-- Package service    : contiene le classi TempService e TempServiceImpl. Il primo contiene l'interfaccia e inizializza i metodi. Il secondo li gestisce e implementa. 
-- Package models     : contiene le classi City, FilterBody e SaveModel, ovvero tutti i body dei JSONObject rispettivi???
-- Package utilities  : contiene le classi Stats e Filters, rispettivamente gestiscono le statistiche e i filtri
+- Package service    : contiene le classi TempService e TempServiceImpl. Il primo contiene l'interfaccia e inizializza i metodi. Il secondo li gestisce e li implementa. 
+- Package models     : contiene le classi City, FilterBody e SaveModel che descrivono come sono fatti gli oggetti che usiamo.
+- Package utilities  : contiene le classi Stats e Filter, rispettivamente gestiscono le statistiche e i filtri
 - Package exceptions : contiene tutte le [Eccezioni](#eccezioni)
 + WeatherCloseRomeApp: classe contenente il main che avvia l'applicazione Spring
 
@@ -85,7 +85,7 @@ Questo scherma delle gerarchie ci mostra come abbiamo ordinato e gestito i diver
 Sono fondamentali per il funzionamento del programma e per la raccolta dati. Con il programma *Postman* possiamo usare le rotte, sotto elencate, per far funzionare il nostro servizio.
 Per rispondere alle richieste degli utenti e avere un database abbiamo usato l'api: https://openweathermap.org/current#cycle.
 L'API restituisce i dati delle città disposte all'interno di un cerchio, definito dal un punto centrale ( `lat`, `lon`), nel nostro caso roma (41.902782, 12.496365),     
-e dal numero previsto di città ( `cnt`) attorno a questo punto.
+e dal numero previsto di città (`cnt`) attorno a questo punto.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna ad API](#api) [:honeybee:](#api)
@@ -98,8 +98,8 @@ Le rotte definite sono le seguenti:
 N° | Tipo | Rotta | Descrizione
 ----- | ------------ | -------------------- | ----------------------
 [1](#1) | ` GET ` | [`/temp`](#temp) | *restituisce un JSONArray che contiene: temperatura,  temp. max e min, pressione e umidità.*
-[2](#2) | ` GET ` | [`/save`](#save) | *aggiorna il databese.*
-[3](#3) | ` GET ` | [`/saveEvery5Hours`](#save5) | *aggiorna il databese ogni 5 ore.*
+[2](#2) | ` GET ` | [`/save`](#save) | *aggiorna il database.*
+[3](#3) | ` GET ` | [`/saveEvery5Hours`](#save5) | *aggiorna il database ogni 5 ore.*
 [4](#4) | ` GET ` | [`/stats`](#stats) | *restituisce le statistiche sulle temperature di ogni citta: valori minimi, massimi, media e varianza*
 [5](#5) | ` GET ` | [`/date`](#date) | *restituisce le date nel file in una stringa*
 [6](#6) | ` POST ` | [`/filters`](#filters) | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
@@ -110,7 +110,9 @@ L'utente puo specificare quante citta vuole monitorare tramite il paramentro `nu
 Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visualizzare, con: temp, tempMin, tempMax, id (della città), nome (della città).
 (`number` è l'equivalente di cnt nel programma)
 
-url = `http://localhost:8080/temp` --- key = `number` --- value = `da 1 a 50`
+url = `http://localhost:8080/temp`
+Oppure:
+url = `http://localhost:8080/temp?number={da 1 a 50}`
 
 :mag: ESEMPIO (/temp - con 2 città) :
 (url = `http://localhost:8080/temp?number=2`)
@@ -140,7 +142,7 @@ url = `http://localhost:8080/temp` --- key = `number` --- value = `da 1 a 50`
 
 <a name="save"></a>
 ### :round_pushpin: GET/save:
-Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni volta su 50 città.  
+Salviamo nel database i dati che abbiamo nel JSONObject aggiungendo la data. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni volta su 50 città.  
 
 url = `http://localhost:8080/save`
 
@@ -151,7 +153,7 @@ url = `http://localhost:8080/save`
 
 <a name="save5"></a>
 ### :round_pushpin: GET/saveEvery5Hours:
-Salviamo nel databese i dati che abbiamo nel JSONObject aggiungendo la data. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni 5 ore su 50 città.  
+Salviamo nel database i dati che abbiamo nel JSONObject aggiungendo la data. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni 5 ore su 50 città.  
 
 url = `http://localhost:8080/saveEvery5Hours` 
 
@@ -165,7 +167,9 @@ url = `http://localhost:8080/saveEvery5Hours`
 Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza.  
 Dovremmo aggiungere un parametro alla key `field`, che puo essere: Massimo, Minimo, Media e Varianza. (Nel caso il campo sia vuoto, le statistiche verranno ordinate per distanza, ovvero di defaut) 
 
-url = `http://localhost:8080/stats` --- key = `field` --- value = `Massimo o Minimo o Media o Varianza`
+url = `http://localhost:8080/stats`
+Oppure, se vogliamo ordinare le statistiche:
+url = `http://localhost:8080/stats?field={Massimo o Minimo o Media o Varianza}`
 
 :mag: ESEMPIO  (/stats - ordinati per il valore massimo) :
 (url = `http://localhost:8080/stats?field=massimo`)
@@ -234,13 +238,15 @@ url = `http://localhost:8080/date`
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="filters"></a>
-### :round_pushpin: POST/filtres: -provvisorio-
+### :round_pushpin: POST/filters: -provvisorio-
 Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni, custom o in base ad una sottostringa, come citta che iniziano con *A*. Possiamo selezionare quante citta vedere trammite il campo "count" (da 1 a 50). Tutto cio puo essere definito nel body. Mentre possiamo ordinare le statistiche filtrate nella sezione params di postman, la key dovrà essere "field" con valori: Massimo o Minimo o Media o Varianza. (Nel caso il parametro sia vuoto le statistiche verranno ordinate per distanza, ovvero di defaut) 
 *  Periodo Custom:  Impostare il campo "period" come `custom`. Nel campo "startDate" bisogna inserire il giorno in cui si vuole iniziare a filtrare, nel campo "endDate" bisogna inserire la data di fine filtraggio. Nel caso non si immetta nulla nel campo "endDate" si deve aggiungere un numero intero nel campo "customPeriod", ovvero ogni quanti giorni fare le statistiche. Se si immette un numero positivo si vedranno le date future al quella inserita, mentre nel caso negativo si vedranno le date passate.
 *  Periodo Prestabilito: Impostare il campo "period" come: daily o weekly o monthly. Poi bisogna inserire la data di inizio di filtraggio in "startDate". 
 *  Ricerca Per Nome: Bisogna inserire il nome, anche parziale, nel campo "name" e impostare "count"= 50.
 
-url = `http://localhost:8080/filters` --- key = `field` --- value = `Massimo o Minimo o Media o Varianza`
+url = `http://localhost:8080/filters`
+Oppure, se vogliamo ordinare i dati filtrati:
+url = `http://localhost:8080/filters?field={Massimo o Minimo o Media o Varianza}`
 
 Esempio e spiegazione del Body: 
 ```ruby
@@ -327,7 +333,7 @@ Esempio e spiegazione del Body:
 
 <a name="eccezioni"></a>
 # :no_entry: Eccezioni
-Abbiamo scritto 5 eccezioni: [InvalidDate](#id), [InvalidField](#if), [InvalidNumber](#in), [ShortDatabase](#sd), [WrongPeriod](#wp).
+Abbiamo scritto 5 eccezioni: [InvalidDateException](#id), [InvalidFieldException](#if), [InvalidNumberException](#in), [ShortDatabaseException](#sd), [WrongPeriodException](#wp).
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -420,8 +426,8 @@ Package dei Test effettuati:
 Software utilizzati:
 * [Eclipse](https://www.eclipse.org/) - IDE che abbiamo usato per scrivere il programma
 * [PostMan](https://www.postman.com/) - Programma per testare il funzionamento del programma e l'iterazione con l'API
-* [UML Designer](http://www.umldesigner.org/) - programma usato per creare i diagrammi UML 
-* [Github](https://github.com/) -  è un servizio che abbiamo usato per hostare il nostro progetto   
+* [UML Designer](http://www.umldesigner.org/) - Programma usato per creare i diagrammi UML 
+* [Github](https://github.com/) - Servizio usato per hostare il nostro progetto   
 
 Librerie usate in Eclipse
 * Spring Tools 4 (quindi Spring Boot)
@@ -435,7 +441,7 @@ Librerie usate in Eclipse
 
 <a name="funz"></a>
 # :computer: Installazione del nostro programma
-* avviare Eclipse
+* Avviare Eclipse
 * Importare questo progetto. [(come importare su progetto su eclipse)](https://qastack.it/programming/6760115/importing-a-github-project-into-eclipse) 
 * Lanciare l'applicazione `WeatherCloseRomeAppApplication.java` con *Spring Boot App* (in *run as*)
 * Avviare Postman.
