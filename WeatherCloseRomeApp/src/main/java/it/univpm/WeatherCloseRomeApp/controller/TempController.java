@@ -112,11 +112,11 @@ public class TempController {
 	 * @throws InvalidFieldException  se il "field" s inserito non esiste
 	 */
 	@GetMapping(value = "/stats")
-	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s, @RequestParam(name = "number", defaultValue = "50") int cnt) {
+	public org.json.simple.JSONArray stats(@RequestParam(name = "field", defaultValue = "") String s) {
 
 		org.json.simple.JSONArray jreturn = new org.json.simple.JSONArray();
 
-		jreturn = stat.stats(cnt);
+		jreturn = stat.stats(50);
 		if (!s.equals("")) {
 			jreturn = stat.orderStats(s, jreturn);
 		}
@@ -289,6 +289,7 @@ public class TempController {
 							| InvalidDateException e) {
 						jerr.put("ERROR", e.toString());
 						jreturn.add(jerr);
+						return jreturn;
 					}
 					if (!s.equals("")) {
 						jreturn = stat.orderStats(s, jreturn);
@@ -310,13 +311,19 @@ public class TempController {
 					break;
 				}
 			} else {
-				throw new WrongPeriodException();
+				WrongPeriodException e = new WrongPeriodException();
+				jerr.put("ERROR", e.toString());
+				jreturn.add(jerr);
+				return jreturn;
 			}
 			break;
 		}
 
 		default: {
-			throw new WrongPeriodException();
+			WrongPeriodException e = new WrongPeriodException();
+			jerr.put("ERROR", e.toString());
+			jreturn.add(jerr);
+			return jreturn;
 		}
 		}
 		return jreturn;

@@ -2,6 +2,7 @@ package it.univpm.WeatherCloseRomeApp.utilities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
 import java.util.Vector;
 
 import org.junit.jupiter.api.AfterEach;
@@ -77,7 +78,12 @@ class StatsAndFiltersTest {
 	void IDETest() {
 
 		String data = "12-12-1999";
-		Vector<String> datedisponibili = filter.DateDisponibili();
+		Vector<String> datedisponibili = null;
+		try {
+			datedisponibili = filter.DateDisponibili();
+		} catch (ClassNotFoundException | IOException e1) {
+			e1.printStackTrace();
+		}
 		if (!datedisponibili.contains(data)) {
 			InvalidDateException e = assertThrows(InvalidDateException.class, () -> {
 				filter.filterPeriod(50, data, 7, "");
@@ -94,7 +100,12 @@ class StatsAndFiltersTest {
 	void SDETest() {
 
 		int numdays = 30;
-		Vector<String> datedisponibili = filter.DateDisponibili();
+		Vector<String> datedisponibili = null;
+		try {
+			datedisponibili = filter.DateDisponibili();
+		} catch (ClassNotFoundException | IOException e1) {
+			e1.printStackTrace();
+		}
 		String data0 = datedisponibili.get(0);
 		ShortDatabaseException e = assertThrows(ShortDatabaseException.class, () -> {
 			filter.filterPeriod(50, data0, numdays, "");

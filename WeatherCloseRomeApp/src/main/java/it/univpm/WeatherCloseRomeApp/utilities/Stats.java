@@ -79,7 +79,7 @@ public class Stats {
 		}
 
 		Iterator<City> iterForStats = forStats.iterator();
-		while (iterForStats.hasNext()) {
+		while(iterForStats.hasNext()){
 			City c = iterForStats.next();
 			c.setMax();
 			c.setMin();
