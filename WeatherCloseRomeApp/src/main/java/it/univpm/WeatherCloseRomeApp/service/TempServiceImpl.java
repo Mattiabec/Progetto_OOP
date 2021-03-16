@@ -49,7 +49,7 @@ public class TempServiceImpl implements TempService {
 	 * 
 	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
 	 *            informazioni relative la temperatura
-	 * @return JSONObject
+	 * @return JSONObject contenente i dati forniti dall'API
 	 * @throws InvalidNumberException se "cnt" è maggiore di 50 o minore di 1
 	 */
 	public JSONObject APICall(int cnt) throws InvalidNumberException {

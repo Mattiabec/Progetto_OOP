@@ -13,7 +13,7 @@ public class SaveModel implements Serializable {
 	private static final long serialVersionUID = -2425071011667367166L;
 
 	/**
-	 * Vettore cities
+	 * Vettore cities che contiene i modelli City di ogni città salvata
 	 */
 	private Vector<City> cities;
 

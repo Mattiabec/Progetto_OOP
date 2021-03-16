@@ -43,7 +43,7 @@ public class Stats {
 		org.json.simple.JSONArray jarr = new org.json.simple.JSONArray();
 		Vector<SaveModel> fromFile = new Vector<SaveModel>();
 		Vector<City> forStats = new Vector<City>();
-		
+
 		try {
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
 			forStats = tempServiceImpl.getVector(cnt);
@@ -71,7 +71,7 @@ public class Stats {
 		}
 
 		Iterator<City> iterForStats = forStats.iterator();
-		while(iterForStats.hasNext()){
+		while (iterForStats.hasNext()) {
 			City c = iterForStats.next();
 			c.setMax();
 			c.setMin();
@@ -94,13 +94,13 @@ public class Stats {
 	 * Metodo che permette l'ordinamento decrescente delle statistiche scegliendo il
 	 * parametro da ordinare: Massimo, Minimo, Media, Varianza
 	 * 
-	 * @param s   rappresenta il parametro di interesse da ordinare
+	 * @param s   rappresenta il "field" di interesse da ordinare
 	 * @param cnt rappresenta il numero di città di cui vogliamo conoscere le
 	 *            informazioni relative la temperatura
 	 * @return JSONArray ordinato
 	 */
 	public org.json.simple.JSONArray orderStats(String s, org.json.simple.JSONArray jarr) {
-			
+
 		boolean scambio = true;
 		if (s.equals("Massimo") || s.equals("MASSIMO") || s.equals("massimo")) {
 			while (scambio) {
@@ -165,7 +165,7 @@ public class Stats {
 			jerr.put("ERROR", e.toString());
 			jerrA.add(jerr);
 			return jerrA;
-			}
+		}
 		return jarr;
 	}
 
@@ -206,12 +206,12 @@ public class Stats {
 	}
 
 	/**
-	 * Metodo che restituisce una città presente nel vettore di tipo City tramite il
-	 * parametro id
+	 * Metodo che restituisce una città presente nel vettore di tipo City con lo
+	 * stesso id posto in ingresso
 	 * 
-	 * @param id rappresenta id della città
+	 * @param id rappresenta id della città da cercare nel Vector<City>
 	 * @param c  rappresenta un vettore di tipo City
-	 * @return oggetto City
+	 * @return oggetto City del vettore con stesso id
 	 */
 	public static City findByID(long id, Vector<City> c) {
 
