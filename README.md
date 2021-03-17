@@ -33,8 +33,8 @@ Data la città di Roma, abbiamo scritto questo programma in modo da visualizzare
 
 <a name="introduzione"></a>
 # :scroll: Introduzione
-Abbiamo implentato un servizio meteo che ci permette di monitorare le temperature nelle citta circostanti a Roma. La ricerca avviene inserendo il numero di citta che si vogliono visualizzare, per un minimo di 1 ad un massimo di 50. Salveremo le informazioni delle 50 città ogni 5 ore, in un database, cosi da avere tutti i dati pronti per il calcolo di statistiche. L'utente puo consultare diverse statistiche, ovvero valori minimi, massimi, media e varianza delle temperature per ogni città ed ordinarli secondo i precedenti paramentri.
-Infine possiamo filtrare le statistiche in base al numero delle città, alla periodicità (giornaliera, settimanale, mensile o range personalizzabile) o in base ad una sottostringa contenuta nel nome della città (Città che iniziano per A).
+Abbiamo implentato un servizio meteo che ci permette di monitorare le temperature nelle città circostanti Roma. La ricerca avviene inserendo il numero di città che si vogliono visualizzare, per un minimo di 1 ad un massimo di 50. Nel particolare verranno visualizzate la temperatira attuale, la minima, la massima per ogni città. Sarà possibile salvare le informazioni delle 50 città ogni 5 ore in un database, cosi da avere tutti i dati pronti per il calcolo di statistiche. L'utente puo consultare diverse statistiche, nello specifico valori minimi, massimi, media e varianza delle temperature per ogni città ed ordinarli secondo i precedenti parametri in ordine decrescente.
+Infine possiamo filtrare le statistiche in base al numero delle città, alla periodicità (giornaliera, settimanale, mensile o range personalizzabile) o in base ad una sottostringa contenuta nel nome della città (Città che iniziano per 'A').
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna ad introduzione](#introduzione) [:scroll:](#introduzione)
@@ -46,33 +46,34 @@ Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro
 Abbiamo creato 3 diagrammi: [Casi d'uso](#ucs), [Classi](#ucd), [Sequenze](#ucs).
 
 <a name="ucs"></a>
-## :bar_chart: Use Case Diagram -provvisorio- 
-In questo diagramma possiamo vedere come si sviluppa il programma. Abbiamo l'attore *utente* che si interfaccia al programma e richiede i dati sulle temperature, in base al numero di citta, cosi ottendendo le statistiche che sono poi ordinate e filtrate. Mentre l'attore non umano, *OpenWeather*, gestisce il programma. Quindi tramite una chiamata all'API di OpenWeather soddisfa le richieste dell'utente e salva tutti i dati di tutte le citta ogni 5 ore.
+## :bar_chart: Use Case Diagram  
+In questo diagramma possiamo vedere gli attori principali e le loro interazioni con il programma. Abbiamo l'attore *utente* che si interfaccia al programma e richiede i dati sulle temperature, in base al numero di città, così ottendendo le statistiche che sono poi ordinate e filtrate. Mentre l'attore non umano, *OpenWeather*, gestisce le richieste dati e di salvataggio.
 
 ![Diagramma dei casi d'uso (1)](https://user-images.githubusercontent.com/44706799/110305538-145c9f80-7ffd-11eb-8ff8-880c78e7caaa.jpg)
 
 <a name="ucd"></a>
 ## :bar_chart: Class Diagram -provvisorio-
-Come possiamo vedere abbiamo diversi package:
+Nel diagramma delle classi è possibile osservare la struttura a livello di programmazione ad oggetti del progetto. Le classi utilizzate hanno scopi diversi per questo sono inserite in ambiti differenti, come è evidente dalla architettura dei packages.
+Nel particolare possiamo vedere:
 
-- Package controller : contiene la classe controller che gestisce tutte le rotte del programma.
-- Package service    : contiene le classi TempService e TempServiceImpl. Il primo contiene l'interfaccia e inizializza i metodi. Il secondo li gestisce e li implementa. 
+- Package controller : contiene il RestController dell'intera applicazione SpringBoot che gestisce tutte le rotte del programma.
+- Package service    : contiene l'interfaccia TempService e la classe che la implementa. Sono alla base delle rotte fondamentali del progetto.
 - Package models     : contiene le classi City, FilterBody e SaveModel che descrivono come sono fatti gli oggetti che usiamo.
-- Package utilities  : contiene le classi Stats e Filter, rispettivamente gestiscono le statistiche e i filtri
-- Package exceptions : contiene tutte le [Eccezioni](#eccezioni)
-+ WeatherCloseRomeApp: classe contenente il main che avvia l'applicazione Spring
+- Package utilities  : contiene le classi Stats e Filter, rispettivamente gestiscono le operazioni di statistiche e di filtraggio.
+- Package exceptions : contiene tutte le [Eccezioni](#eccezioni) personalizzate a cui si farà affidamento nella gestione di errori.
++ WeatherCloseRomeApp: classe contenente il main che avvia l'applicazione SpringBoot.
 
 ![OOP Class Diagram2 0 (1)](https://user-images.githubusercontent.com/44706799/111297262-b6a80300-864d-11eb-9a0c-fcf3f4aab02d.jpg)
 
 <a name="usd"></a>
-## :bar_chart: Sequence Diagram - provvisorio- 
+## :bar_chart: Sequence Diagram 
 Definisce la sequenza temporale di ogni rotta, ovvero ciò che succede per ogni chiamata fatta tramite postman.
 
 ![Diagramma delle sequenze](https://user-images.githubusercontent.com/44706799/110305616-2b9b8d00-7ffd-11eb-9335-2cd0d0d514b1.jpg)
 
 <a name="ger"></a>
 ## :bar_chart: Hierarchy Diagram - provvisorio- 
-Questo scherma delle gerarchie ci mostra come abbiamo ordinato e gestito i diversi package nel progetto.
+Questo è un ulteriore schema che mostra l'ordinamento gerarchico dei packages.
 
 ![NewModel Package Hierarchy](https://user-images.githubusercontent.com/44706799/111297926-7ac16d80-864e-11eb-8a38-b3a86f64e786.jpg)
 
@@ -84,7 +85,7 @@ Questo scherma delle gerarchie ci mostra come abbiamo ordinato e gestito i diver
 # :honeybee: API
 Sono fondamentali per il funzionamento del programma e per la raccolta dati. Con il programma *Postman* possiamo usare le rotte, sotto elencate, per far funzionare il nostro servizio.
 Per rispondere alle richieste degli utenti e avere un database abbiamo usato l'api: https://openweathermap.org/current#cycle.
-L'API restituisce i dati delle città disposte all'interno di un cerchio, definito dal un punto centrale ( `lat`, `lon`), nel nostro caso roma (41.902782, 12.496365),     
+L'API restituisce i dati delle città presenti nei pressi di una città-centro, definita dal un punto geografico ( `lat`, `lon`), nel nostro caso Roma (41.902782, 12.496365),     
 e dal numero previsto di città (`cnt`) attorno a questo punto.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
