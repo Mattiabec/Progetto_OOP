@@ -21,6 +21,7 @@ class TempServiceImplTest {
 
 	private TempServiceImpl service;
 	private Stats stat;
+	private City c1;
 
 	/**
 	 * Inizializza i componenti necessari a testare i metodi
@@ -31,6 +32,7 @@ class TempServiceImplTest {
 	void setUp() throws Exception {
 		service = new TempServiceImpl();
 		stat = new Stats();
+		c1 = new City(12345L, "Napoli", 300.0, 301.0, 299.0);
 	}
 
 	/**
@@ -48,8 +50,6 @@ class TempServiceImplTest {
 	@Test
 	@DisplayName("Costruttore City.")
 	void testCity() {
-
-		City c1 = new City(12345L, "Napoli", 300.0, 301.0, 299.0);
 
 		assertEquals(12345L, c1.getID());
 		assertEquals("Napoli", c1.getName());

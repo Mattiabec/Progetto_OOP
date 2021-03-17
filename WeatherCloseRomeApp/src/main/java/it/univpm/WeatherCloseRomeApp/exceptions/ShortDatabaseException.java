@@ -11,14 +11,14 @@ public class ShortDatabaseException extends Exception{
 	 * Costruttore di ShortDatabaseException
 	 */
 	public ShortDatabaseException() {
-		super("Database non contiene abbastanza informazioni. Scegliere un periodo più breve.");
+		super("Database non contiene abbastanza informazioni. Scegliere un periodo ragionevole.");
 	}
 	
 	/**
 	 * Metodo che ritorna una rappresentazione testuale (stringa) dell'oggetto
 	 */
 	public String toString() {
-		return "ShortDatabaseException: Database non contiene abbastanza informazioni. Scegliere un periodo più breve.";
+		return "ShortDatabaseException: Database non contiene abbastanza informazioni. Scegliere un periodo ragionevole.";
 	}
 	
 }

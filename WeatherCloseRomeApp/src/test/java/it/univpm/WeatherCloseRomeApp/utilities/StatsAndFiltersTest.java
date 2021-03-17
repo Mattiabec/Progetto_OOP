@@ -3,6 +3,7 @@ package it.univpm.WeatherCloseRomeApp.utilities;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Vector;
 
 import org.json.simple.JSONObject;
@@ -14,8 +15,10 @@ import org.junit.jupiter.api.Test;
 import it.univpm.WeatherCloseRomeApp.controller.TempController;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidDateException;
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidFieldException;
+import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.exceptions.ShortDatabaseException;
 import it.univpm.WeatherCloseRomeApp.exceptions.WrongPeriodException;
+import it.univpm.WeatherCloseRomeApp.models.City;
 import it.univpm.WeatherCloseRomeApp.models.FilterBody;
 import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 
@@ -30,7 +33,10 @@ class StatsAndFiltersTest {
 	private Filter filter;
 	private TempController controller;
 	private TempServiceImpl service;
-	org.json.simple.JSONArray jarr;
+	private org.json.simple.JSONArray jarr;
+	private FilterBody filtering;
+	private String data;
+	private int numdays;
 
 	/**
 	 * Inizializza i componenti necessari a testare i metodi
@@ -44,6 +50,9 @@ class StatsAndFiltersTest {
 		controller = new TempController();
 		service = new TempServiceImpl();
 		jarr = new org.json.simple.JSONArray();
+		filtering = new FilterBody(5, "mensile", "2021-03-05", "", 0, "");
+		data = "12-12-1999";
+		numdays = 30;
 	}
 
 	/**
@@ -76,7 +85,6 @@ class StatsAndFiltersTest {
 	@DisplayName("Corretta esecuzione di InvalidDateException")
 	void IDETest() {
 
-		String data = "12-12-1999";
 		Vector<String> datedisponibili = null;
 		try {
 			datedisponibili = filter.DateDisponibili();
@@ -87,7 +95,7 @@ class StatsAndFiltersTest {
 			InvalidDateException e = assertThrows(InvalidDateException.class, () -> {
 				filter.filterPeriod(50, data, 7, "");
 			});
-			assertEquals("InvalidDateException: Data inserita incorretta.", e.toString());
+			assertEquals("InvalidDateException: Data inserita incorretta. Controllare la rotta \"/date\" per le date disponibili.", e.toString());
 		}
 	}
 
@@ -98,7 +106,6 @@ class StatsAndFiltersTest {
 	@DisplayName("Corretta esecuzione ShortDatabaseException")
 	void SDETest() {
 
-		int numdays = 30;
 		Vector<String> datedisponibili = null;
 		try {
 			datedisponibili = filter.DateDisponibili();
@@ -109,7 +116,7 @@ class StatsAndFiltersTest {
 		ShortDatabaseException e = assertThrows(ShortDatabaseException.class, () -> {
 			filter.filterPeriod(50, data0, numdays, "");
 		});
-		assertEquals("ShortDatabaseException: database insufficente.", e.toString());
+		assertEquals("ShortDatabaseException: Database non contiene abbastanza informazioni. Scegliere un periodo ragionevole.", e.toString());
 	}
 
 	/**
@@ -119,15 +126,10 @@ class StatsAndFiltersTest {
 	@DisplayName("Corretta esecuzione WrongPeriodException")
 	void WPETest() {
 
-		FilterBody filtering = new FilterBody();
-		filtering.setPeriod("mensile");
-		filtering.setCount(5);
-		filtering.setStartDate("2021-03-05");
 		jarr = controller.filters(filtering, "");
 		org.json.simple.JSONObject jobj = (JSONObject) jarr.get(0);
 		WrongPeriodException e = new WrongPeriodException();
 		assertEquals(e.toString(),jobj.get("ERROR"));
-		assertEquals("WrongPeriodException: periodo inserito incorretto. Scegliere tra: daily,weekly,monthly,custom.", e.toString());
 	}
 	
 	/**
@@ -140,15 +142,15 @@ class StatsAndFiltersTest {
 		String startDate = "2021-03-06";
 		String endDate1 = "2021-03-11";
 		String endDate2 = "2021-03-03";
-		assertEquals(filter.afterDay(startDate, endDate1), true);
-		assertEquals(filter.afterDay(startDate, endDate2), false);
+		assertTrue(filter.afterDay(startDate, endDate1),"Must be true");
+		assertFalse(filter.afterDay(startDate, endDate2), "Must be false");
 	}
 	
 	/**
 	 * Test metodo DatabaseWidth
 	 */
 	@Test
-	@DisplayName("Corretta consecuzione di giorni")
+	@DisplayName("Corretta valutazione di ampiezza database")
 	void DatabaseWidthTest() {
 		Vector<String> dateDisponibili = new Vector<String>();
 		String data1 = "2021-03-08";
@@ -162,8 +164,32 @@ class StatsAndFiltersTest {
 		int numdays=2;
 		String startDate1= data1;
 		String startDate2 = data4;
-		assertEquals(filter.databaseWidth(startDate1, numdays, dateDisponibili), true);
-		assertEquals(filter.databaseWidth(startDate2, numdays, dateDisponibili), false);
+		assertTrue(filter.databaseWidth(startDate1, numdays, dateDisponibili), "Must be true");
+		assertFalse(filter.databaseWidth(startDate2, numdays, dateDisponibili), "Must be false");
+	}
+	
+	/**
+	 * Test metodo findByID
+	 */
+	@Test
+	@DisplayName("Corretto indirizzamento alla città tramite ID")
+	void findByIDTest () {
+		Vector<City> cities = new Vector<City>();
+		long id = 3169070L ;
+		try {
+			cities = service.getVector(50);
+		} catch (InvalidNumberException e) {
+			e.printStackTrace();
+		}
+		City c1 = stat.findByID(id, cities);
+		City c2 = null;
+		assertEquals(c1.getName(), "Rome");
+		Iterator<City> iter = cities.iterator();
+		while (iter.hasNext()) {
+			c2 = iter.next();
+			if (c2.getID()==id) break;
+		}
+		assertSame(c1, c2, "Must be same");
 	}
 
 }

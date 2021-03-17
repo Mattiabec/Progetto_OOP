@@ -37,6 +37,18 @@ public class FilterBody {
 	 * Data di fine filtraggio (formato: YYYY-MM-DD)
 	 */
 	private String endDate;
+	
+	/**
+	 * Costruttore elementare di FilterBody
+	 */
+	public FilterBody(int count, String period, String startDate, String name, int customPeriod, String endDate) {
+		this.count=count;
+		this.period=period;
+		this.startDate=startDate;
+		this.name=name;
+		this.customPeriod=customPeriod;
+		this.endDate=endDate;
+	}
 
 	/**
 	 * Metodo che restituisce il numero delle città
