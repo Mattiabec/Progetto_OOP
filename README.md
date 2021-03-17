@@ -108,7 +108,7 @@ N° | Tipo | Rotta | Descrizione
 <a name="temp"></a>
 ### :round_pushpin: GET/temp:
 L'utente puo specificare quante citta vuole monitorare tramite il paramentro `number` (da 1 a 50), altrimenti verranno riportate 7 città se non viene aggiunto nessun paramentro.
-Con i dati ottenuti creeremo un JSONObject per quante città si vogliono visualizzare, con: temp, tempMin, tempMax, id (della città), nome (della città).
+I dati ottenuti li inseriamo in un JSONObject ,che farà poi parte del JSONArray restituito, per quante città si vogliono visualizzare. Le "chiavi" del JSONObject sono : temp, tempMin, tempMax, id (della città), name (della città).
 (`number` è l'equivalente di cnt nel programma)
 
 url = `http://localhost:8080/temp`
@@ -143,7 +143,7 @@ url = `http://localhost:8080/temp?number={da 1 a 50}`
 
 <a name="save"></a>
 ### :round_pushpin: GET/save:
-Salviamo nel database i dati che abbiamo nel JSONObject aggiungendo la data. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni volta su 50 città.  
+Salviamo nel database i dati che abbiamo con una chiamata alla API. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni volta su 50 città.  
 
 url = `http://localhost:8080/save`
 
@@ -154,7 +154,7 @@ url = `http://localhost:8080/save`
 
 <a name="save5"></a>
 ### :round_pushpin: GET/saveEvery5Hours:
-Salviamo nel database i dati che abbiamo nel JSONObject aggiungendo la data. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni 5 ore su 50 città.  
+Salviamo nel database i dati che abbiamo con una chiamata alla API aggiornano automaticamente con una cadenza di 5 ore. Il risultato verrà visualizzato solo al primo salvataggio e sarà un JSONObject con le "chiavi" : percorso(path) dov'è salvato il file, lo stato(status) e la data(time).   
 
 url = `http://localhost:8080/saveEvery5Hours` 
 
@@ -165,8 +165,9 @@ url = `http://localhost:8080/saveEvery5Hours`
 
 <a name="stats"></a>
 ### :round_pushpin: GET/stats:
-Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza.  
-Dovremmo aggiungere un parametro alla key `field`, che puo essere: Massimo, Minimo, Media e Varianza. (Nel caso il campo sia vuoto, le statistiche verranno ordinate per distanza, ovvero di defaut) 
+Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza.
+Aggiungendo il parametro alla key `number` sarà possibile selezionare il numero di città su cui fare le statistiche. 
+Aggiungendo il parametro alla key `field` avverrà l'ordinamento decrescente in base ad esso del JSONArray. : Massimo/massimo/MASSIMO, Minimo/minimo/MINIMO, Media/media/MEDIA e Varianza/varianza/VARIANZA. (Nel caso il campo sia vuoto, le statistiche verranno ordinate per distanza, ovvero di default) 
 
 url = `http://localhost:8080/stats`
 Oppure, se vogliamo ordinare le statistiche:
@@ -240,10 +241,10 @@ url = `http://localhost:8080/date`
 
 <a name="filters"></a>
 ### :round_pushpin: POST/filters: -provvisorio-
-Ci restituisce le statistiche filtrate, in un JSONObject, in base alla città o alla periodicità: settimanale, mensile, 10 giorni, custom o in base ad una sottostringa, come citta che iniziano con *A*. Possiamo selezionare quante citta vedere trammite il campo "count" (da 1 a 50). Tutto cio puo essere definito nel body. Mentre possiamo ordinare le statistiche filtrate nella sezione params di postman, la key dovrà essere "field" con valori: Massimo o Minimo o Media o Varianza. (Nel caso il parametro sia vuoto le statistiche verranno ordinate per distanza, ovvero di defaut) 
-*  Periodo Custom:  Impostare il campo "period" come `custom`. Nel campo "startDate" bisogna inserire il giorno in cui si vuole iniziare a filtrare, nel campo "endDate" bisogna inserire la data di fine filtraggio. Nel caso non si immetta nulla nel campo "endDate" si deve aggiungere un numero intero nel campo "customPeriod", ovvero ogni quanti giorni fare le statistiche. Se si immette un numero positivo si vedranno le date future al quella inserita, mentre nel caso negativo si vedranno le date passate.
-*  Periodo Prestabilito: Impostare il campo "period" come: daily o weekly o monthly. Poi bisogna inserire la data di inizio di filtraggio in "startDate". 
-*  Ricerca Per Nome: Bisogna inserire il nome, anche parziale, nel campo "name" e impostare "count"= 50.
+Ci restituisce le statistiche filtrate, in un JSONArray, in base al numero di città, periodicità ("daily","weekly","monthly","custom") o in base ad una sottostringa, come città che iniziano con *A*. Possiamo selezionare quante citta vedere trammite il campo "count" (da 1 a 50). Tutto cio puo essere definito nel body. Mentre possiamo ordinare le statistiche filtrate nella sezione params di postman, la key dovrà essere "field" con valori: Massimo o Minimo o Media o Varianza. (Nel caso il parametro sia vuoto le statistiche verranno ordinate per distanza, ovvero di defaut) 
+*  Periodo "custom":  Impostare il campo "period" come `custom`. Nel campo "startDate" bisogna inserire il giorno da cui si vuole iniziare a filtrare, nel campo "endDate" bisogna inserire la data di fine filtraggio. Nel caso non si immetta nulla nel campo "endDate" si deve aggiungere un numero intero nel campo "customPeriod", questo valore indica l'intervallo da saltare da "startDate" in poi. Se si immette un numero positivo i salti avverranno nelle date future a quella inserita, mentre nel caso negativo si salterà nelle date passate.
+*  Periodo Prestabilito: Impostare il campo "period" come: "daily" o "weekly" o "monthly". Poi bisogna inserire la data di inizio di filtraggio in "startDate". 
+*  Ricerca Per Nome: Bisogna inserire il nome, anche parziale, nel campo "name".
 
 url = `http://localhost:8080/filters`
 Oppure, se vogliamo ordinare i dati filtrati:
@@ -278,7 +279,7 @@ Esempio e spiegazione del Body:
 ]
 ```
 
-:mag: ESEMPIO 2 (/filters - ricerca tra tutte le citta di nomi contenenti "cast", periodo settimanale, dal 9\3\21 (al 15\3\21), ordinato per varianza) :
+:mag: ESEMPIO 2 (/filters - ricerca tra tutte le citta di nomi contenenti "Cast", periodo settimanale, dal 9\3\21 (al 15\3\21), ordinato per varianza) :
 (url `http://localhost:8080/filters?field=varianza`)
 
 ![Screenshot (143)](https://user-images.githubusercontent.com/44706799/111214031-b8cc7c00-85d1-11eb-922e-ac57f3eed6fd.png)
@@ -303,7 +304,7 @@ Esempio e spiegazione del Body:
 ]
 ```
 
-:mag: ESEMPIO 3 (/filters - ricerca di 2 città, periodo custom, dal 10\3\21 al 14\3\21, ordinato per distanza da roma(default)) :
+:mag: ESEMPIO 3 (/filters - ricerca di 2 città, periodo custom, dal 10\3\21 al 14\3\21, ordinato per distanza da Roma(default)) :
 (url `http://localhost:8080/filters`)
 
 ![Screenshot (147)](https://user-images.githubusercontent.com/44706799/111214925-d2ba8e80-85d2-11eb-95dc-73805cf29b59.png)
