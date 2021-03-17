@@ -101,6 +101,7 @@ public class TempController {
 	 * base al "field" scelto (Massimo, Minimo, Media, Varianza)
 	 * 
 	 * @param s rappresenta il "field" di interesse da ordinare
+	 * @param cnt rappresenta il "number" di città per le statistiche
 	 * @return JSONArray contenente un JSONObject per ogni città con le proprie
 	 *         statistiche
 	 */
