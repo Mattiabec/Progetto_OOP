@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"it.univpm.WeatherCloseRomeApp"},{"l":"it.univpm.WeatherCloseRomeApp.controller"},{"l":"it.univpm.WeatherCloseRomeApp.exceptions"},{"l":"it.univpm.WeatherCloseRomeApp.models"},{"l":"it.univpm.WeatherCloseRomeApp.service"},{"l":"it.univpm.WeatherCloseRomeApp.utilities"}];updateSearchResults();
