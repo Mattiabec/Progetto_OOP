@@ -101,9 +101,9 @@ N° | Tipo | Rotta | Descrizione
 [1](#1) | ` GET ` | [`/temp`](#temp) | *restituisce un JSONArray che contiene i JSONObject di ogni città con : id, name, temperatura,  temp. max e min.*
 [2](#2) | ` GET ` | [`/save`](#save) | *aggiorna il database.*
 [3](#3) | ` GET ` | [`/saveEvery5Hours`](#save5) | *aggiorna il database ogni 5 ore.*
-[4](#4) | ` GET ` | [`/stats`](#stats) | *restituisce le statistiche sulle temperature di ogni citta: valori minimi, massimi, media e varianza*
-[5](#5) | ` GET ` | [`/date`](#date) | *restituisce le date nel file in una stringa*
-[6](#6) | ` POST ` | [`/filters`](#filters) | *restituisce un JSONObject con le statistiche filtrate in base alla città, periodicità o sottostringa.*
+[4](#4) | ` GET ` | [`/stats`](#stats) | *restituisce le statistiche, basate su tutti i giorni presenti nel file, sulle temperature di ogni città: valori minimi, massimi, media e varianza.*
+[5](#5) | ` GET ` | [`/date`](#date) | *restituisce le date a cui fare riferimento che sono presenti nel database*
+[6](#6) | ` POST ` | [`/filters`](#filters) | *restituisce un JSONArray con i JSONObject contenenti le statistiche filtrate in base al numero di città, periodicità (personalizzabile o non), sottostringa e con possibilità di ordinamento in ordine decrescente con i "field" massimo, minimo,media,varianza.*
 
 <a name="temp"></a>
 ### :round_pushpin: GET/temp:
