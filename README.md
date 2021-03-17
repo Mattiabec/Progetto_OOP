@@ -98,7 +98,7 @@ Le rotte definite sono le seguenti:
 
 N° | Tipo | Rotta | Descrizione
 ----- | ------------ | -------------------- | ----------------------
-[1](#1) | ` GET ` | [`/temp`](#temp) | *restituisce un JSONArray che contiene: temperatura,  temp. max e min, pressione e umidità.*
+[1](#1) | ` GET ` | [`/temp`](#temp) | *restituisce un JSONArray che contiene i JSONObject di ogni città con : id, name, temperatura,  temp. max e min.*
 [2](#2) | ` GET ` | [`/save`](#save) | *aggiorna il database.*
 [3](#3) | ` GET ` | [`/saveEvery5Hours`](#save5) | *aggiorna il database ogni 5 ore.*
 [4](#4) | ` GET ` | [`/stats`](#stats) | *restituisce le statistiche sulle temperature di ogni citta: valori minimi, massimi, media e varianza*
