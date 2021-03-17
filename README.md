@@ -176,35 +176,32 @@ url = `http://localhost:8080/stats?field={Massimo o Minimo o Media o Varianza}`
 :mag: ESEMPIO  (/stats - ordinati per il valore massimo) :
 (url = `http://localhost:8080/stats?field=massimo`)
 
-![Screenshot (109)](https://user-images.githubusercontent.com/44706799/110317394-63f69780-800c-11eb-8f93-cbcb9380461a.png)
+![Screenshot (158)](https://user-images.githubusercontent.com/44706799/111458324-96de1100-8719-11eb-9e44-089f6f6841c5.png)
 ```ruby
 [
     {
-        "Massimo": 288.96,
-        "name": "Ariccia",
-        "Media": 285.39936555891177,
-        "Minimo": 279.71,
-        "Varianza": 6.714853978149156,
-        "id": 6545158
-    },
-    {
-        "Massimo": 285.84,
-        "name": "Guidonia",
-        "Media": 283.23500000000007,
-        "Minimo": 281.76,
-        "Varianza": 1.9915583333333409,
+        "Massimo": 289.58,
+        "name": "Pigna",
+        "Media": 284.66137931034484,
+        "Minimo": 280.9,
+        "Varianza": 3.4594118906064297,
         "id": 6545151
     },
-    .
-    .
-    .
     {
-        "Massimo": 283.57,
-        "name": "Rocca Priora",
-        "Media": 282.59499999999997,
-        "Minimo": 281.83,
-        "Varianza": 0.3098583333333377,
-        "id": 3182851
+        "Massimo": 289.58,
+        "name": "Rome",
+        "Media": 285.33264705882357,
+        "Minimo": 281.21,
+        "Varianza": 4.906148875432542,
+        "id": 3169070
+    },
+    {
+        "Massimo": 289.57,
+        "name": "Trevi",
+        "Media": 284.6555172413793,
+        "Minimo": 280.9,
+        "Varianza": 3.4611557669441186,
+        "id": 6545158
     }
 ]
 ```
@@ -245,6 +242,8 @@ Ci restituisce le statistiche filtrate, in un JSONArray, in base al numero di ci
 *  Periodo "custom":  Impostare il campo "period" come `custom`. Nel campo "startDate" bisogna inserire il giorno da cui si vuole iniziare a filtrare, nel campo "endDate" bisogna inserire la data di fine filtraggio. Nel caso non si immetta nulla nel campo "endDate" si deve aggiungere un numero intero nel campo "customPeriod", questo valore indica l'intervallo da saltare da "startDate" in poi. Se si immette un numero positivo i salti avverranno nelle date future a quella inserita, mentre nel caso negativo si salterà nelle date passate.
 *  Periodo Prestabilito: Impostare il campo "period" come: "daily" o "weekly" o "monthly". Poi bisogna inserire la data di inizio di filtraggio in "startDate". 
 *  Ricerca Per Nome: Bisogna inserire il nome, anche parziale, nel campo "name".
+
+ALLERT: le date precedenti al 2021-03-07 sono corrotte, ovvero 03/04/05/06, si prega di usare altre date.
 
 url = `http://localhost:8080/filters`
 Oppure, se vogliamo ordinare i dati filtrati:
@@ -329,6 +328,40 @@ Esempio e spiegazione del Body:
 ]
 ```
 
+:mag: ESEMPIO 4 (/filters - ricerca di 2 città, periodo custom, startDate 7\3\21, customPeriod = 2, ordinato per distanza da Roma(default)) :
+(url `http://localhost:8080/filters?field=varianza`)
+
+![Screenshot (161)](https://user-images.githubusercontent.com/44706799/111459888-96467a00-871b-11eb-850f-217e6bf92427.png)
+```ruby
+[
+    {
+        "date arrivabili": [
+            "2021-03-07",
+            "2021-03-10",
+            "2021-03-13",
+            "2021-03-16"
+        ]
+    },
+    {
+        "Massimo": 289.57,
+        "name": "Trevi",
+        "Media": 284.0009090909091,
+        "Minimo": 282.29,
+        "Varianza": 4.232862809917346,
+        "id": 6545158
+    },
+    {
+        "Massimo": 289.58,
+        "name": "Pigna",
+        "Media": 284.0081818181818,
+        "Minimo": 282.32,
+        "Varianza": 4.223760330578511,
+        "id": 6545151
+    }
+]
+
+```
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna a Rotte](#rotte) [🚩](#rotte)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -341,7 +374,7 @@ Abbiamo scritto 5 eccezioni: [InvalidDateException](#id), [InvalidFieldException
 
 <a name="id"></a>
 ### :x: InvalidDateException.java   :
-Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia incorretta, si chiede di controllare la rotta `/date` per le date disponibili.
+Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia incorretta. (controllare la rotta `/date` per le date disponibili)
 
 :mag: ESEMPIO :
 
@@ -361,9 +394,9 @@ Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta
 
 ![Screenshot (125)](https://user-images.githubusercontent.com/44706799/110495944-4c470e00-80f5-11eb-82a6-d0a05d15ed1f.png)
 ```ruby
-   {
-        "ERROR": "InvalidFieldException: campo errato."
-   }
+    {
+        "ERROR": "InvalidFieldException: Field errato. I field disponibili sono: Massimo, Minimo, Media, Varianza."
+    }
 ```
 
 <a name="in"></a>
@@ -388,8 +421,8 @@ Controlla se nel database contiene le informazioni sufficenti per creare statist
 
 ![Screenshot (153)](https://user-images.githubusercontent.com/44706799/111304343-e9ee9000-8655-11eb-8aea-ab519a4caedc.png)
 ```ruby
-    {
-        "ERROR": "ShortDatabaseException: database insufficente."
+     {
+        "ERROR": "ShortDatabaseException: Database non contiene abbastanza informazioni. Scegliere un periodo ragionevole."
     }
 ```
 
@@ -402,7 +435,7 @@ Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso c
 ![Screenshot (156)](https://user-images.githubusercontent.com/44706799/111304671-494ca000-8656-11eb-8cc6-2c2e0fc1f9bd.png)
 ```ruby
     {
-        "ERROR": "WrongPeriodException: periodo inserito incorretto."
+        "ERROR": "WrongPeriodException: Periodo inserito incorretto. Scegliere tra: daily,weekly,monthly,custom."
     }
 ```
 
