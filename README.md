@@ -43,7 +43,7 @@ Infine possiamo filtrare le statistiche in base al numero delle città, alla per
 <a name="uml"></a>
 # :chart_with_upwards_trend: Diagrammi UML
 Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro programma.  
-Abbiamo creato 3 diagrammi: [Casi d'uso](#ucs), [Classi](#ucd), [Sequenze](#ucs).
+Abbiamo creato 4 diagrammi: [Casi d'uso](#ucs), [Classi](#ucd), [Sequenze](#ucs) e [Gerarchia](#ger).
 
 <a name="ucs"></a>
 ## :bar_chart: Use Case Diagram  
