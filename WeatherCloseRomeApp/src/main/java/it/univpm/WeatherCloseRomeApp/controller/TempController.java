@@ -100,7 +100,7 @@ public class TempController {
 	 * salvati nel file "database.dat" e permette il loro ordinamento decrescente in
 	 * base al "field" scelto (Massimo, Minimo, Media, Varianza)
 	 * 
-	 * @param s rappresenta il "field" di interesse da ordinare
+	 * @param s   rappresenta il "field" di interesse da ordinare
 	 * @param cnt rappresenta il "number" di città per le statistiche
 	 * @return JSONArray contenente un JSONObject per ogni città con le proprie
 	 *         statistiche

@@ -1,6 +1,9 @@
-package it.univpm.WeatherCloseRomeApp.service;
+package it.univpm.WeatherCloseRomeApp.utilities;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Iterator;
+import java.util.Vector;
 
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.AfterEach;
@@ -10,18 +13,17 @@ import org.junit.jupiter.api.Test;
 
 import it.univpm.WeatherCloseRomeApp.exceptions.InvalidNumberException;
 import it.univpm.WeatherCloseRomeApp.models.City;
-import it.univpm.WeatherCloseRomeApp.utilities.Stats;
+import it.univpm.WeatherCloseRomeApp.service.TempServiceImpl;
 
 /**
- * Classe che testa il modello City
+ * Classe che testa alcuni metodi della classe Stats
  * 
  * @author Mattia Beccerica, Alessandro Fermanelli, Giulio Gattari
  */
-class TempServiceImplTest {
+class StatsTest {
 
-	private TempServiceImpl service;
 	private Stats stat;
-	private City c1;
+	private TempServiceImpl tempServiceImpl;
 
 	/**
 	 * Inizializza i componenti necessari a testare i metodi
@@ -30,9 +32,9 @@ class TempServiceImplTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		service = new TempServiceImpl();
+
+		tempServiceImpl = new TempServiceImpl();
 		stat = new Stats();
-		c1 = new City(12345L, "Napoli", 300.0, 301.0, 299.0);
 	}
 
 	/**
@@ -42,35 +44,6 @@ class TempServiceImplTest {
 	 */
 	@AfterEach
 	void tearDown() throws Exception {
-	}
-
-	/**
-	 * Test del costruttore del modello City
-	 */
-	@Test
-	@DisplayName("Costruttore City.")
-	void testCity() {
-
-		assertEquals(12345L, c1.getID());
-		assertEquals("Napoli", c1.getName());
-		assertEquals(300.0, c1.getTemp());
-		assertEquals(299.0, c1.getTempMin());
-		assertEquals(301.0, c1.getTempMax());
-	}
-
-	/**
-	 * Test dell'eccezione InvalidNumberException
-	 */
-	@Test
-	@DisplayName("Corretta generazione dell'eccezione InvalidNumberException.")
-	void INETest() {
-
-		int cnt = 51;
-		InvalidNumberException e = assertThrows(InvalidNumberException.class, () -> {
-			service.APICall(cnt);
-		});
-		assertEquals("InvalidNumberException: Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi)",
-				e.toString());
 	}
 
 	/**
@@ -104,6 +77,46 @@ class TempServiceImplTest {
 		org.json.simple.JSONObject jobjsupp1 = (JSONObject) jarr.get(1);
 		assertEquals(22, jobjsupp0.get("id"));
 		assertEquals(12, jobjsupp1.get("id"));
+	}
+
+	/**
+	 * Test metodo findByID
+	 */
+	@Test
+	@DisplayName("Corretto indirizzamento alla città tramite ID")
+	void findByIDTest() {
+		Vector<City> cities = new Vector<City>();
+		long id = 3169070L;
+		try {
+			cities = tempServiceImpl.getVector(50);
+		} catch (InvalidNumberException e) {
+			e.printStackTrace();
+		}
+		City c1 = stat.findByID(id, cities);
+		City c2 = null;
+		assertEquals(c1.getName(), "Rome");
+		Iterator<City> iter = cities.iterator();
+		while (iter.hasNext()) {
+			c2 = iter.next();
+			if (c2.getID() == id)
+				break;
+		}
+		assertSame(c1, c2, "Must be same");
+	}
+
+	/**
+	 * Test dell'eccezione InvalidNumberException
+	 */
+	@Test
+	@DisplayName("Corretta generazione dell'eccezione InvalidNumberException.")
+	void INETest() {
+
+		int cnt = 51;
+		InvalidNumberException e = assertThrows(InvalidNumberException.class, () -> {
+			tempServiceImpl.APICall(cnt);
+		});
+		assertEquals("InvalidNumberException: Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi)",
+				e.toString());
 	}
 
 }
