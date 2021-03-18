@@ -52,7 +52,7 @@ In questo diagramma possiamo vedere gli attori principali e le loro interazioni 
 ![Diagramma dei casi d'uso (1)](https://user-images.githubusercontent.com/44706799/110305538-145c9f80-7ffd-11eb-8ff8-880c78e7caaa.jpg)
 
 <a name="ucd"></a>
-## :bar_chart: Class Diagram -provvisorio-
+## :bar_chart: Class Diagram 
 Nel diagramma delle classi è possibile osservare la struttura a livello di programmazione ad oggetti del progetto. Le classi utilizzate hanno scopi diversi per questo sono inserite in ambiti differenti, come è evidente dalla architettura dei packages.
 Nel particolare possiamo vedere:
 
@@ -89,7 +89,7 @@ L'API restituisce i dati delle città presenti nei pressi di una città-centro, 
 e dal numero previsto di città (`cnt`) attorno a questo punto.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-[indice](#indice) [:house:](#indice) ------- [ritorna ad API](#api) [:honeybee:](#api)
+[indice](#indice) [:house:](#indice) ------- [ritorna ad API](#api) [:robot:](#api)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="rotte"></a>
