@@ -33,8 +33,8 @@ Data la città di Roma, abbiamo scritto questo programma in modo da visualizzare
 
 <a name="introduzione"></a>
 # :scroll: Introduzione
-Abbiamo implentato un servizio meteo che ci permette di monitorare le temperature nelle città circostanti Roma. La ricerca avviene inserendo il numero di città che si vogliono visualizzare, per un minimo di 1 ad un massimo di 50. Nel particolare verranno visualizzate la temperatira attuale, la minima, la massima per ogni città. Sarà possibile salvare le informazioni delle 50 città ogni 5 ore in un database, cosi da avere tutti i dati pronti per il calcolo di statistiche. L'utente puo consultare diverse statistiche, nello specifico valori minimi, massimi, media e varianza delle temperature per ogni città ed ordinarli secondo i precedenti parametri in ordine decrescente.
-Infine possiamo filtrare le statistiche in base al numero delle città, alla periodicità (giornaliera, settimanale, mensile o range personalizzabile) o in base ad una sottostringa contenuta nel nome della città (Città che iniziano per 'A').
+Abbiamo implentato un servizio meteo che ci permette di monitorare le temperature nelle città circostanti Roma. La ricerca avviene inserendo il numero di città che si vogliono visualizzare, per un minimo di 1 ad un massimo di 50. Nel particolare verranno visualizzate la temperatura attuale, la minima, la massima per ogni città. Sarà poi possibile salvare le informazioni delle 50 città ogni 5 ore in un database, così da avere tutti i dati pronti per il calcolo di statistiche. L'utente puo consultare diverse statistiche, nello specifico valori minimi, massimi, media e varianza delle temperature per ogni città ed ordinarli secondo i precedenti parametri in ordine decrescente.
+Infine possiamo filtrare le statistiche in base al numero delle città, alla periodicità (giornaliera, settimanale, mensile o range personalizzabile) o in base ad una sottostringa contenuta nel nome della città (es.: Città che iniziano per 'A').
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna ad introduzione](#introduzione) [:scroll:](#introduzione)
@@ -72,7 +72,7 @@ Definisce la sequenza temporale di ogni rotta, ovvero ciò che succede per ogni 
 ![Diagramma delle sequenze](https://user-images.githubusercontent.com/44706799/110305616-2b9b8d00-7ffd-11eb-9335-2cd0d0d514b1.jpg)
 
 <a name="ger"></a>
-## :bar_chart: Hierarchy Diagram - provvisorio- 
+## :bar_chart: Hierarchy Diagram  
 Questo è un ulteriore schema che mostra l'ordinamento gerarchico dei packages.
 
 ![NewModel Package Hierarchy](https://user-images.githubusercontent.com/44706799/111297926-7ac16d80-864e-11eb-8a38-b3a86f64e786.jpg)
@@ -82,10 +82,10 @@ Questo è un ulteriore schema che mostra l'ordinamento gerarchico dei packages.
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="api"></a>
-# :honeybee: API
+# :robot: API
 Sono fondamentali per il funzionamento del programma e per la raccolta dati. Con il programma *Postman* possiamo usare le rotte, sotto elencate, per far funzionare il nostro servizio.
 Per rispondere alle richieste degli utenti e avere un database abbiamo usato l'api: https://openweathermap.org/current#cycle.
-L'API restituisce i dati delle città presenti nei pressi di una città-centro, definita dal un punto geografico ( `lat`, `lon`), nel nostro caso Roma (41.902782, 12.496365),     
+L'API restituisce i dati delle città presenti nei pressi di una città-centro, definita dal punto geografico ( `lat`, `lon`), nel nostro caso Roma (41.902782, 12.496365),     
 e dal numero previsto di città (`cnt`) attorno a questo punto.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -107,7 +107,7 @@ N° | Tipo | Rotta | Descrizione
 
 <a name="temp"></a>
 ### :round_pushpin: GET/temp:
-L'utente puo specificare quante citta vuole monitorare tramite il paramentro `number` (da 1 a 50), altrimenti verranno riportate 7 città se non viene aggiunto nessun paramentro.
+L'utente puo specificare quante città vuole monitorare tramite il parametro `number` (da 1 a 50), altrimenti di default verranno riportate 7 città.
 I dati ottenuti li inseriamo in un JSONObject ,che farà poi parte del JSONArray restituito, per quante città si vogliono visualizzare. Le "chiavi" del JSONObject sono : temp, tempMin, tempMax, id (della città), name (della città).
 (`number` è l'equivalente di cnt nel programma)
 
@@ -143,7 +143,7 @@ url = `http://localhost:8080/temp?number={da 1 a 50}`
 
 <a name="save"></a>
 ### :round_pushpin: GET/save:
-Salviamo nel database i dati che abbiamo con una chiamata alla API. Vedremo come risultato il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni volta su 50 città.  
+Salviamo nel database i dati che abbiamo con una chiamata alla API. Vedremo come risultato, in caso di esito positivo, il percorso(path) dov'è salvato il file, lo stato(status) e la data(time). Questa operazione verrà fatta ogni volta su 50 città.  
 
 url = `http://localhost:8080/save`
 
@@ -154,7 +154,7 @@ url = `http://localhost:8080/save`
 
 <a name="save5"></a>
 ### :round_pushpin: GET/saveEvery5Hours:
-Salviamo nel database i dati che abbiamo con una chiamata alla API aggiornano automaticamente con una cadenza di 5 ore. Il risultato verrà visualizzato solo al primo salvataggio e sarà un JSONObject con le "chiavi" : percorso(path) dov'è salvato il file, lo stato(status) e la data(time).   
+Salviamo nel database i dati che abbiamo con una chiamata alla API aggiornando automaticamente con una cadenza di 5 ore. Il risultato verrà visualizzato solo al primo salvataggio e sarà un JSONObject con le "chiavi" : percorso(path) dov'è salvato il file, lo stato(status) e la data(time).   
 
 url = `http://localhost:8080/saveEvery5Hours` 
 
@@ -165,7 +165,7 @@ url = `http://localhost:8080/saveEvery5Hours`
 
 <a name="stats"></a>
 ### :round_pushpin: GET/stats:
-Ci restituisce le statistiche per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza.
+Ci restituisce le statistiche, su tutto il lasso di tempo disponibile nel database, per ogni città: valore massimo e minimo di temperatura, temperatura media e varianza.
 Aggiungendo il parametro alla key `number` sarà possibile selezionare il numero di città su cui fare le statistiche. 
 Aggiungendo il parametro alla key `field` avverrà l'ordinamento decrescente in base ad esso del JSONArray. : Massimo/massimo/MASSIMO, Minimo/minimo/MINIMO, Media/media/MEDIA e Varianza/varianza/VARIANZA. (Nel caso il campo sia vuoto, le statistiche verranno ordinate per distanza, ovvero di default) 
 
@@ -210,7 +210,8 @@ url = `http://localhost:8080/stats?field={Massimo o Minimo o Media o Varianza}`
 
 <a name="date"></a>
 ### :round_pushpin: GET/date:
-Ci  mostra le date disponibili nel database in cui sono state salvate le temperature (il server non ha tutte le date perche è attivato da noi, solo in alcuni momenti) 
+Ci  mostra le date disponibili nel database in cui sono state salvate le temperature (il server non ha tutte le date perche è attivato da noi, solo in alcuni momenti).
+Il formato di ogni data è il seguente: "YYYY-MM-DD"
 
 url = `http://localhost:8080/date` 
 
@@ -237,13 +238,14 @@ url = `http://localhost:8080/date`
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="filters"></a>
-### :round_pushpin: POST/filters: -provvisorio-
-Ci restituisce le statistiche filtrate, in un JSONArray, in base al numero di città, periodicità ("daily","weekly","monthly","custom") o in base ad una sottostringa, come città che iniziano con *A*. Possiamo selezionare quante citta vedere trammite il campo "count" (da 1 a 50). Tutto cio puo essere definito nel body. Mentre possiamo ordinare le statistiche filtrate nella sezione params di postman, la key dovrà essere "field" con valori: Massimo o Minimo o Media o Varianza. (Nel caso il parametro sia vuoto le statistiche verranno ordinate per distanza, ovvero di defaut) 
-*  Periodo "custom":  Impostare il campo "period" come `custom`. Nel campo "startDate" bisogna inserire il giorno da cui si vuole iniziare a filtrare, nel campo "endDate" bisogna inserire la data di fine filtraggio. Nel caso non si immetta nulla nel campo "endDate" si deve aggiungere un numero intero nel campo "customPeriod", questo valore indica l'intervallo da saltare da "startDate" in poi. Se si immette un numero positivo i salti avverranno nelle date future a quella inserita, mentre nel caso negativo si salterà nelle date passate.
-*  Periodo Prestabilito: Impostare il campo "period" come: "daily" o "weekly" o "monthly". Poi bisogna inserire la data di inizio di filtraggio in "startDate". 
-*  Ricerca Per Nome: Bisogna inserire il nome, anche parziale, nel campo "name".
+### :round_pushpin: POST/filters: 
+Ci restituisce le statistiche filtrate, in un JSONArray, in base al numero di città, periodicità ("daily","weekly","monthly","custom") o in base ad una sottostringa, come città che iniziano con *A*. Sarà necessario presentare all'API un JSONBody composto dai campi: "count", "period", "startDate", "endDate", "name" e "customPeriod". E' consigliato inserire i campi nell'ordine mostrato e bisogna prestare attenzione alle lettere in CAPS, poichè l'API è caseSensitive. Possiamo selezionare quante città vedere tramite il campo "count" (da 1 a 50). Aggiungendo un parametro con chiave "field" sarà possibile ordinare allo stesso modo di "/stats" i risultati del filtraggio. (Nel caso il parametro sia vuoto le statistiche verranno ordinate per distanza, ovvero di default) 
+Il formato di ogni data è il seguente: "YYYY-MM-DD" .
+*  Periodo "custom":  Impostare il campo "period" come `custom`. Nel campo "startDate" bisogna inserire il giorno da cui si vuole iniziare a filtrare, nel campo "endDate" bisogna inserire la data di fine filtraggio. Nel caso non si immetta nulla nel campo "endDate" si deve aggiungere un numero intero nel campo "customPeriod", questo valore indica l'intervallo da "saltare" da "startDate" in poi. Se si immette un numero positivo i salti avverranno nelle date future a quella inserita, mentre nel caso negativo si salterà nelle date passate. (Per un chiarimento sulla funzionalità di salto vedere l'esempio 4)
+*  Periodo Prestabilito: Impostare il campo "period" come: "daily"/"DAILY"/"Daily" o "weekly"/"WEEKLY"/"Weekly" o "monthly"/"MONTHLY"/"Monthly". Poi bisogna inserire la data di inizio di filtraggio in "startDate". 
+*  Ricerca Per Nome: Bisogna inserire il nome, anche parziale, nel campo "name". (L'inserimento è caseSensitive)
 
-ALLERT: le date precedenti al 2021-03-07 sono corrotte, ovvero 03/04/05/06, si prega di usare altre date.
+ALLERT: le date precedenti al 2021-03-06 sono corrotte, ovvero 02/04/05, si prega di usare altre date.
 
 url = `http://localhost:8080/filters`
 Oppure, se vogliamo ordinare i dati filtrati:
@@ -328,7 +330,7 @@ Esempio e spiegazione del Body:
 ]
 ```
 
-:mag: ESEMPIO 4 (/filters - ricerca di 2 città, periodo custom, startDate 7\3\21, customPeriod = 2, ordinato per distanza da Roma(default)) :
+:mag: ESEMPIO 4 (/filters - ricerca di 2 città, periodo custom, startDate 7\3\21, customPeriod = 3, ordinato per distanza da Roma(default)) :
 (url `http://localhost:8080/filters?field=varianza`)
 
 ![Screenshot (161)](https://user-images.githubusercontent.com/44706799/111459888-96467a00-871b-11eb-850f-217e6bf92427.png)
