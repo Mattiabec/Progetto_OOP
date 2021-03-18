@@ -43,7 +43,7 @@ Infine possiamo filtrare le statistiche in base al numero delle città, alla per
 <a name="uml"></a>
 # :chart_with_upwards_trend: Diagrammi UML
 Usiamo questo linguaggio di modellazione e di specifica per sviluppare il nostro programma.  
-Abbiamo creato 4 diagrammi: [Casi d'uso](#ucs), [Classi](#ucd), [Sequenze](#ucs) e [Gerarchia](#ger).
+Abbiamo creato 4 diagrammi: [Casi d'uso](#ucs), [Classi](#ucd), [Sequenze](#usd) e [Gerarchia](#ger).
 
 <a name="ucs"></a>
 ## :bar_chart: Use Case Diagram  
@@ -331,7 +331,7 @@ Esempio e spiegazione del Body:
 ```
 
 :mag: ESEMPIO 4 (/filters - ricerca di 2 città, periodo custom, startDate 7\3\21, customPeriod = 3, ordinato per distanza da Roma(default)) :
-(url `http://localhost:8080/filters?field=varianza`)
+(url `http://localhost:8080/filters`)
 
 ![Screenshot (161)](https://user-images.githubusercontent.com/44706799/111459888-96467a00-871b-11eb-850f-217e6bf92427.png)
 ```ruby
@@ -376,56 +376,62 @@ Abbiamo scritto 5 eccezioni: [InvalidDateException](#id), [InvalidFieldException
 
 <a name="id"></a>
 ### :x: InvalidDateException.java   :
-Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia incorretta. (controllare la rotta `/date` per le date disponibili)
+Controlla la data nella richiesta di filtraggio. Nel caso la data richiesta sia incorretta controllare la rotta `/date` per le date disponibili.
 
 :mag: ESEMPIO :
 
 ![Screenshot (151)](https://user-images.githubusercontent.com/44706799/111303618-01794900-8655-11eb-9cf8-d8664d066efa.png)
 ```ruby
+   [
     {
-        "ERROR": "InvalidDateException: Data inserita incorretta."
+        "ERROR": "InvalidDateException: Data inserita incorretta. Controllare la rotta "/date" per le date disponibili."
     }
+   ]
 ```
 
 <a name="if"></a>
-
 ### :x: InvalidFieldException.java   :
-Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta ci ridà un messaggio di errore con i campi disponibili nel filtraggio.
+Controlla il campo di filtraggio richiesto. Nel caso la richiesta sia incorretta ci restituisce un messaggio di errore con i campi disponibili nel filtraggio.
 
 :mag: ESEMPIO :
 
 ![Screenshot (125)](https://user-images.githubusercontent.com/44706799/110495944-4c470e00-80f5-11eb-82a6-d0a05d15ed1f.png)
 ```ruby
+   [
     {
         "ERROR": "InvalidFieldException: Field errato. I field disponibili sono: Massimo, Minimo, Media, Varianza."
     }
+   ]
 ```
 
 <a name="in"></a>
-
 ### :x: InvalidNumberException.java   :
-Controlla se il numero di città richieste è un numero tra 1 e 50, nel caso non sia così il programma ci restituirà un messaggio di errore con il numerodi città accettabile.
+Controlla se il numero di città richieste è un numero tra 1 e 50, nel caso non sia così il programma ci restituisce un messaggio di errore con il numero di città accettabile.
 
 :mag: ESEMPIO :
 
 ![Screenshot (123)](https://user-images.githubusercontent.com/44706799/110493253-e2c60000-80f2-11eb-9991-7f7f221c4581.png)
 ```ruby
+   [
     {
         "ERROR": "InvalidNumberException: Numero di città sbagliato. Inserire un numero tra 1 e 50 (inclusi)"
     }
+   ]
 ```
 
 <a name="sd"></a>
 ### :x: ShortDatabaseException.java   :
-Controlla se nel database contiene le informazioni sufficenti per creare statistiche del periodo scelto. In caso negato avremmo un messaggio di errore con la richiesta di scelgiere un periodo piu breve.
+Controlla se il database contiene le informazioni sufficenti per creare statistiche del periodo scelto. In caso negativo avremmo un messaggio di errore con la richiesta di scegliere un periodo piu breve.
 
 :mag: ESEMPIO :
 
 ![Screenshot (153)](https://user-images.githubusercontent.com/44706799/111304343-e9ee9000-8655-11eb-8aea-ab519a4caedc.png)
 ```ruby
+    [
      {
         "ERROR": "ShortDatabaseException: Database non contiene abbastanza informazioni. Scegliere un periodo ragionevole."
-    }
+     }
+    ]
 ```
 
 <a name="wp"></a>
@@ -436,9 +442,11 @@ Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso c
 
 ![Screenshot (156)](https://user-images.githubusercontent.com/44706799/111304671-494ca000-8656-11eb-8cc6-2c2e0fc1f9bd.png)
 ```ruby
+   [
     {
         "ERROR": "WrongPeriodException: Periodo inserito incorretto. Scegliere tra: daily,weekly,monthly,custom."
     }
+   ]
 ```
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -452,7 +460,7 @@ Package dei Test effettuati:
 - Service : abbiamo testato il giusto funzionamento del costruttore city, la corretta generazione dell'eccezione InvalidNumberException e la verifica della funzionalità del metodo scambia.
 - Utilities : abbiamo testato il giusto funzionamento delle eccezioni.
 
-![ClassDiagram TestClass](https://user-images.githubusercontent.com/44706799/110626151-ab159180-81a0-11eb-9145-d4e5aa42ee82.jpg)
+![ClassDiagram TestClass (1)](https://user-images.githubusercontent.com/44706799/111605964-0b2aba00-87d7-11eb-9a94-3b1418bddfe3.jpg)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna ai Test](#test) [:ok:](#test)
