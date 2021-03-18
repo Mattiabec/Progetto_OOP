@@ -25,7 +25,7 @@ Data la città di Roma, abbiamo scritto questo programma in modo da visualizzare
   * [Date introvabili](#sd)
   * [Periodo sbagliato](#wp)
 * [Test](#test)
-* [Software e Librerie](#soft)
+* [Software](#soft)
 * [Installazione](#funz)
 * [Autori](#autori)
 
@@ -67,7 +67,7 @@ Nel particolare possiamo vedere:
 
 <a name="usd"></a>
 ## :bar_chart: Sequence Diagram 
-Definisce la sequenza temporale di ogni rotta, ovvero ciò che succede per ogni chiamata fatta tramite postman.
+Definisce la sequenza temporale di ogni [rotta](#rotte), ovvero ciò che succede per ogni chiamata fatta tramite postman.
 
 ![Diagramma delle sequenze](https://user-images.githubusercontent.com/44706799/110305616-2b9b8d00-7ffd-11eb-9335-2cd0d0d514b1.jpg)
 
@@ -457,28 +457,33 @@ Controlla se il periodo richiesto nel filtraggio sia corretto/esista, nel caso c
 # :ok: Test
 Abbiamo fatto diversi test per verificare il giusto e corretto funzionamento del programma.
 Package dei Test effettuati:
-- Service : abbiamo testato il giusto funzionamento del costruttore city, la corretta generazione dell'eccezione InvalidNumberException e la verifica della funzionalità del metodo scambia.
-- Utilities : abbiamo testato il giusto funzionamento delle eccezioni.
+- Utilities: vi son presenti 2 classi, StatsTest e FilterTest, ognuna testa le eccezioni relative alla sua classe. 
+- Models: testa il costruttore di City.
 
 ![ClassDiagram TestClass (1)](https://user-images.githubusercontent.com/44706799/111605964-0b2aba00-87d7-11eb-9a94-3b1418bddfe3.jpg)
+
+In Particolare:
+* testCity(): test al costruttore.
+* findbByIDTest(): testa il metodo di ricerca Id.
+* INETest(): testa l'eccezione [InvalidNumberException](#in).
+* scambiaTest(): testa il metodo per scambiare due JSONObject in un JSONArray.
+* DatabaseWidthTest(): controlla se ci siano sufficenti dati per soddisfare un periodo (daily, weekly, monthly).
+* ADTest(): Testa che EndDate sia successivo a StartDate.
+* IFETest(): testa l'eccezione [InvalidFieldException](#if).
+* IDETest(): testa l'eccezione [InvalidDateException](#id).
+* SDETest(): testa l'eccezione [ShortDatabaseException](#sd).
+* WPETest(): testa l'eccezione [WrongPeriodException](#wp).
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna ai Test](#test) [:ok:](#test)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 <a name="soft"></a>
-# :inbox_tray: Strumenti utilizzati
-Software utilizzati:
-* [Eclipse](https://www.eclipse.org/) - IDE che abbiamo usato per scrivere il programma
-* [PostMan](https://www.postman.com/) - Programma per testare il funzionamento del programma e l'iterazione con l'API
-* [UML Designer](http://www.umldesigner.org/) - Programma usato per creare i diagrammi UML 
-* [Github](https://github.com/) - Servizio usato per hostare il nostro progetto   
-
-Librerie usate in Eclipse
-* Spring Tools 4 (quindi Spring Boot)
-* Maven Integration for Eclipse (e m2e)
-* JSON simple (dependency)
-* JUnit (per i test)
+# :inbox_tray: Software utilizzati
+* [Eclipse](https://www.eclipse.org/) - IDE che abbiamo usato per scrivere il programma.
+* [PostMan](https://www.postman.com/) - Programma per testare il funzionamento del programma e l'iterazione con l'[API](#api).
+* [UML Designer](http://www.umldesigner.org/) - Programma usato per creare i diagrammi UML.
+* [Github](https://github.com/) - Servizio usato per hostare il nostro progetto.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna ai Software e Librerie](#soft) [:inbox_tray:](#soft)
@@ -490,7 +495,7 @@ Librerie usate in Eclipse
 * Importare questo progetto. [(come importare su progetto su eclipse)](https://qastack.it/programming/6760115/importing-a-github-project-into-eclipse) 
 * Lanciare l'applicazione `WeatherCloseRomeAppApplication.java` con *Spring Boot App* (in *run as*)
 * Avviare Postman.
-* Interrogare le API usate dal nostro programma usando le [Rotte](#rotte), come negli esempi.
+* Interrogare le [API](#api) usate dal nostro programma usando le [Rotte](#rotte), come negli esempi.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 [indice](#indice) [:house:](#indice) ------- [ritorna alla Installazione](#funz) [:computer:](#funz)
